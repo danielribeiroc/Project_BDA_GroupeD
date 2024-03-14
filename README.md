@@ -1,30 +1,59 @@
-# Stats bomb
+# BDA 2024 - Projet Big Data
+Daniel Ribeiro, Ruben Terceiro, Killian Ruffieux
 
-- **Gitbub data** : https://github.com/statsbomb/open-data
+## Section 1: Sélection du Dataset
+### Dataset 1: Stats bomb
+- **Data** : https://github.com/statsbomb/open-data
 - **Taille** : 10 GiB
 - **Schema** : https://github.com/statsbomb/open-data/tree/master/doc
+- **Datatype** : JSON
 
-L'objectif principal de ce projet est d'exploiter les données riches et détaillées fournies par StatsBomb pour effectuer des analyses avancées et développer des modèles prédictifs dans le domaine du football.
+**Justification du choix du dataset**
 
-## Analyse
+Cette entreprise "StatsBomb" fournit des données de football de haute qualité, notamment des données de matchs, de joueurs, et de tactiques. 
+Ce dataset est uniquement un extrait des données disponibles sur le site de StatsBomb. Malgré cela, il contient l'ensemble
+des informations nécessaires pour réaliser des analyses avancées et développer des modèles prédictifs dans le domaine du football.
 
-### Données de base
-- **Visualisation des Performances de Match** : Analyser les statistiques clés d'un match entre deux équipes, comme la possession de balle, les tirs cadrés, les passes réussies, et les duels gagnés.
-- **Cartographie de la Possession de Balle** : Utiliser des techniques de visualisation spatiale pour afficher les zones du terrain où la balle passe le plus de temps, fournissant des insights sur les stratégies de jeu.
-- **Cartographie des Actions des Joueurs** : Visualiser les emplacements et les actions clés des joueurs individuels sur le terrain pour identifier les zones d'influence et les contributions spécifiques au jeu (par exemple, les zones où un milieu de terrain récupère le plus de ballons ou où un attaquant prend ses tirs).
+***Type d'analyse possible***
+De nombreuses visualisations sont possibles: 
+- Heatmap pour la possession de balle, pour la position d'un joueur, etc.
+- Visualisation des tirs, les passes, les duels, etc. 
+- Cartographie des actions des joueurs
+- Visualisation de la position des joueurs sur le terrain en fonction du temps
 
-### Prédiction
+Il est également possible de réaliser des analyses prédictives, par exemple:
+- Prédiction de l'issue de matchs
+- Estimation du nombre de cartons jaunes
+- Classification des styles de jeu
+- Prédiction de la direction d'une passe et de sa destination
+- Prédiction du nombre de buts, nombre de tirs cadrés, etc.
+- Prédiction de la position d'un joueur sur le terrain
+- Prédiction de la position de la balle
+- ...
 
-- **Prédiction de l'Issue de Matchs** : Prédire un score d'un match en fonction du nombres de blessés
-- **Estimation du Nombre de Cartons Jaunes** :  Créer un modèle machine learning pour prédire le nombre de cartons jaunes qui seront distribués dans un match en fonciton des équipes
-- **Classification des Styles de Jeu** : Classifier le style de jeu d'un équipe durant un match (possession, contre-attaque, pressing haut, etc.) 
+***Pourquoi utiliser ce dataset (Statsbomb) ?***
 
-
-**Pourquoi utiliser ce dataset (Statsbomb) ?** 
-
-Notre groupe, animé par une passion commune pour le sport et, plus spécifiquement, pour le football, souhaite saisir l'opportunité de travailler avec le dataset Statsbomb dans le cadre de ce projet en BigData. Ce choix repose sur une réflexion approfondie quant à la manière dont ce dataset unique peut enrichir notre envie pour le projet et nous offrir une plateforme très complète pour appliquer et approfondir nos compétences en analyse de données et en bigdata.
-
-Le dataset Statsbomb, reconnu pour ses informations détaillées sur les matchs, les joueurs, et les tactiques, nous offre une fenêtre très large sur le monde du football. Grâce à des données très précises sur chaque tir, passe, duel, et mouvement stratégique, nous avons l'occasion d'explorer les dynamiques qui influencent le succès sur le terrain. Cette exploration nous permettra de déceler des tendances, d'identifier des schémas de jeu efficaces, et de comprendre l'impact des décisions tactiques.
+Malgré la taille inférieure aux critères de ce projet, ce dataset reste très riche et n'est au final qu'un extrait du dataset réel, qui est beaucoup plus volumineux.
+Dans notre cas, on a choisi ce dataset car on a une passion pour le football et travailler sur un dataset de football nous motive beaucoup. Il permet malgré tout de réaliser des analyses avancées et de développer des modèles prédictifs, tout en mettant en place l'infrastructure Big Data requise pour ce cours.
 
 ----------------------------------------------------------------
-# 
+### Dataset 2: Binance Full History
+- **Kaggle data** : https://www.kaggle.com/jorijnsmit/binance-full-history
+- **Taille** : 34.59 GB
+- **Schema** : 1 fichier Parquet par token
+- **Datatype** : Parquet
+
+***Type d'analyses***
+- Prédiction sur des time series
+- Analyse de corrélation
+
+### Dataset 3: Taxi NYC
+- **Kaggle data** : https://www.kaggle.com/datasets/microize/nyc-taxi-dataset
+- **Taille** : 67.64 GB
+- **Schema** : 1 fichier parquet par mois par type de taxi
+- **Datatype** : Parquet
+
+***Type d'analyses***
+- Visualisation de la densité de taxis en fonction du temps, de la position des taxis en fonction du temps
+- Prédiction sur des time series
+- Analyse de corrélation
