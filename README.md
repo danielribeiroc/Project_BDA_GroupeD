@@ -101,8 +101,7 @@ L'analyse de ces features nous aidera à comprendre les dynamiques sous-jacentes
 - **Quel est l'impact des performances de la saison précédente (AT LSLP, HT LSLP) sur les matchs de la saison en cours ?**
   Cette question aide à évaluer la constance des équipes d'une saison à l'autre et pourrait être utilisée pour identifier les tendances sur le long terme.
 
-## Approche Méthodologique pour la Résolution des Questions
-
+## Approche Méthodologique
 ### Définition de la Sémantique et Normalisation des Données
 
 Avant toute analyse, nous définirons précisément la sémantique de chaque feature pour assurer une compréhension uniforme et éviter des erreurs d'interprétation. La normalisation des données sera ensuite effectuée pour standardiser les échelles de mesure, permettant ainsi des comparaisons et des analyses statistiques valides.
