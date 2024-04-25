@@ -82,24 +82,26 @@ Notre objectif principal est de prédire les scores des matchs en exploitant des
 - **AT GSPGAA** et **HT GSPGAA**: Buts marqués par match à l'extérieur pour l'équipe extérieure et à domicile pour l'équipe à domicile.
 - **AT LSLP** et **HT LSLP**: Points obtenus dans la ligue lors de la saison précédente par l'équipe extérieure et l'équipe à domicile.
 
-### Questions spécifiques sur les features et leur utilité
+### Questions analytiques
 
-L'analyse de ces features nous aidera à comprendre les dynamiques sous-jacentes des matchs de football et à affiner nos prédictions. Voici les questions que nous explorerons et pourquoi elles sont cruciales :
+  L'analyse de ces points nous aidera à comprendre les dynamiques sous-jacentes des matchs de football et à affiner nos prédictions. Voici les questions que nous explorons et pourquoi elles sont cruciales :
 
-- **Comment la performance historique à domicile et à l'extérieur (HTWPAH, ATWPAA) influence-t-elle les probabilités de résultats futurs ?**
-  Cette analyse pourrait révéler des tendances importantes qui affectent les stratégies des équipes lors des matchs à domicile et à l'extérieur.
+- **Est-ce que notre modèle permet de prédire les résultats d'un match ?** 
+  Il s'agit ici de la question principale de notre projet. Celle-ci déterminera l'efficacité de notre modèle ainsi que sa pertinence.
+
+- **Quelle est la fréquence des victoires à domicile par rapport aux victoires à l'extérieur ?**
+  Cette question vise à identifier les tendances générales dans les résultats des matchs pour voir si jouer à domicile peut être un avantage significatif.
+
+- **Comment les scores moyens des équipes varient-ils entre les matchs à domicile et les matchs à l'extérieur ?**
+  Répondre à cette question nous aidera à savoir si une équipe a des performances plus réglière lorsqu'elle joue à domicile.
   
-- **Dans quelle mesure les résultats des confrontations directes (H2H AW, H2H HW) sont-ils prédictifs des résultats de matchs futurs entre les mêmes équipes ?**
-  Comprendre cette relation peut aider à prédire les issues des matchs basés sur l'historique des affrontements, ce qui est particulièrement utile dans les tournois récurrents.
+- **(Optionnel) Y a-t-il une corrélation entre le nombre de buts marqués et le résultat final du match ?**
+  Cela pourrait indiquer que si une équipe à marqué beaucoup de buts au cours d'une saison qu'elle a plus de chance de gagner des matchs.
   
-- **Quelle est la corrélation entre les séries de victoires récentes (ATL2MWS, HTL2MWS) et la performance dans les matchs immédiatement suivants ?**
-  Cela pourrait indiquer si l'élan ou la forme actuelle a un impact significatif sur les résultats des matchs.
-  
-- **Comment les scores moyens à domicile et à l'extérieur (AT GSPGAA, HT GSPGAA) peuvent-ils être utilisés pour prédire le score final d'un match ?**
-  Analyser ces scores nous permettrait de comprendre l'impact des avantages à domicile et à l'extérieur sur les performances de scoring.
-  
-- **Quel est l'impact des performances de la saison précédente (AT LSLP, HT LSLP) sur les matchs de la saison en cours ?**
-  Cette question aide à évaluer la constance des équipes d'une saison à l'autre et pourrait être utilisée pour identifier les tendances sur le long terme.
+- **(Optionnel) Quelle est l'importance de la série de victoires actuelle d'une équipe pour prédire le résultat de son prochain match ?**
+  Cette question aide à évaluer si les performances passées peuvent être des indicateurs fiables pour les performances futures
+
+  Les 2 dernières questions notées comme optionnelles seront traitées en fonction du temps à disposition.
 
 ## Approche Méthodologique
 ### Définition de la Sémantique et Normalisation des Données
