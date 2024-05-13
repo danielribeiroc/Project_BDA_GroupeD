@@ -1,0 +1,2778 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n\n# Load data from competitions.json",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:44+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Load data from competitions.json</h1>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641282_2066904360",
+      "id": "paragraph_1715345243476_1485694006",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:44+0000",
+      "dateFinished": "2024-05-13T18:19:46+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:186"
+    },
+    {
+      "text": "import org.apache.spark.sql.SparkSession\r\n\r\nval spark = SparkSession.builder()\r\n  .appName(\"Football Data Analysis\")\r\n  .getOrCreate()\r\n\r\nval bucketPath = \"./data/competitions.json\"\r\n\r\nval footballData = spark.read.option(\"header\", \"true\").option(\"multiline\", \"true\").json(bucketPath)\r\n\r\nfootballData.show(5)\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:46+0000",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------------------+--------------+-------------------------+--------------------+-----------------+------------+--------------------+-------------------+--------------------+--------------------+---------+-----------+\n|competition_gender|competition_id|competition_international|    competition_name|competition_youth|country_name|     match_available|match_available_360|       match_updated|   match_updated_360|season_id|season_name|\n+------------------+--------------+-------------------------+--------------------+-----------------+------------+--------------------+-------------------+--------------------+--------------------+---------+-----------+\n|              male|             9|                    false|       1. Bundesliga|            false|     Germany|2023-12-12T07:43:...|               NULL|2023-12-12T07:43:...|                NULL|       27|  2015/2016|\n|              male|          1267|                     true|African Cup of Na...|            false|      Africa|2024-02-14T05:41:...|               NULL|2024-02-14T05:41:...|                NULL|      107|       2023|\n|              male|            16|                    false|    Champions League|            false|      Europe|2023-03-07T12:20:...|               NULL|2023-03-07T12:20:...|2021-06-13T16:17:...|        4|  2018/2019|\n|              male|            16|                    false|    Champions League|            false|      Europe|2021-01-23T21:55:...|               NULL|2021-08-27T11:26:...|2021-06-13T16:17:...|        1|  2017/2018|\n|              male|            16|                    false|    Champions League|            false|      Europe|    2020-07-29T05:00|               NULL|2021-08-27T11:26:...|2021-06-13T16:17:...|        2|  2016/2017|\n+------------------+--------------+-------------------------+--------------------+-----------------+------------+--------------------+-------------------+--------------------+--------------------+---------+-----------+\nonly showing top 5 rows\n\nimport org.apache.spark.sql.SparkSession\nval \u001b[1m\u001b[34mspark\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.SparkSession\u001b[0m = org.apache.spark.sql.SparkSession@2efac3a2\nval \u001b[1m\u001b[34mbucketPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ./data/competitions.json\nval \u001b[1m\u001b[34mfootballData\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [competition_gender: string, competition_id: bigint ... 10 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=2",
+              "$$hashKey": "object:909"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3",
+              "$$hashKey": "object:910"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641284_1548579593",
+      "id": "paragraph_1715344189673_1137922785",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:46+0000",
+      "dateFinished": "2024-05-13T18:19:46+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:187"
+    },
+    {
+      "text": "%md \n\n# Load data from matches folder",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:46+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Load data from matches folder</h1>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641284_2060679766",
+      "id": "paragraph_1715345075524_753520123",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:46+0000",
+      "dateFinished": "2024-05-13T18:19:46+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:188"
+    },
+    {
+      "text": "import org.apache.spark.sql.{DataFrame, SparkSession}\r\n\r\n\r\n// initialiser la session spark\r\nval spark = SparkSession.builder()\r\n  .appName(\"Football Data Analysis\")\r\n  .getOrCreate()\r\n\r\n// Load the competitions data\r\nval competitionsPath = \"./data/competitions.json\"\r\nval competitionsDF = spark.read.option(\"header\", \"true\").option(\"multiline\", \"true\").json(competitionsPath)",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:46+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.sql.{DataFrame, SparkSession}\nval \u001b[1m\u001b[34mspark\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.SparkSession\u001b[0m = org.apache.spark.sql.SparkSession@2efac3a2\nval \u001b[1m\u001b[34mcompetitionsPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ./data/competitions.json\nval \u001b[1m\u001b[34mcompetitionsDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [competition_gender: string, competition_id: bigint ... 10 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=4",
+              "$$hashKey": "object:1000"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641285_1619211032",
+      "id": "paragraph_1715345391324_736008798",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:46+0000",
+      "dateFinished": "2024-05-13T18:19:46+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:189"
+    },
+    {
+      "text": "// Filter for competition_id = 9\r\nval competitionInfo = competitionsDF.filter($\"competition_id\" === 9)\r\n\r\n// Extracting the competition_id as a single value\r\nval number_of_id = competitionInfo.select($\"competition_id\").as[Long].first()\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:46+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mcompetitionInfo\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [competition_gender: string, competition_id: bigint ... 10 more fields]\nval \u001b[1m\u001b[34mnumber_of_id\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 9\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=5",
+              "$$hashKey": "object:1046"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641285_2073618028",
+      "id": "paragraph_1715347127215_628166428",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:46+0000",
+      "dateFinished": "2024-05-13T18:19:47+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:190"
+    },
+    {
+      "text": "// Assuming matches are stored in a structured way in folders by competition_id\r\nspark.conf.set(\"spark.sql.files.ignoreCorruptFiles\", \"true\") // Ignore corrupt files\r\nspark.conf.set(\"spark.sql.json.recursiveFileLookup\", \"true\") // Enable recursive file lookup\r\n\r\nval matchesPath = \"./data/matches/\" + number_of_id + \"/\"\r\n\r\nprintln(matchesPath)\r\n\r\nval matchesDF = spark.read.option(\"multiline\", \"true\").json(matchesPath)\r\n\r\n// Show a sample of matches to verify loading\r\nmatchesDF\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:47+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "./data/matches/9/\nval \u001b[1m\u001b[34mmatchesPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ./data/matches/9/\nval \u001b[1m\u001b[34mmatchesDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [away_score: bigint, away_team: struct<away_team_gender: string, away_team_group: string ... 4 more fields> ... 16 more fields]\nval \u001b[1m\u001b[34mres3\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [away_score: bigint, away_team: struct<away_team_gender: string, away_team_group: string ... 4 more fields> ... 16 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=6",
+              "$$hashKey": "object:1092"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641285_532308875",
+      "id": "paragraph_1715345972412_1710035536",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:47+0000",
+      "dateFinished": "2024-05-13T18:19:47+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:191"
+    },
+    {
+      "text": "val rowCount = matchesDF.count()\r\nprintln(s\"Number of rows in matchesDF: $rowCount\")",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:47+0000",
+      "progress": 100,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Number of rows in matchesDF: 306\nval \u001b[1m\u001b[34mrowCount\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 306\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=7",
+              "$$hashKey": "object:1138"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=8",
+              "$$hashKey": "object:1139"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641285_1885444178",
+      "id": "paragraph_1715345841786_730555164",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:47+0000",
+      "dateFinished": "2024-05-13T18:19:48+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:192"
+    },
+    {
+      "text": "// Assuming matches are stored in a structured way in folders by competition_id\r\nspark.conf.set(\"spark.sql.files.ignoreCorruptFiles\", \"true\") // Ignore corrupt files\r\nspark.conf.set(\"spark.sql.json.recursiveFileLookup\", \"true\") // Enable recursive file lookup\r\n\r\nval matchesPath = \"./data/matches/\"+ number_of_id + \"/\"\r\n\r\n// Read all JSON files within the subdirectories\r\nval matchesDF = spark.read.option(\"multiline\", \"true\").json(matchesPath)\r\n\r\n// Add a column with the file path\r\nval matchesWithFiles = matchesDF.withColumn(\"file_path\", input_file_name())\r\n\r\n// Select distinct file paths\r\nval distinctFiles = matchesWithFiles.select(\"file_path\").distinct()\r\n\r\n// Show all file paths (remove .show(false) if there are too many files to display)\r\ndistinctFiles.show(false)\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:48+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------------------------------------------+\n|file_path                                  |\n+-------------------------------------------+\n|file:///opt/zeppelin/data/matches/9/27.json|\n+-------------------------------------------+\n\nval \u001b[1m\u001b[34mmatchesPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ./data/matches/9/\nval \u001b[1m\u001b[34mmatchesDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [away_score: bigint, away_team: struct<away_team_gender: string, away_team_group: string ... 4 more fields> ... 16 more fields]\nval \u001b[1m\u001b[34mmatchesWithFiles\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [away_score: bigint, away_team: struct<away_team_gender: string, away_team_group: string ... 4 more fields> ... 17 more fields]\nval \u001b[1m\u001b[34mdistinctFiles\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [file_path: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=9",
+              "$$hashKey": "object:1189"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=10",
+              "$$hashKey": "object:1190"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=11",
+              "$$hashKey": "object:1191"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641285_1992194586",
+      "id": "paragraph_1715346367177_1474962718",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:48+0000",
+      "dateFinished": "2024-05-13T18:19:49+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:193"
+    },
+    {
+      "text": "val df_matches_all = spark.read.option(\"multiline\", \"true\").json(\"./data/matches/*/*\")\n\nval rowCount = df_matches_all.count()\nprintln(s\"Number of rows in matchesDF: $rowCount\")",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:49+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Number of rows in matchesDF: 3316\nval \u001b[1m\u001b[34mdf_matches_all\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [away_score: bigint, away_team: struct<away_team_gender: string, away_team_group: string ... 4 more fields> ... 16 more fields]\nval \u001b[1m\u001b[34mrowCount\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 3316\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=12",
+              "$$hashKey": "object:1245"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=13",
+              "$$hashKey": "object:1246"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=14",
+              "$$hashKey": "object:1247"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=15",
+              "$$hashKey": "object:1248"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641285_342299421",
+      "id": "paragraph_1715346232209_63657840",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:49+0000",
+      "dateFinished": "2024-05-13T18:19:54+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:194"
+    },
+    {
+      "text": "\r\ndf_matches_all.show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:54+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----------+--------------------+--------------------+-------------------+----------+--------------------+------------+--------------------+----------------+----------+--------+------------+----------------+----------+-------------+--------------------+---------------+--------------------+\n|away_score|           away_team|         competition|  competition_stage|home_score|           home_team|    kick_off|        last_updated|last_updated_360|match_date|match_id|match_status|match_status_360|match_week|     metadata|             referee|         season|             stadium|\n+----------+--------------------+--------------------+-------------------+----------+--------------------+------------+--------------------+----------------+----------+--------+------------+----------------+----------+-------------+--------------------+---------------+--------------------+\n|         2|{male, NULL, 322,...|{11, La Liga, Spain}|{1, Regular Season}|         2|{{214, Spain}, ma...|20:00:00.000|2023-02-21T15:19:...|            NULL|2015-09-23| 3825848|   available|     unscheduled|         5|{1.1.0, 2, 2}|                NULL|{27, 2015/2016}|{{214, Spain}, 35...|\n|         0|{male, NULL, 213,...|{11, La Liga, Spain}|{1, Regular Season}|         2|{{214, Spain}, ma...|22:00:00.000|2023-02-21T15:19:...|            NULL|2015-09-23| 3825895|   available|     unscheduled|         5|{1.1.0, 2, 2}|{{214, Spain}, 27...|{27, 2015/2016}|{{214, Spain}, 35...|\n|         2|{male, NULL, 216,...|{11, La Liga, Spain}|{1, Regular Season}|         0|{{214, Spain}, ma...|18:15:00.000|2022-08-30T12:53:...|            NULL|2016-05-01| 3825894|   available|     unscheduled|        36|{1.1.0, 2, 2}|{{214, Spain}, 10...|{27, 2015/2016}|{{214, Spain}, 46...|\n|         1|{male, NULL, 221,...|{11, La Liga, Spain}|{1, Regular Season}|         3|{{214, Spain}, ma...|20:30:00.000|2022-08-30T12:53:...|            NULL|2016-05-02| 3825855|   available|     unscheduled|        36|{1.1.0, 2, 2}|{{214, Spain}, 24...|{27, 2015/2016}|{{214, Spain}, 34...|\n|         2|{male, NULL, 322,...|{11, La Liga, Spain}|{1, Regular Season}|         4|{{214, Spain}, ma...|19:00:00.000|2022-04-06T22:39:...|            NULL|2016-05-15| 3825908|   available|     unscheduled|        38|{1.1.0, 2, 2}|{{214, Spain}, 26...|{27, 2015/2016}|{{214, Spain}, 35...|\n|         1|{male, NULL, 208,...|{11, La Liga, Spain}|{1, Regular Season}|         4|{{214, Spain}, ma...|12:00:00.000|2022-08-30T13:15:...|            NULL|2016-05-15| 3825883|   available|     unscheduled|        38|{1.1.0, 2, 2}|{{214, Spain}, 26...|{27, 2015/2016}|{{214, Spain}, 34...|\n|         0|{male, NULL, 222,...|{11, La Liga, Spain}|{1, Regular Season}|         2|{{214, Spain}, ma...|19:30:00.000|2022-04-06T22:37:...|            NULL|2016-05-15| 3825900|   available|     unscheduled|        38|{1.1.0, 2, 2}|{{214, Spain}, 22...|{27, 2015/2016}|{{214, Spain}, 46...|\n|         1|{male, NULL, 221,...|{11, La Liga, Spain}|{1, Regular Season}|         3|{{214, Spain}, ma...|19:30:00.000|2022-04-06T22:35:...|            NULL|2016-05-15| 3825902|   available|     unscheduled|        38|{1.1.0, 2, 2}|{{214, Spain}, 10...|{27, 2015/2016}|{{214, Spain}, 46...|\n|         1|{male, NULL, 216,...|{11, La Liga, Spain}|{1, Regular Season}|         2|{{214, Spain}, ma...|19:30:00.000|2022-04-06T22:34:...|            NULL|2016-05-15| 3825876|   available|     unscheduled|        38|{1.1.0, 2, 2}|{{214, Spain}, 18...|{27, 2015/2016}|{{214, Spain}, 35...|\n|         2|{male, NULL, 220,...|{11, La Liga, Spain}|{1, Regular Season}|         0|{{214, Spain}, ma...|17:00:00.000|2022-04-06T22:33:...|            NULL|2016-05-14| 3825846|   available|     unscheduled|        38|{1.1.0, 2, 2}|{{214, Spain}, 18...|{27, 2015/2016}|{{214, Spain}, 46...|\n|         1|{male, NULL, 213,...|{11, La Liga, Spain}|{1, Regular Season}|         3|{{214, Spain}, ma...|19:30:00.000|2022-08-30T13:07:...|            NULL|2016-05-14| 3825869|   available|     unscheduled|        38|{1.1.0, 2, 2}|{{214, Spain}, 21...|{27, 2015/2016}|{{214, Spain}, 34...|\n|         0|{male, NULL, 209,...|{11, La Liga, Spain}|{1, Regular Season}|         2|{{214, Spain}, ma...|19:30:00.000|2022-04-06T22:30:...|            NULL|2016-05-14| 3825882|   available|     unscheduled|        38|{1.1.0, 2, 2}|{{214, Spain}, 22...|{27, 2015/2016}|{{214, Spain}, 62...|\n|         1|{male, NULL, 210,...|{11, La Liga, Spain}|{1, Regular Season}|         0|{{214, Spain}, ma...|20:30:00.000|2022-04-06T22:29:...|            NULL|2016-05-13| 3825849|   available|     unscheduled|        38|{1.1.0, 2, 2}|{{214, Spain}, 25...|{27, 2015/2016}|{{214, Spain}, 34...|\n|         1|{male, NULL, 212,...|{11, La Liga, Spain}|{1, Regular Season}|         2|{{214, Spain}, ma...|17:00:00.000|2022-04-06T22:28:...|            NULL|2016-05-08| 3825860|   available|     unscheduled|        37|{1.1.0, 2, 2}|{{214, Spain}, 21...|{27, 2015/2016}|{{214, Spain}, 35...|\n|         1|{male, NULL, 219,...|{11, La Liga, Spain}|{1, Regular Season}|         1|{{214, Spain}, ma...|22:05:00.000|2022-03-26T14:52:...|            NULL|2016-04-23| 3825847|   available|     unscheduled|        35|{1.1.0, 2, 2}|{{214, Spain}, 24...|{27, 2015/2016}|{{214, Spain}, 34...|\n|         1|{male, NULL, 322,...|{11, La Liga, Spain}|{1, Regular Season}|         1|{{214, Spain}, ma...|21:30:00.000|2022-05-08T21:31:...|            NULL|2016-03-18| 3825817|   available|     unscheduled|        30|{1.1.0, 2, 2}|{{214, Spain}, 21...|{27, 2015/2016}|{{214, Spain}, 35...|\n|         1|{male, NULL, 1041...|{11, La Liga, Spain}|{1, Regular Season}|         1|{{214, Spain}, ma...|21:30:00.000|2022-03-26T14:39:...|            NULL|2016-02-20| 3825778|   available|     unscheduled|        25|{1.1.0, 2, 2}|{{214, Spain}, 21...|{27, 2015/2016}|{{214, Spain}, 35...|\n|         0|{male, NULL, 216,...|{11, La Liga, Spain}|{1, Regular Season}|         3|{{214, Spain}, ma...|21:30:00.000|2022-05-08T21:01:...|            NULL|2016-02-19| 3825777|   available|     unscheduled|        25|{1.1.0, 2, 2}|{{214, Spain}, 21...|{27, 2015/2016}|{{214, Spain}, 35...|\n|         1|{male, NULL, 1049...|{11, La Liga, Spain}|{1, Regular Season}|         5|{{214, Spain}, ma...|21:30:00.000|2022-03-26T14:32:...|            NULL|2016-01-18| 3825740|   available|     unscheduled|        20|{1.1.0, 2, 2}|{{214, Spain}, 26...|{27, 2015/2016}|{{214, Spain}, 34...|\n|         0|{male, NULL, 210,...|{11, La Liga, Spain}|{1, Regular Season}|         0|{{214, Spain}, ma...|20:30:00.000|2022-03-22T17:53:...|            NULL|2016-04-24| 3825875|   available|     unscheduled|        35|{1.1.0, 2, 2}|{{214, Spain}, 22...|{27, 2015/2016}|{{214, Spain}, 36...|\n+----------+--------------------+--------------------+-------------------+----------+--------------------+------------+--------------------+----------------+----------+--------+------------+----------------+----------+-------------+--------------------+---------------+--------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=16",
+              "$$hashKey": "object:1306"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641286_1871405505",
+      "id": "paragraph_1715347440649_2116474166",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:54+0000",
+      "dateFinished": "2024-05-13T18:19:54+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:195"
+    },
+    {
+      "text": "// Define the match ID you are interested in\r\nval targetMatchId = 3890561  // Example match ID, replace with the match ID you need\r\n\r\n// Filter the DataFrame to get only the row(s) for the specified match ID\r\nval df_specificMatch = df_matches_all.filter($\"match_id\" === targetMatchId)\r\n\r\n// Show the result to verify it is correct\r\ndf_specificMatch.show()\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:54+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+----------+--------------------+--------------------+-------------------+----------+--------------------+------------+--------------------+----------------+----------+--------+------------+----------------+----------+-------------+--------------------+---------------+--------------------+\n|away_score|           away_team|         competition|  competition_stage|home_score|           home_team|    kick_off|        last_updated|last_updated_360|match_date|match_id|match_status|match_status_360|match_week|     metadata|             referee|         season|             stadium|\n+----------+--------------------+--------------------+-------------------+----------+--------------------+------------+--------------------+----------------+----------+--------+------------+----------------+----------+-------------+--------------------+---------------+--------------------+\n|         4|{male, NULL, 181,...|{9, 1. Bundesliga...|{1, Regular Season}|         1|{{85, Germany}, m...|15:30:00.000|2023-07-24T07:47:...|            NULL|2016-05-14| 3890561|   available|     unscheduled|        34|{1.1.0, 2, 2}|{{85, Germany}, 1...|{27, 2015/2016}|{{85, Germany}, 4...|\n+----------+--------------------+--------------------+-------------------+----------+--------------------+------------+--------------------+----------------+----------+--------+------------+----------------+----------+-------------+--------------------+---------------+--------------------+\n\nval \u001b[1m\u001b[34mtargetMatchId\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m = 3890561\nval \u001b[1m\u001b[34mdf_specificMatch\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [away_score: bigint, away_team: struct<away_team_gender: string, away_team_group: string ... 4 more fields> ... 16 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=17",
+              "$$hashKey": "object:1352"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=18",
+              "$$hashKey": "object:1353"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=19",
+              "$$hashKey": "object:1354"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641286_1549802920",
+      "id": "paragraph_1715530916237_160733383",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:54+0000",
+      "dateFinished": "2024-05-13T18:19:55+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:196"
+    },
+    {
+      "text": "val matchId = 3890561\r\nval filePath = s\"./data/events/$matchId.json\"\r\n\r\n// Read the JSON file into a DataFrame\r\nval df_events = spark.read.option(\"multiline\", \"true\").json(filePath)\r\ndf_events.show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:20:14+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------------+-------------+-----+--------------+---------+------------+-------+----+--------+--------------+--------+----------+--------------------+-----+------------+------------+------+----------+----+--------------------+------+------------------+--------------------+--------------------+----------+-----------------+--------------------+------+----+------------+--------------------+-----------------+------------+-------------------+--------------+\n|ball_receipt|ball_recovery|block|         carry|clearance|counterpress|dribble|duel|duration|foul_committed|foul_won|goalkeeper|                  id|index|interception|    location|minute|off_camera| out|                pass|period|      play_pattern|              player|            position|possession|  possession_team|      related_events|second|shot|substitution|             tactics|             team|   timestamp|               type|under_pressure|\n+------------+-------------+-----+--------------+---------+------------+-------+----+--------+--------------+--------+----------+--------------------+-----+------------+------------+------+----------+----+--------------------+------+------------------+--------------------+--------------------+----------+-----------------+--------------------+------+----+------------+--------------------+-----------------+------------+-------------------+--------------+\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|     0.0|          NULL|    NULL|      NULL|41bd60ac-9b2c-4cb...|    1|        NULL|        NULL|     0|      NULL|NULL|                NULL|     1| {1, Regular Play}|                NULL|                NULL|         1|{175, Hoffenheim}|                NULL|     0|NULL|        NULL|{3421, [{13, {379...|{175, Hoffenheim}|00:00:00.000|  {35, Starting XI}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|     0.0|          NULL|    NULL|      NULL|fbca533d-f3f4-4a8...|    2|        NULL|        NULL|     0|      NULL|NULL|                NULL|     1| {1, Regular Play}|                NULL|                NULL|         1|{175, Hoffenheim}|                NULL|     0|NULL|        NULL|{4141, [{1, {8517...|{181, Schalke 04}|00:00:00.000|  {35, Starting XI}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|     0.0|          NULL|    NULL|      NULL|b15ba6b1-61ac-4d9...|    3|        NULL|        NULL|     0|      NULL|NULL|                NULL|     1| {1, Regular Play}|                NULL|                NULL|         1|{175, Hoffenheim}|[442128f8-2e38-49...|     0|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:00.000|   {18, Half Start}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|     0.0|          NULL|    NULL|      NULL|442128f8-2e38-491...|    4|        NULL|        NULL|     0|      NULL|NULL|                NULL|     1| {1, Regular Play}|                NULL|                NULL|         1|{175, Hoffenheim}|[b15ba6b1-61ac-4d...|     0|NULL|        NULL|                NULL|{181, Schalke 04}|00:00:00.000|   {18, Half Start}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|0.453238|          NULL|    NULL|      NULL|644e16d7-10ca-45f...|    5|        NULL|[61.0, 40.1]|     0|      NULL|NULL|{NULL, -1.9195673...|     1|{9, From Kick Off}|    {8387, Mark Uth}|{18, Right Attack...|         2|{175, Hoffenheim}|[7602c8d9-d988-4e...|     0|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:00.482|         {30, Pass}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|    NULL|          NULL|    NULL|      NULL|7602c8d9-d988-4ea...|    6|        NULL|[60.2, 37.9]|     0|      NULL|NULL|                NULL|     1|{9, From Kick Off}|{5460, Andrej Kra...|{23, Center Forward}|         2|{175, Hoffenheim}|[644e16d7-10ca-45...|     0|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:00.935|{42, Ball Receipt*}|          NULL|\n|        NULL|         NULL| NULL|{[59.4, 38.3]}|     NULL|        NULL|   NULL|NULL|    0.08|          NULL|    NULL|      NULL|329a1879-2521-461...|    7|        NULL|[60.2, 37.9]|     0|      NULL|NULL|                NULL|     1|{9, From Kick Off}|{5460, Andrej Kra...|{23, Center Forward}|         2|{175, Hoffenheim}|[7602c8d9-d988-4e...|     0|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:00.935|        {43, Carry}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|1.151865|          NULL|    NULL|      NULL|77e2ddaf-6de3-49e...|    8|        NULL|[59.4, 38.3]|     0|      NULL|NULL|{NULL, 2.536994, ...|     1|{9, From Kick Off}|{5460, Andrej Kra...|{23, Center Forward}|         2|{175, Hoffenheim}|[69e3b0a7-5847-40...|     1|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:01.015|         {30, Pass}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|    NULL|          NULL|    NULL|      NULL|69e3b0a7-5847-40d...|    9|        NULL|[53.9, 42.1]|     0|      NULL|NULL|                NULL|     1|{9, From Kick Off}|{6039, Sebastian ...|{11, Left Defensi...|         2|{175, Hoffenheim}|[77e2ddaf-6de3-49...|     2|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:02.167|{42, Ball Receipt*}|          NULL|\n|        NULL|         NULL| NULL|{[52.3, 45.2]}|     NULL|        NULL|   NULL|NULL|0.787612|          NULL|    NULL|      NULL|1b91a029-f722-4b0...|   10|        NULL|[53.9, 42.1]|     0|      NULL|NULL|                NULL|     1|{9, From Kick Off}|{6039, Sebastian ...|{11, Left Defensi...|         2|{175, Hoffenheim}|[2c51f271-c812-45...|     2|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:02.167|        {43, Carry}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|1.389406|          NULL|    NULL|      NULL|2c51f271-c812-45a...|   11|        NULL|[52.3, 45.2]|     0|      NULL|NULL|{NULL, 2.3906636,...|     1|{9, From Kick Off}|{6039, Sebastian ...|{11, Left Defensi...|         2|{175, Hoffenheim}|[c30d7035-bb00-40...|     2|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:02.954|         {30, Pass}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|    NULL|          NULL|    NULL|      NULL|c30d7035-bb00-401...|   12|        NULL|[34.3, 62.0]|     0|      NULL|NULL|                NULL|     1|{9, From Kick Off}|{5537, Fabian Luk...|{3, Right Center ...|         2|{175, Hoffenheim}|[2c51f271-c812-45...|     4|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:04.344|{42, Ball Receipt*}|          NULL|\n|        NULL|         NULL| NULL|{[34.3, 61.9]}|     NULL|        NULL|   NULL|NULL|1.549877|          NULL|    NULL|      NULL|4e93eb34-ac12-4a2...|   13|        NULL|[34.3, 62.0]|     0|      NULL|NULL|                NULL|     1|{9, From Kick Off}|{5537, Fabian Luk...|{3, Right Center ...|         2|{175, Hoffenheim}|[8b29246d-1d69-4f...|     4|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:04.344|        {43, Carry}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|2.557696|          NULL|    NULL|      NULL|8b29246d-1d69-4f0...|   14|        NULL|[34.3, 61.9]|     0|      NULL|NULL|{NULL, -1.4872218...|     1|{9, From Kick Off}|{5537, Fabian Luk...|{3, Right Center ...|         2|{175, Hoffenheim}|[9b73ba37-f40c-4a...|     5|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:05.894|         {30, Pass}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|    NULL|          NULL|    NULL|      NULL|9b73ba37-f40c-4ad...|   15|        NULL|[37.5, 23.7]|     0|      NULL|NULL|                NULL|     1|{9, From Kick Off}|{12321, Tobias St...|{5, Left Center B...|         2|{175, Hoffenheim}|[8b29246d-1d69-4f...|     8|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:08.451|{42, Ball Receipt*}|          NULL|\n|        NULL|         NULL| NULL|{[38.5, 22.2]}|     NULL|        NULL|   NULL|NULL|2.200544|          NULL|    NULL|      NULL|0d3f0101-1b31-46f...|   16|        NULL|[37.5, 23.7]|     0|      NULL|NULL|                NULL|     1|{9, From Kick Off}|{12321, Tobias St...|{5, Left Center B...|         2|{175, Hoffenheim}|[9b73ba37-f40c-4a...|     8|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:08.451|        {43, Carry}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|1.417774|          NULL|    NULL|      NULL|ed35929b-31b4-42b...|   17|        NULL|[38.5, 22.2]|     0|      NULL|NULL|{NULL, 1.7053174,...|     1|{9, From Kick Off}|{12321, Tobias St...|{5, Left Center B...|         2|{175, Hoffenheim}|[0ab25e43-7b9d-40...|    10|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:10.652|         {30, Pass}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|    NULL|          NULL|    NULL|      NULL|0ab25e43-7b9d-402...|   18|        NULL|[36.7, 35.5]|     0|      NULL|NULL|                NULL|     1|{9, From Kick Off}|{9396, Ermin Biča...|    {4, Center Back}|         2|{175, Hoffenheim}|[ed35929b-31b4-42...|    12|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:12.070|{42, Ball Receipt*}|          NULL|\n|        NULL|         NULL| NULL|{[39.6, 32.7]}|     NULL|        NULL|   NULL|NULL| 2.32185|          NULL|    NULL|      NULL|87748ce9-72e9-488...|   19|        NULL|[36.7, 35.5]|     0|      NULL|NULL|                NULL|     1|{9, From Kick Off}|{9396, Ermin Biča...|    {4, Center Back}|         2|{175, Hoffenheim}|[0ab25e43-7b9d-40...|    12|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:12.070|        {43, Carry}|          NULL|\n|        NULL|         NULL| NULL|          NULL|     NULL|        NULL|   NULL|NULL|1.778888|          NULL|    NULL|      NULL|50c65a61-8f10-4c4...|   20|        NULL|[39.6, 32.7]|     0|      NULL|NULL|{NULL, -1.1973677...|     1|{9, From Kick Off}|{9396, Ermin Biča...|    {4, Center Back}|         2|{175, Hoffenheim}|[4c2177fb-6bcd-4a...|    14|NULL|        NULL|                NULL|{175, Hoffenheim}|00:00:14.391|         {30, Pass}|          NULL|\n+------------+-------------+-----+--------------+---------+------------+-------+----+--------+--------------+--------+----------+--------------------+-----+------------+------------+------+----------+----+--------------------+------+------------------+--------------------+--------------------+----------+-----------------+--------------------+------+----+------------+--------------------+-----------------+------------+-------------------+--------------+\nonly showing top 20 rows\n\nval \u001b[1m\u001b[34mmatchId\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m = 3890561\nval \u001b[1m\u001b[34mfilePath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ./data/events/3890561.json\nval \u001b[1m\u001b[34mdf_events\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [ball_receipt: struct<outcome: struct<id: bigint, name: string>>, ball_recovery: struct<recovery_failure: boolean> ... 33 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=20",
+              "$$hashKey": "object:1408"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=21",
+              "$$hashKey": "object:1409"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641286_2116977257",
+      "id": "paragraph_1715532323634_49851259",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:55+0000",
+      "dateFinished": "2024-05-13T18:19:56+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:197"
+    },
+    {
+      "text": "%md\n\n# Read one event (match id) and plot the number of passes of each team during the hole game",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:56+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Read one event (match id) and plot the number of passes of each team during the hole game</h1>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641287_1500607021",
+      "id": "paragraph_1715532870282_763289410",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:56+0000",
+      "dateFinished": "2024-05-13T18:19:56+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:198"
+    },
+    {
+      "text": "val matchId = 3890561  \r\nval filePath = s\"./data/events/$matchId.json\"\r\n\r\n// Read the JSON file into a DataFrame\r\nval df_events = spark.read.option(\"multiline\", \"true\").json(filePath)\r\n\r\n// Show the DataFrame to verify the content\r\nval df_tmp = df_events.select(\"index\", \"timestamp\", \"type\", \"possession_team\")\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:20:26+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "val \u001b[1m\u001b[34mmatchId\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m = 3890561\nval \u001b[1m\u001b[34mfilePath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ./data/events/3890561.json\nval \u001b[1m\u001b[34mdf_events\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [ball_receipt: struct<outcome: struct<id: bigint, name: string>>, ball_recovery: struct<recovery_failure: boolean> ... 33 more fields]\nval \u001b[1m\u001b[34mdf_tmp\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [index: bigint, timestamp: string ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=22",
+              "$$hashKey": "object:1499"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641287_403211358",
+      "id": "paragraph_1715532045932_1825741487",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:56+0000",
+      "dateFinished": "2024-05-13T18:19:56+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:199"
+    },
+    {
+      "text": "df_tmp.show()",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:19:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+------------+-------------------+-----------------+\n|index|   timestamp|               type|  possession_team|\n+-----+------------+-------------------+-----------------+\n|    1|00:00:00.000|  {35, Starting XI}|{175, Hoffenheim}|\n|    2|00:00:00.000|  {35, Starting XI}|{175, Hoffenheim}|\n|    3|00:00:00.000|   {18, Half Start}|{175, Hoffenheim}|\n|    4|00:00:00.000|   {18, Half Start}|{175, Hoffenheim}|\n|    5|00:00:00.482|         {30, Pass}|{175, Hoffenheim}|\n|    6|00:00:00.935|{42, Ball Receipt*}|{175, Hoffenheim}|\n|    7|00:00:00.935|        {43, Carry}|{175, Hoffenheim}|\n|    8|00:00:01.015|         {30, Pass}|{175, Hoffenheim}|\n|    9|00:00:02.167|{42, Ball Receipt*}|{175, Hoffenheim}|\n|   10|00:00:02.167|        {43, Carry}|{175, Hoffenheim}|\n|   11|00:00:02.954|         {30, Pass}|{175, Hoffenheim}|\n|   12|00:00:04.344|{42, Ball Receipt*}|{175, Hoffenheim}|\n|   13|00:00:04.344|        {43, Carry}|{175, Hoffenheim}|\n|   14|00:00:05.894|         {30, Pass}|{175, Hoffenheim}|\n|   15|00:00:08.451|{42, Ball Receipt*}|{175, Hoffenheim}|\n|   16|00:00:08.451|        {43, Carry}|{175, Hoffenheim}|\n|   17|00:00:10.652|         {30, Pass}|{175, Hoffenheim}|\n|   18|00:00:12.070|{42, Ball Receipt*}|{175, Hoffenheim}|\n|   19|00:00:12.070|        {43, Carry}|{175, Hoffenheim}|\n|   20|00:00:14.391|         {30, Pass}|{175, Hoffenheim}|\n+-----+------------+-------------------+-----------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=23",
+              "$$hashKey": "object:1545"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641287_1613843704",
+      "id": "paragraph_1715533014607_426786810",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:56+0000",
+      "dateFinished": "2024-05-13T18:19:57+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:200"
+    },
+    {
+      "text": "import org.apache.spark.sql.functions._\r\n\r\nval passEvents = df_events.filter(col(\"type.name\").contains(\"Pass\"))\r\nval passCountByTeam = passEvents.groupBy(\"possession_team\")\r\n  .count()\r\n  .withColumnRenamed(\"count\", \"pass_count\")\r\n\r\nval teamWithMostPasses = passCountByTeam.orderBy(desc(\"pass_count\"))\r\nteamWithMostPasses.show()\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:21:08+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----------------+----------+\n|  possession_team|pass_count|\n+-----------------+----------+\n|{181, Schalke 04}|       611|\n|{175, Hoffenheim}|       485|\n+-----------------+----------+\n\nimport org.apache.spark.sql.functions._\nval \u001b[1m\u001b[34mpassEvents\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [ball_receipt: struct<outcome: struct<id: bigint, name: string>>, ball_recovery: struct<recovery_failure: boolean> ... 33 more fields]\nval \u001b[1m\u001b[34mpassCountByTeam\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [possession_team: struct<id: bigint, name: string>, pass_count: bigint]\nval \u001b[1m\u001b[34mteamWithMostPasses\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m = [possession_team: struct<id: bigint, name: string>, pass_count: bigint]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=24",
+              "$$hashKey": "object:1591"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=25",
+              "$$hashKey": "object:1592"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641287_784438050",
+      "id": "paragraph_1715532943798_879864538",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:57+0000",
+      "dateFinished": "2024-05-13T18:19:57+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:201"
+    },
+    {
+      "text": "%spark\nz.show(teamWithMostPasses)",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:20:39+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "possession_team": "string",
+                      "pass_count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "possession_team",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "pass_count",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "possession_team\tpass_count\n[181,Schalke 04]\t611\n[175,Hoffenheim]\t485\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=26",
+              "$$hashKey": "object:1642"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=27",
+              "$$hashKey": "object:1643"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641287_1661781458",
+      "id": "paragraph_1715529305848_1426575372",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:19:57+0000",
+      "dateFinished": "2024-05-13T18:19:58+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:202"
+    },
+    {
+      "text": "%md\n\n# Number of total objects in our json files\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T19:34:38+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Number of total objects in our json files</h1>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715624700489_93534945",
+      "id": "paragraph_1715624700489_93534945",
+      "dateCreated": "2024-05-13T18:25:00+0000",
+      "dateStarted": "2024-05-13T19:34:38+0000",
+      "dateFinished": "2024-05-13T19:34:38+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:203"
+    },
+    {
+      "text": "import org.apache.spark.sql.SparkSession\nimport org.apache.spark.sql.functions._\n\nval directoryPath = \"./data/*\"\n\nval df = spark.read.option(\"multiline\", \"true\").json(directoryPath)\nval fileCount = df.inputFiles.length\nval avgObjectsPerFile = df.count().toDouble / fileCount.toDouble\n\nprintln(s\"Total number of files: $fileCount\")\nprintln(s\"Average number of JSON objects per file: $avgObjectsPerFile\")",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:30:32+0000",
+      "progress": 98,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Total number of files: 6843\nAverage number of JSON objects per file: 1800.2630425252082\nimport org.apache.spark.sql.SparkSession\nimport org.apache.spark.sql.functions._\nval \u001b[1m\u001b[34mdirectoryPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ./data/*\nval \u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [50_50: struct<outcome: struct<id: bigint, name: string>>, _corrupt_record: string ... 59 more fields]\nval \u001b[1m\u001b[34mfileCount\u001b[0m: \u001b[1m\u001b[32mInt\u001b[0m = 6843\nval \u001b[1m\u001b[34mavgObjectsPerFile\u001b[0m: \u001b[1m\u001b[32mDouble\u001b[0m = 1800.2630425252082\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=28",
+              "$$hashKey": "object:1733"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=29",
+              "$$hashKey": "object:1734"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=30",
+              "$$hashKey": "object:1735"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715623641287_812904975",
+      "id": "paragraph_1715533404905_219182043",
+      "dateCreated": "2024-05-13T18:07:21+0000",
+      "dateStarted": "2024-05-13T18:25:47+0000",
+      "dateFinished": "2024-05-13T18:30:03+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:204"
+    },
+    {
+      "text": "%md \n\n# Total number of competitions \n\n--> Count the number of competitions in whole dataset\n--> Show the number for parameters per object in the competetions.json",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T19:35:02+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Total number of competitions</h1>\n<p>&ndash;&gt; Count the number of competitions in whole dataset<br />\n&ndash;&gt; Show the number for parameters per object in the competetions.json</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715624747709_1556966832",
+      "id": "paragraph_1715624747709_1556966832",
+      "dateCreated": "2024-05-13T18:25:47+0000",
+      "dateStarted": "2024-05-13T19:35:02+0000",
+      "dateFinished": "2024-05-13T19:35:02+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:205"
+    },
+    {
+      "text": "import org.apache.spark.sql.SparkSession\r\nimport org.apache.spark.sql.functions._\r\n\r\nval spark = SparkSession.builder\r\n  .appName(\"Football Data Analysis\")\r\n  .getOrCreate()\r\n\r\nval competitionPath = \"./data/competitions.json\"\r\n\r\n// Load the JSON data\r\nval df_competitions = spark.read.option(\"multiline\", \"true\").json(competitionPath)\r\n\r\nval numCompetitions = df_competitions.count()\r\ndf_competitions.printSchema()\r\n\r\nprintln(s\"Total number of competitions: $numCompetitions\")\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T18:39:14+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[33mwarning: \u001b[0m1 deprecation (since 2.13.3); for details, enable `:setting -deprecation` or `:replay -deprecation`\nroot\n |-- competition_gender: string (nullable = true)\n |-- competition_id: long (nullable = true)\n |-- competition_international: boolean (nullable = true)\n |-- competition_name: string (nullable = true)\n |-- competition_youth: boolean (nullable = true)\n |-- country_name: string (nullable = true)\n |-- match_available: string (nullable = true)\n |-- match_available_360: string (nullable = true)\n |-- match_updated: string (nullable = true)\n |-- match_updated_360: string (nullable = true)\n |-- season_id: long (nullable = true)\n |-- season_name: string (nullable = true)\n\nTotal number of competitions: 71\nimport org.apache.spark.sql.SparkSession\nimport org.apache.spark.sql.functions._\nval \u001b[1m\u001b[34mspark\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.SparkSession\u001b[0m = org.apache.spark.sql.SparkSession@2efac3a2\nval \u001b[1m\u001b[34mcompetitionPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ./data/competitions.json\nval \u001b[1m\u001b[34mdf_competitions\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [competition_gender: string, competition_id: bigint ... 10 more fields]\nval \u001b[1m\u001b[34mnumCompetitions\u001b[0m: \u001b[1m\u001b[32mLong\u001b[0m = 71\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=31",
+              "$$hashKey": "object:1829"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=32",
+              "$$hashKey": "object:1830"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=33",
+              "$$hashKey": "object:1831"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715625528872_1499366403",
+      "id": "paragraph_1715625528872_1499366403",
+      "dateCreated": "2024-05-13T18:38:48+0000",
+      "dateStarted": "2024-05-13T18:39:14+0000",
+      "dateFinished": "2024-05-13T18:39:14+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:206"
+    },
+    {
+      "text": "%md \n\n# Folder matches\n\n--> **Count the number of competitions** by counting the distinct subfolders in the matches directory.\n--> **Count the number of seasons per competition** by accessing each subfolder and counting the JSON files.\n--> **Count the number of matches inside each season by reading each JSON file**, which represents a season, and counting the number of match objects within.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T19:35:46+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Folder matches</h1>\n<p>&ndash;&gt; <strong>Count the number of competitions</strong> by counting the distinct subfolders in the matches directory.<br />\n&ndash;&gt; <strong>Count the number of seasons per competition</strong> by accessing each subfolder and counting the JSON files.<br />\n&ndash;&gt; <strong>Count the number of matches inside each season by reading each JSON file</strong>, which represents a season, and counting the number of match objects within.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715625554563_829487545",
+      "id": "paragraph_1715625554563_829487545",
+      "dateCreated": "2024-05-13T18:39:14+0000",
+      "dateStarted": "2024-05-13T19:35:46+0000",
+      "dateFinished": "2024-05-13T19:35:46+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:207"
+    },
+    {
+      "text": "import org.apache.spark.sql.SparkSession\r\nimport org.apache.spark.sql.functions._\r\nimport org.apache.spark.sql.DataFrame\r\n\r\nval spark = SparkSession.builder\r\n  .appName(\"Detailed Football Matches Analysis\")\r\n  .master(\"local\")\r\n  .getOrCreate()\r\n\r\ndef listDirectories(path: String): Array[String] = {\r\n  new File(path).listFiles.filter(_.isDirectory).map(_.getPath)\r\n}\r\n\r\ndef listFiles(directory: String): Array[String] = {\r\n  new File(directory).listFiles.filter(_.isFile).map(_.getPath)\r\n}\r\n\r\nval basePath = \"./data/matches\"\r\nval competitionsPath = \"./data/competitions.json\"\r\n\r\nval competitionsDf = spark.read.option(\"multiLine\", true).json(competitionsPath)\r\n  .select(\"competition_id\", \"competition_name\")\r\n  \r\nval competitionDirs = listDirectories(basePath)\r\nprintln(s\"Total number of competitions: ${competitionDirs.length}\")\r\n\r\ncompetitionDirs.foreach { dir =>\r\n  val competitionId = new File(dir).getName\r\n  println(s\"Analyzing competition: $competitionId\")\r\n\r\n  val seasonFiles = listFiles(dir)\r\n  val df = seasonFiles.map(file => {\r\n    val seasonDf = spark.read.option(\"multiline\", \"true\").json(file)\r\n    val seasonYear = seasonDf.select(\"season.season_name\").first().getString(0)\r\n    val numMatches = seasonDf.count()\r\n    val competition_name = seasonDf.select(\"competition.competition_name\").first().getString(0)\r\n    \r\n    (competition_name, seasonYear, numMatches)\r\n  }).toSeq.toDF(\"competition_name\", \"season_name\", \"num_matches\")\r\n\r\n    df.show()\r\n}\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-13T19:29:15+0000",
+      "progress": 50,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[33mwarning: \u001b[0m1 deprecation (since 2.13.3); for details, enable `:setting -deprecation` or `:replay -deprecation`\nTotal number of competitions: 20\nAnalyzing competition: 11\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|         La Liga|  2017/2018|         36|\n|         La Liga|  2016/2017|         34|\n|         La Liga|  2009/2010|         35|\n|         La Liga|  2010/2011|         33|\n|         La Liga|  2011/2012|         37|\n|         La Liga|  2012/2013|         32|\n|         La Liga|  2013/2014|         31|\n|         La Liga|  2014/2015|         38|\n|         La Liga|  2015/2016|        380|\n|         La Liga|  1973/1974|          1|\n|         La Liga|  2004/2005|          7|\n|         La Liga|  2005/2006|         17|\n|         La Liga|  2006/2007|         26|\n|         La Liga|  2018/2019|         34|\n|         La Liga|  2007/2008|         28|\n|         La Liga|  2008/2009|         31|\n|         La Liga|  2019/2020|         33|\n|         La Liga|  2020/2021|         35|\n+----------------+-----------+-----------+\n\nAnalyzing competition: 116\n+--------------------+-----------+-----------+\n|    competition_name|season_name|num_matches|\n+--------------------+-----------+-----------+\n|North American Le...|       1977|          1|\n+--------------------+-----------+-----------+\n\nAnalyzing competition: 12\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|         Serie A|  2015/2016|        380|\n|         Serie A|  1986/1987|          1|\n+----------------+-----------+-----------+\n\nAnalyzing competition: 1238\n+-------------------+-----------+-----------+\n|   competition_name|season_name|num_matches|\n+-------------------+-----------+-----------+\n|Indian Super league|  2021/2022|        115|\n+-------------------+-----------+-----------+\n\nAnalyzing competition: 1267\n+--------------------+-----------+-----------+\n|    competition_name|season_name|num_matches|\n+--------------------+-----------+-----------+\n|African Cup of Na...|       2023|         52|\n+--------------------+-----------+-----------+\n\nAnalyzing competition: 1470\n+------------------+-----------+-----------+\n|  competition_name|season_name|num_matches|\n+------------------+-----------+-----------+\n|FIFA U20 World Cup|       1979|          1|\n+------------------+-----------+-----------+\n\nAnalyzing competition: 16\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|Champions League|  2017/2018|          1|\n|Champions League|  2016/2017|          1|\n|Champions League|  2009/2010|          1|\n|Champions League|  2010/2011|          1|\n|Champions League|  2011/2012|          1|\n|Champions League|  2012/2013|          1|\n|Champions League|  2013/2014|          1|\n|Champions League|  2014/2015|          1|\n|Champions League|  2015/2016|          1|\n|Champions League|  1970/1971|          1|\n|Champions League|  1972/1973|          1|\n|Champions League|  2004/2005|          1|\n|Champions League|  2006/2007|          1|\n|Champions League|  2018/2019|          1|\n|Champions League|  2008/2009|          1|\n|Champions League|  2003/2004|          1|\n|Champions League|  1971/1972|          1|\n|Champions League|  1999/2000|          1|\n+----------------+-----------+-----------+\n\nAnalyzing competition: 2\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|  Premier League|  2015/2016|        380|\n|  Premier League|  2003/2004|         38|\n+----------------+-----------+-----------+\n\nAnalyzing competition: 35\n+------------------+-----------+-----------+\n|  competition_name|season_name|num_matches|\n+------------------+-----------+-----------+\n|UEFA Europa League|  1988/1989|          3|\n+------------------+-----------+-----------+\n\nAnalyzing competition: 37\n+--------------------+-----------+-----------+\n|    competition_name|season_name|num_matches|\n+--------------------+-----------+-----------+\n|FA Women's Super ...|  2018/2019|        108|\n|FA Women's Super ...|  2019/2020|         87|\n|FA Women's Super ...|  2020/2021|        131|\n+--------------------+-----------+-----------+\n\nAnalyzing competition: 43\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|  FIFA World Cup|       2022|         64|\n|  FIFA World Cup|       1958|          2|\n|  FIFA World Cup|       1962|          1|\n|  FIFA World Cup|       1970|          6|\n|  FIFA World Cup|       2018|         64|\n|  FIFA World Cup|       1974|          6|\n|  FIFA World Cup|       1986|          3|\n|  FIFA World Cup|       1990|          1|\n+----------------+-----------+-----------+\n\nAnalyzing competition: 44\n+-------------------+-----------+-----------+\n|   competition_name|season_name|num_matches|\n+-------------------+-----------+-----------+\n|Major League Soccer|       2023|          6|\n+-------------------+-----------+-----------+\n\nAnalyzing competition: 49\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|            NWSL|       2018|         36|\n+----------------+-----------+-----------+\n\nAnalyzing competition: 53\n+-----------------+-----------+-----------+\n| competition_name|season_name|num_matches|\n+-----------------+-----------+-----------+\n|UEFA Women's Euro|       2022|         31|\n+-----------------+-----------+-----------+\n\nAnalyzing competition: 55\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|       UEFA Euro|       2020|         51|\n+----------------+-----------+-----------+\n\nAnalyzing competition: 7\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|         Ligue 1|  2021/2022|         26|\n|         Ligue 1|  2022/2023|         32|\n|         Ligue 1|  2015/2016|        377|\n+----------------+-----------+-----------+\n\nAnalyzing competition: 72\n+-----------------+-----------+-----------+\n| competition_name|season_name|num_matches|\n+-----------------+-----------+-----------+\n|Women's World Cup|       2023|         64|\n|Women's World Cup|       2019|         52|\n+-----------------+-----------+-----------+\n\nAnalyzing competition: 81\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|Liga Profesional|       1981|          1|\n|Liga Profesional|  1997/1998|          1|\n+----------------+-----------+-----------+\n\nAnalyzing competition: 87\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|    Copa del Rey|  1982/1983|          1|\n|    Copa del Rey|  1977/1978|          1|\n|    Copa del Rey|  1983/1984|          1|\n+----------------+-----------+-----------+\n\nAnalyzing competition: 9\n+----------------+-----------+-----------+\n|competition_name|season_name|num_matches|\n+----------------+-----------+-----------+\n|   1. Bundesliga|  2015/2016|        306|\n+----------------+-----------+-----------+\n\nimport org.apache.spark.sql.SparkSession\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.DataFrame\nval \u001b[1m\u001b[34mspark\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.SparkSession\u001b[0m = org.apache.spark.sql.SparkSession@2efac3a2\ndef listDirectories(path: String): \u001b[1m\u001b[32mArray[String]\u001b[0m\ndef listFiles(directory: String): \u001b[1m\u001b[32mArray[String]\u001b[0m\nval \u001b[1m\u001b[34mbasePath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ./data/matches\nval \u001b[1m\u001b[34mcompetitionsPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ./data/competitions.json\nval \u001b[1m\u001b[34mcompetitionsDf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [competition_id: bigint, competition_name: string]\nval \u001b[1m\u001b[34mcompetitionDirs\u001b[0m: \u001b[1m\u001b[32mArray[String]\u001b[0m = Array(./data/matches/11, ./data/matches/116, ./data/matches/12, ./data/matches/1238, ./data/matches/...\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3377",
+              "$$hashKey": "object:1925"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3378",
+              "$$hashKey": "object:1926"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3379",
+              "$$hashKey": "object:1927"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3380",
+              "$$hashKey": "object:1928"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3381",
+              "$$hashKey": "object:1929"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3382",
+              "$$hashKey": "object:1930"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3383",
+              "$$hashKey": "object:1931"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3384",
+              "$$hashKey": "object:1932"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3385",
+              "$$hashKey": "object:1933"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3386",
+              "$$hashKey": "object:1934"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3387",
+              "$$hashKey": "object:1935"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3388",
+              "$$hashKey": "object:1936"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3389",
+              "$$hashKey": "object:1937"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3390",
+              "$$hashKey": "object:1938"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3391",
+              "$$hashKey": "object:1939"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3392",
+              "$$hashKey": "object:1940"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3393",
+              "$$hashKey": "object:1941"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3394",
+              "$$hashKey": "object:1942"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3395",
+              "$$hashKey": "object:1943"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3396",
+              "$$hashKey": "object:1944"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3397",
+              "$$hashKey": "object:1945"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3398",
+              "$$hashKey": "object:1946"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3399",
+              "$$hashKey": "object:1947"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3400",
+              "$$hashKey": "object:1948"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3401",
+              "$$hashKey": "object:1949"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3402",
+              "$$hashKey": "object:1950"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3403",
+              "$$hashKey": "object:1951"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3404",
+              "$$hashKey": "object:1952"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3405",
+              "$$hashKey": "object:1953"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3406",
+              "$$hashKey": "object:1954"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3407",
+              "$$hashKey": "object:1955"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3408",
+              "$$hashKey": "object:1956"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3409",
+              "$$hashKey": "object:1957"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3410",
+              "$$hashKey": "object:1958"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3411",
+              "$$hashKey": "object:1959"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3412",
+              "$$hashKey": "object:1960"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3413",
+              "$$hashKey": "object:1961"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3414",
+              "$$hashKey": "object:1962"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3415",
+              "$$hashKey": "object:1963"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3416",
+              "$$hashKey": "object:1964"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3417",
+              "$$hashKey": "object:1965"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3418",
+              "$$hashKey": "object:1966"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3419",
+              "$$hashKey": "object:1967"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3420",
+              "$$hashKey": "object:1968"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3421",
+              "$$hashKey": "object:1969"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3422",
+              "$$hashKey": "object:1970"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3423",
+              "$$hashKey": "object:1971"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3424",
+              "$$hashKey": "object:1972"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3425",
+              "$$hashKey": "object:1973"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3426",
+              "$$hashKey": "object:1974"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3427",
+              "$$hashKey": "object:1975"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3428",
+              "$$hashKey": "object:1976"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3429",
+              "$$hashKey": "object:1977"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3430",
+              "$$hashKey": "object:1978"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3431",
+              "$$hashKey": "object:1979"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3432",
+              "$$hashKey": "object:1980"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3433",
+              "$$hashKey": "object:1981"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3434",
+              "$$hashKey": "object:1982"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3435",
+              "$$hashKey": "object:1983"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3436",
+              "$$hashKey": "object:1984"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3437",
+              "$$hashKey": "object:1985"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3438",
+              "$$hashKey": "object:1986"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3439",
+              "$$hashKey": "object:1987"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3440",
+              "$$hashKey": "object:1988"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3441",
+              "$$hashKey": "object:1989"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3442",
+              "$$hashKey": "object:1990"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3443",
+              "$$hashKey": "object:1991"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3444",
+              "$$hashKey": "object:1992"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3445",
+              "$$hashKey": "object:1993"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3446",
+              "$$hashKey": "object:1994"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3447",
+              "$$hashKey": "object:1995"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3448",
+              "$$hashKey": "object:1996"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3449",
+              "$$hashKey": "object:1997"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3450",
+              "$$hashKey": "object:1998"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3451",
+              "$$hashKey": "object:1999"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3452",
+              "$$hashKey": "object:2000"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3453",
+              "$$hashKey": "object:2001"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3454",
+              "$$hashKey": "object:2002"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3455",
+              "$$hashKey": "object:2003"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3456",
+              "$$hashKey": "object:2004"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3457",
+              "$$hashKey": "object:2005"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3458",
+              "$$hashKey": "object:2006"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3459",
+              "$$hashKey": "object:2007"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3460",
+              "$$hashKey": "object:2008"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3461",
+              "$$hashKey": "object:2009"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3462",
+              "$$hashKey": "object:2010"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3463",
+              "$$hashKey": "object:2011"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3464",
+              "$$hashKey": "object:2012"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3465",
+              "$$hashKey": "object:2013"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3466",
+              "$$hashKey": "object:2014"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3467",
+              "$$hashKey": "object:2015"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3468",
+              "$$hashKey": "object:2016"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3469",
+              "$$hashKey": "object:2017"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3470",
+              "$$hashKey": "object:2018"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3471",
+              "$$hashKey": "object:2019"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3472",
+              "$$hashKey": "object:2020"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3473",
+              "$$hashKey": "object:2021"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3474",
+              "$$hashKey": "object:2022"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3475",
+              "$$hashKey": "object:2023"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3476",
+              "$$hashKey": "object:2024"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3477",
+              "$$hashKey": "object:2025"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3478",
+              "$$hashKey": "object:2026"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3479",
+              "$$hashKey": "object:2027"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3480",
+              "$$hashKey": "object:2028"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3481",
+              "$$hashKey": "object:2029"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3482",
+              "$$hashKey": "object:2030"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3483",
+              "$$hashKey": "object:2031"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3484",
+              "$$hashKey": "object:2032"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3485",
+              "$$hashKey": "object:2033"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3486",
+              "$$hashKey": "object:2034"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3487",
+              "$$hashKey": "object:2035"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3488",
+              "$$hashKey": "object:2036"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3489",
+              "$$hashKey": "object:2037"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3490",
+              "$$hashKey": "object:2038"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3491",
+              "$$hashKey": "object:2039"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3492",
+              "$$hashKey": "object:2040"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3493",
+              "$$hashKey": "object:2041"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3494",
+              "$$hashKey": "object:2042"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3495",
+              "$$hashKey": "object:2043"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3496",
+              "$$hashKey": "object:2044"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3497",
+              "$$hashKey": "object:2045"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3498",
+              "$$hashKey": "object:2046"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3499",
+              "$$hashKey": "object:2047"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3500",
+              "$$hashKey": "object:2048"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3501",
+              "$$hashKey": "object:2049"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3502",
+              "$$hashKey": "object:2050"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3503",
+              "$$hashKey": "object:2051"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3504",
+              "$$hashKey": "object:2052"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3505",
+              "$$hashKey": "object:2053"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3506",
+              "$$hashKey": "object:2054"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3507",
+              "$$hashKey": "object:2055"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3508",
+              "$$hashKey": "object:2056"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3509",
+              "$$hashKey": "object:2057"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3510",
+              "$$hashKey": "object:2058"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3511",
+              "$$hashKey": "object:2059"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3512",
+              "$$hashKey": "object:2060"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3513",
+              "$$hashKey": "object:2061"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3514",
+              "$$hashKey": "object:2062"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3515",
+              "$$hashKey": "object:2063"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3516",
+              "$$hashKey": "object:2064"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3517",
+              "$$hashKey": "object:2065"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3518",
+              "$$hashKey": "object:2066"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3519",
+              "$$hashKey": "object:2067"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3520",
+              "$$hashKey": "object:2068"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3521",
+              "$$hashKey": "object:2069"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3522",
+              "$$hashKey": "object:2070"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3523",
+              "$$hashKey": "object:2071"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3524",
+              "$$hashKey": "object:2072"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3525",
+              "$$hashKey": "object:2073"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3526",
+              "$$hashKey": "object:2074"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3527",
+              "$$hashKey": "object:2075"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3528",
+              "$$hashKey": "object:2076"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3529",
+              "$$hashKey": "object:2077"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3530",
+              "$$hashKey": "object:2078"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3531",
+              "$$hashKey": "object:2079"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3532",
+              "$$hashKey": "object:2080"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3533",
+              "$$hashKey": "object:2081"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3534",
+              "$$hashKey": "object:2082"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3535",
+              "$$hashKey": "object:2083"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3536",
+              "$$hashKey": "object:2084"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3537",
+              "$$hashKey": "object:2085"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3538",
+              "$$hashKey": "object:2086"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3539",
+              "$$hashKey": "object:2087"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3540",
+              "$$hashKey": "object:2088"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3541",
+              "$$hashKey": "object:2089"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3542",
+              "$$hashKey": "object:2090"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3543",
+              "$$hashKey": "object:2091"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3544",
+              "$$hashKey": "object:2092"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3545",
+              "$$hashKey": "object:2093"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3546",
+              "$$hashKey": "object:2094"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3547",
+              "$$hashKey": "object:2095"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3548",
+              "$$hashKey": "object:2096"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3549",
+              "$$hashKey": "object:2097"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3550",
+              "$$hashKey": "object:2098"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3551",
+              "$$hashKey": "object:2099"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3552",
+              "$$hashKey": "object:2100"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3553",
+              "$$hashKey": "object:2101"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3554",
+              "$$hashKey": "object:2102"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3555",
+              "$$hashKey": "object:2103"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3556",
+              "$$hashKey": "object:2104"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3557",
+              "$$hashKey": "object:2105"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3558",
+              "$$hashKey": "object:2106"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3559",
+              "$$hashKey": "object:2107"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3560",
+              "$$hashKey": "object:2108"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3561",
+              "$$hashKey": "object:2109"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3562",
+              "$$hashKey": "object:2110"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3563",
+              "$$hashKey": "object:2111"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3564",
+              "$$hashKey": "object:2112"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3565",
+              "$$hashKey": "object:2113"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3566",
+              "$$hashKey": "object:2114"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3567",
+              "$$hashKey": "object:2115"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3568",
+              "$$hashKey": "object:2116"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3569",
+              "$$hashKey": "object:2117"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3570",
+              "$$hashKey": "object:2118"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3571",
+              "$$hashKey": "object:2119"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3572",
+              "$$hashKey": "object:2120"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3573",
+              "$$hashKey": "object:2121"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3574",
+              "$$hashKey": "object:2122"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3575",
+              "$$hashKey": "object:2123"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3576",
+              "$$hashKey": "object:2124"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3577",
+              "$$hashKey": "object:2125"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3578",
+              "$$hashKey": "object:2126"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3579",
+              "$$hashKey": "object:2127"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3580",
+              "$$hashKey": "object:2128"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3581",
+              "$$hashKey": "object:2129"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3582",
+              "$$hashKey": "object:2130"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3583",
+              "$$hashKey": "object:2131"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3584",
+              "$$hashKey": "object:2132"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3585",
+              "$$hashKey": "object:2133"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3586",
+              "$$hashKey": "object:2134"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3587",
+              "$$hashKey": "object:2135"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3588",
+              "$$hashKey": "object:2136"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3589",
+              "$$hashKey": "object:2137"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3590",
+              "$$hashKey": "object:2138"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3591",
+              "$$hashKey": "object:2139"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3592",
+              "$$hashKey": "object:2140"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3593",
+              "$$hashKey": "object:2141"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3594",
+              "$$hashKey": "object:2142"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3595",
+              "$$hashKey": "object:2143"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3596",
+              "$$hashKey": "object:2144"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3597",
+              "$$hashKey": "object:2145"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3598",
+              "$$hashKey": "object:2146"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3599",
+              "$$hashKey": "object:2147"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3600",
+              "$$hashKey": "object:2148"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3601",
+              "$$hashKey": "object:2149"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3602",
+              "$$hashKey": "object:2150"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3603",
+              "$$hashKey": "object:2151"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3604",
+              "$$hashKey": "object:2152"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3605",
+              "$$hashKey": "object:2153"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3606",
+              "$$hashKey": "object:2154"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3607",
+              "$$hashKey": "object:2155"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3608",
+              "$$hashKey": "object:2156"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3609",
+              "$$hashKey": "object:2157"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3610",
+              "$$hashKey": "object:2158"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3611",
+              "$$hashKey": "object:2159"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3612",
+              "$$hashKey": "object:2160"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3613",
+              "$$hashKey": "object:2161"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3614",
+              "$$hashKey": "object:2162"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3615",
+              "$$hashKey": "object:2163"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3616",
+              "$$hashKey": "object:2164"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3617",
+              "$$hashKey": "object:2165"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3618",
+              "$$hashKey": "object:2166"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3619",
+              "$$hashKey": "object:2167"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3620",
+              "$$hashKey": "object:2168"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3621",
+              "$$hashKey": "object:2169"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3622",
+              "$$hashKey": "object:2170"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3623",
+              "$$hashKey": "object:2171"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3624",
+              "$$hashKey": "object:2172"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3625",
+              "$$hashKey": "object:2173"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3626",
+              "$$hashKey": "object:2174"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3627",
+              "$$hashKey": "object:2175"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3628",
+              "$$hashKey": "object:2176"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3629",
+              "$$hashKey": "object:2177"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3630",
+              "$$hashKey": "object:2178"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3631",
+              "$$hashKey": "object:2179"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3632",
+              "$$hashKey": "object:2180"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3633",
+              "$$hashKey": "object:2181"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3634",
+              "$$hashKey": "object:2182"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3635",
+              "$$hashKey": "object:2183"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3636",
+              "$$hashKey": "object:2184"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3637",
+              "$$hashKey": "object:2185"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3638",
+              "$$hashKey": "object:2186"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3639",
+              "$$hashKey": "object:2187"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3640",
+              "$$hashKey": "object:2188"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3641",
+              "$$hashKey": "object:2189"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3642",
+              "$$hashKey": "object:2190"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3643",
+              "$$hashKey": "object:2191"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3644",
+              "$$hashKey": "object:2192"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3645",
+              "$$hashKey": "object:2193"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3646",
+              "$$hashKey": "object:2194"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3647",
+              "$$hashKey": "object:2195"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3648",
+              "$$hashKey": "object:2196"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3649",
+              "$$hashKey": "object:2197"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3650",
+              "$$hashKey": "object:2198"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3651",
+              "$$hashKey": "object:2199"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3652",
+              "$$hashKey": "object:2200"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3653",
+              "$$hashKey": "object:2201"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3654",
+              "$$hashKey": "object:2202"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3655",
+              "$$hashKey": "object:2203"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3656",
+              "$$hashKey": "object:2204"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3657",
+              "$$hashKey": "object:2205"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3658",
+              "$$hashKey": "object:2206"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3659",
+              "$$hashKey": "object:2207"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3660",
+              "$$hashKey": "object:2208"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3661",
+              "$$hashKey": "object:2209"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3662",
+              "$$hashKey": "object:2210"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3663",
+              "$$hashKey": "object:2211"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3664",
+              "$$hashKey": "object:2212"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3665",
+              "$$hashKey": "object:2213"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3666",
+              "$$hashKey": "object:2214"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3667",
+              "$$hashKey": "object:2215"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3668",
+              "$$hashKey": "object:2216"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3669",
+              "$$hashKey": "object:2217"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3670",
+              "$$hashKey": "object:2218"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3671",
+              "$$hashKey": "object:2219"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3672",
+              "$$hashKey": "object:2220"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3673",
+              "$$hashKey": "object:2221"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3674",
+              "$$hashKey": "object:2222"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3675",
+              "$$hashKey": "object:2223"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3676",
+              "$$hashKey": "object:2224"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3677",
+              "$$hashKey": "object:2225"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3678",
+              "$$hashKey": "object:2226"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3679",
+              "$$hashKey": "object:2227"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3680",
+              "$$hashKey": "object:2228"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3681",
+              "$$hashKey": "object:2229"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3682",
+              "$$hashKey": "object:2230"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3683",
+              "$$hashKey": "object:2231"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3684",
+              "$$hashKey": "object:2232"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3685",
+              "$$hashKey": "object:2233"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3686",
+              "$$hashKey": "object:2234"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3687",
+              "$$hashKey": "object:2235"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3688",
+              "$$hashKey": "object:2236"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3689",
+              "$$hashKey": "object:2237"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3690",
+              "$$hashKey": "object:2238"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3691",
+              "$$hashKey": "object:2239"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3692",
+              "$$hashKey": "object:2240"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3693",
+              "$$hashKey": "object:2241"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3694",
+              "$$hashKey": "object:2242"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3695",
+              "$$hashKey": "object:2243"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3696",
+              "$$hashKey": "object:2244"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3697",
+              "$$hashKey": "object:2245"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3698",
+              "$$hashKey": "object:2246"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3699",
+              "$$hashKey": "object:2247"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3700",
+              "$$hashKey": "object:2248"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3701",
+              "$$hashKey": "object:2249"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3702",
+              "$$hashKey": "object:2250"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3703",
+              "$$hashKey": "object:2251"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3704",
+              "$$hashKey": "object:2252"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3705",
+              "$$hashKey": "object:2253"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3706",
+              "$$hashKey": "object:2254"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3707",
+              "$$hashKey": "object:2255"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3708",
+              "$$hashKey": "object:2256"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3709",
+              "$$hashKey": "object:2257"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3710",
+              "$$hashKey": "object:2258"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3711",
+              "$$hashKey": "object:2259"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3712",
+              "$$hashKey": "object:2260"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3713",
+              "$$hashKey": "object:2261"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3714",
+              "$$hashKey": "object:2262"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3715",
+              "$$hashKey": "object:2263"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3716",
+              "$$hashKey": "object:2264"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3717",
+              "$$hashKey": "object:2265"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3718",
+              "$$hashKey": "object:2266"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3719",
+              "$$hashKey": "object:2267"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3720",
+              "$$hashKey": "object:2268"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3721",
+              "$$hashKey": "object:2269"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3722",
+              "$$hashKey": "object:2270"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3723",
+              "$$hashKey": "object:2271"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3724",
+              "$$hashKey": "object:2272"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3725",
+              "$$hashKey": "object:2273"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3726",
+              "$$hashKey": "object:2274"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3727",
+              "$$hashKey": "object:2275"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3728",
+              "$$hashKey": "object:2276"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3729",
+              "$$hashKey": "object:2277"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3730",
+              "$$hashKey": "object:2278"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3731",
+              "$$hashKey": "object:2279"
+            },
+            {
+              "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=3732",
+              "$$hashKey": "object:2280"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1715625697445_1149186727",
+      "id": "paragraph_1715625697445_1149186727",
+      "dateCreated": "2024-05-13T18:41:37+0000",
+      "dateStarted": "2024-05-13T19:28:00+0000",
+      "dateFinished": "2024-05-13T19:28:16+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:208"
+    }
+  ],
+  "name": "BigData_Project_Analysis",
+  "id": "2JVWRDBHK",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.11.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {
+    "isRunning": false
+  },
+  "path": "/BigData_Project_Analysis"
+}
