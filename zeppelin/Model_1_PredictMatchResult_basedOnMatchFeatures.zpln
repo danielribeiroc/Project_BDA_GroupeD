@@ -24,17 +24,6 @@
         "params": {},
         "forms": {}
       },
-      "apps": [],
-      "runtimeInfos": {},
-      "progressUpdateIntervalMs": 500,
-      "jobName": "paragraph_1716403076593_1360602306",
-      "id": "paragraph_1716403076593_1360602306",
-      "dateCreated": "2024-05-22T18:37:56+0000",
-      "status": "FINISHED",
-      "focus": true,
-      "$$hashKey": "object:9486",
-      "dateFinished": "2024-05-22T19:12:59+0000",
-      "dateStarted": "2024-05-22T19:12:59+0000",
       "results": {
         "code": "SUCCESS",
         "msg": [
@@ -43,7 +32,18 @@
             "data": "<div class=\"markdown-body\">\n<h1>Modèle 1 : Prédiction de la Victoire de l&rsquo;Équipe à Domicile ou en Déplacement Basée sur les Statistiques d&rsquo;un Match</h1>\n<p>Ce Zeppelin notebook décrit le processus complet pour créer un modèle de prédiction des résultats de matchs de foot. Bien que le cours porte sur le big data, nous avons tenté d&rsquo;utiliser des méthodes et des traitements de données typiques du big data, malgré un nombre de données d&rsquo;entraînement relativement limité (nous possédons pour ce model de <strong>10Gb de données</strong>). Il est donc important de prendre cela en compte. Les fonctions utilisées ont été développées par nous même et en consultant des exemples en ligne et en se référant à la documentation, et chaque fonction complexe a été expliquée pour illustrer le processus de traitement.</p>\n<h3>Prétraitement des Données</h3>\n<p>Le dossier <code>./data/events</code> contient plusieurs fichiers JSON, chacun étant nommé avec un identifiant unique représentant un match dans le dataset. Le contenu de chaque fichier est à la fois vaste et bien structuré, comme documenté dans le <a href=\"https://github.com/statsbomb/open-data/tree/master/doc\">répertoire GitHub de StatsBomb</a>. Chaque fichier inclut toutes les actions du match, telles que chaque passe, tir, carton jaune, réception, arrêt de balle, etc. Nous avons donc supposé qu&rsquo;il était possible de regrouper les statistiques d&rsquo;un match pour créer un modèle capable de prédire laquelle des deux équipes remportera le match.</p>\n<h3>Features Définies</h3>\n<p>Pour les deux équipes, nous avons défini un total de 21 features. Ces features permettent de décrire le match en question. Les features avec les valeurs <code>team1</code> ou <code>home</code> se réfèrent à l&rsquo;équipe à domicile, tandis que celles avec <code>team2</code> ou <code>away</code> concernent l&rsquo;équipe en déplacement.</p>\n<h4>Liste des Features</h4>\n<pre><code>root\n |-- match_id: string (non utilisé)\n |-- match_teams: string (non utilisé)\n |-- Pass_team1: long (utilisé)\n |-- Pass_team2: long (utilisé)\n |-- Shot_team1: long (utilisé)\n |-- Shot_team2: long (utilisé)\n |-- Foul_won_team1: long (utilisé)\n |-- Foul_won_team2: long (utilisé)\n |-- Foul_committed_team1: long (utilisé)\n |-- Foul_committed_team2: long (utilisé)\n |-- Bad_Behaviour_Yellow_Card_team1: long (utilisé)\n |-- Bad_Behaviour_Yellow_Card_team2: long (utilisé)\n |-- total_red_cards_team1: long (utilisé)\n |-- total_red_cards_team2: long (utilisé)\n |-- total_actions_team1: long (utilisé)\n |-- total_actions_team2: long (utilisé)\n |-- match_date: string (utilisé)\n |-- home_score: long (utilisé)\n |-- away_score: long (utilisé)\n |-- home_team_id: long (utilisé)\n |-- team1_results: double (utilisé)\n |-- away_team_id: long (utilisé)\n |-- team2_results: double (utilisé)\n |-- winning_team: string (non utilisé) --&gt; utilisé pour la ground truth (valeur y)\n</code></pre>\n<p>Ce modèle et ces données nous permettent de prédire le vainqueur d&rsquo;un match en se basant sur les statistiques des équipes.</p>\n\n</div>"
           }
         ]
-      }
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1716403076593_1360602306",
+      "id": "paragraph_1716403076593_1360602306",
+      "dateCreated": "2024-05-22T18:37:56+0000",
+      "dateStarted": "2024-05-22T19:12:59+0000",
+      "dateFinished": "2024-05-22T19:12:59+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:186"
     },
     {
       "text": "%md\n\n### Définitin des variables statiques\n\nAfin de permettre le bon fonctionnement, du zeppelin nous définissons ici des variables statiques qui permettent de facilement récupérer les données nécessaires.",
@@ -87,8 +87,7 @@
       "dateStarted": "2024-05-22T19:13:58+0000",
       "dateFinished": "2024-05-22T19:13:58+0000",
       "status": "FINISHED",
-      "focus": true,
-      "$$hashKey": "object:244"
+      "$$hashKey": "object:187"
     },
     {
       "text": "val jsonDirectory = \"./data/events\"",
@@ -130,7 +129,7 @@
       "dateStarted": "2024-05-20T06:42:12+0000",
       "dateFinished": "2024-05-20T06:42:12+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:245"
+      "$$hashKey": "object:188"
     },
     {
       "text": "%md\n### Créations des features \n\nNous abordons ici une étape importante : la création des features principales. Bien que le code soit relativement long en raison du nombre de features à générer, chaque section est expliquée à l'aide de commentaires pour faciliter la compréhension.",
@@ -174,7 +173,7 @@
       "dateStarted": "2024-05-22T19:22:35+0000",
       "dateFinished": "2024-05-22T19:22:35+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:246"
+      "$$hashKey": "object:189"
     },
     {
       "text": "import org.apache.spark.sql.SparkSession\r\nimport org.apache.spark.sql.functions._\r\nimport org.apache.spark.sql.types._\r\nimport org.apache.hadoop.fs.{FileSystem, Path}\r\n\r\n// Partie où nous définissons la session Spark\r\nval spark = SparkSession.builder.appName(\"Soccer Match Analysis\").getOrCreate()\r\nval sc = spark.sparkContext\r\nval hadoopConf = sc.hadoopConfiguration\r\nval fs = FileSystem.get(hadoopConf)\r\nval fileStatus = fs.listStatus(new Path(jsonDirectory))\r\nval files = fileStatus.map(_.getPath.toString)\r\n\r\n// Lecture de tous les fichiers JSON dans un DataFrame Spark\r\nval allMatchesDf = spark.read.option(\"multiLine\", true).json(files: _*)\r\n\r\n// Récupération de l'ID du match à partir du nom du fichier (ex: 657.json = 657)\r\nval filePathColumn = input_file_name()\r\nval matchIdDf = allMatchesDf.withColumn(\"match_id\", regexp_extract(filePathColumn, \"\"\"(\\d+)\\.json$\"\"\", 1))\r\n\r\nval startTime = System.nanoTime()\r\n\r\n// Définition des features basées sur les types d'actions dans le match --> types d actions basiques\r\nval featureColumns2 = Seq(\r\n  (\"type.name\", \"Pass\", \"Pass_feature\"),\r\n  (\"type.name\", \"Shot\", \"Shot_feature\"),\r\n  (\"type.name\", \"Foul Won\", \"Foul_won_feature\"),\r\n  (\"type.name\", \"Foul Committed\", \"Foul_committed_feature\")\r\n)\r\n\r\n// Définition des features pour les cartons et actions spécifiques du gardien de but\r\nval featureColumns3 = Seq(\r\n  (\"type.name\", \"Bad Behaviour\", \"bad_behaviour.card.name\", \"Yellow Card\", \"Bad_Behaviour_Yellow_Card_feature\"),\r\n  (\"type.name\", \"Bad Behaviour\", \"bad_behaviour.card.name\", \"Second Yellow\", \"Bad_Behaviour_Second_Yellow_feature\"),\r\n  (\"type.name\", \"Goal Keeper\", \"goalkeeper.type.name\", \"Penalty Saved\", \"Goalkeeper_Penalty_Saved_feature\"),\r\n  (\"type.name\", \"Goal Keeper\", \"goalkeeper.type.name\", \"Punch\", \"Goalkeeper_Punch_feature\"),\r\n  (\"type.name\", \"Goal Keeper\", \"goalkeeper.type.name\", \"Save\", \"Goalkeeper_Save_feature\"),\r\n  (\"type.name\", \"Goal Keeper\", \"goalkeeper.type.name\", \"Shot Saved\", \"Goalkeeper_Shot_Saved_feature\"),\r\n  (\"type.name\", \"Goal Keeper\", \"goalkeeper.type.name\", \"Smother\", \"Goalkeeper_Smother_feature\"),\r\n  (\"type.name\", \"Goal Keeper\", \"goalkeeper.type.name\", \"Shot Saved To Post\", \"Goalkeeper_Shot_Saved_To_Post_feature\")\r\n)\r\n\r\n// Définition des features pour les cartons rouges et deuxiémes cartons\r\nval featureColumnsSeq = Seq(\r\n  (\"type.name\", \"Bad Behaviour\", \"bad_behaviour.card.name\", Seq(\"Red Card\", \"Second Yellow\"), \"Bad_Behaviour_Red_Card_feature\")\r\n)\r\n\r\n// Ajout des colonnes de features au DataFrame pour les types d'actions de base\r\nval updatedDf2 = featureColumns2.foldLeft(matchIdDf)((df, colInfo) => {\r\n  val (col1, col2, newCol) = colInfo // On prend la séquence 1 de features column comme exemple --> (\"type.name\", \"Pass\", \"Pass_feature\")\r\n  df.withColumn(newCol, when(col(col1) === col2, 1).otherwise(0)) // newCol = le nom de la nouvelle colonne dans matchIdDf,  si la col1 (type.name) est = Bad Behaviour alors on mets un 1 à cette emplacement sinon 0 et ainsi de suite pour chaque object\r\n})\r\n\r\n// Ajout des colonnes de features pour les cartons et actions spécifiques --> le fonctionnement est le meme que pour la fonction précédente\r\nval updatedDf3 = featureColumns3.foldLeft(updatedDf2)((df, colInfo) => {\r\n  val (col1, col2, col3, col4, newCol) = colInfo\r\n  df.withColumn(newCol, when(col(col1) === col2 && col(col3) === col4, 1).otherwise(0))\r\n})\r\n\r\n// Ajout des colonnes de features pour les cartons rouges et deuxiémes cartons --> le fonctionnement est le meme que pour la fonction précédente\r\nval updatedDfSeq = featureColumnsSeq.foldLeft(updatedDf3)((df, colInfo) => {\r\n  val (col1, col2, col3, col4, newCol) = colInfo\r\n  df.withColumn(newCol, when(col(col1) === col2 && col(col3).isin(col4: _*), 1).otherwise(0)) // la fonction col(col3).isin(col4: _*) permet de dire que si col3 contient une des valeurs dans col4 (Seq(\"Red Card\", \"Second Yellow\"))\r\n})\r\n\r\n// Agrégation des features par match et par équipe avec la somme de chaque --> renommé chaque colonne car plus simple\r\nval aggregatedDf = updatedDfSeq.groupBy(\"match_id\", \"possession_team.name\").agg(\r\n  sum(\"Pass_feature\").alias(\"Pass\"),\r\n  sum(\"Shot_feature\").alias(\"Shot\"),\r\n  sum(\"Foul_won_feature\").alias(\"Foul_won\"),\r\n  sum(\"Foul_committed_feature\").alias(\"Foul_committed\"),\r\n  sum(\"Bad_Behaviour_Yellow_Card_feature\").alias(\"Bad_Behaviour_Yellow_Card\"),\r\n  sum(\"Bad_Behaviour_Second_Yellow_feature\").alias(\"Bad_Behaviour_Second_Yellow\"),\r\n  sum(\"Bad_Behaviour_Red_Card_feature\").alias(\"Bad_Behaviour_Red_Card\"),\r\n  sum(\"Goalkeeper_Penalty_Saved_feature\").alias(\"Goalkeeper_Penalty_Saved\"),\r\n  sum(\"Goalkeeper_Punch_feature\").alias(\"Goalkeeper_Punch\"),\r\n  sum(\"Goalkeeper_Save_feature\").alias(\"Goalkeeper_Save\"),\r\n  sum(\"Goalkeeper_Shot_Saved_feature\").alias(\"Goalkeeper_Shot_Saved\"),\r\n  sum(\"Goalkeeper_Smother_feature\").alias(\"Goalkeeper_Smother\"),\r\n  sum(\"Goalkeeper_Shot_Saved_To_Post_feature\").alias(\"Goalkeeper_Shot_Saved_To_Post\")\r\n)\r\n\r\n// Jointure des données agrégées pour les deux équipes dans un même match\r\nval joinedDf = aggregatedDf.as(\"df1\")\r\n  .join(aggregatedDf.as(\"df2\"), col(\"df1.match_id\") === col(\"df2.match_id\") && col(\"df1.name\") < col(\"df2.name\"))\r\n  .select(\r\n    col(\"df1.match_id\"),\r\n    concat_ws(\" vs \", col(\"df1.name\"), col(\"df2.name\")).alias(\"match_teams\"),\r\n    col(\"df1.Pass\").alias(\"Pass_team1\"),\r\n    col(\"df2.Pass\").alias(\"Pass_team2\"),\r\n    col(\"df1.Shot\").alias(\"Shot_team1\"),\r\n    col(\"df2.Shot\").alias(\"Shot_team2\"),\r\n    col(\"df1.Foul_won\").alias(\"Foul_won_team1\"),\r\n    col(\"df2.Foul_won\").alias(\"Foul_won_team2\"),\r\n    col(\"df1.Foul_committed\").alias(\"Foul_committed_team1\"),\r\n    col(\"df2.Foul_committed\").alias(\"Foul_committed_team2\"),\r\n    col(\"df1.Bad_Behaviour_Yellow_Card\").alias(\"Bad_Behaviour_Yellow_Card_team1\"),\r\n    col(\"df2.Bad_Behaviour_Yellow_Card\").alias(\"Bad_Behaviour_Yellow_Card_team2\"),\r\n    (col(\"df1.Bad_Behaviour_Red_Card\") + col(\"df1.Bad_Behaviour_Second_Yellow\")).alias(\"total_red_cards_team1\"),\r\n    (col(\"df2.Bad_Behaviour_Red_Card\") + col(\"df2.Bad_Behaviour_Second_Yellow\")).alias(\"total_red_cards_team2\"),\r\n    (col(\"df1.Goalkeeper_Penalty_Saved\") +\r\n      col(\"df1.Goalkeeper_Punch\") +\r\n      col(\"df1.Goalkeeper_Save\") +\r\n      col(\"df1.Goalkeeper_Shot_Saved\") +\r\n      col(\"df1.Goalkeeper_Smother\") +\r\n      col(\"df1.Goalkeeper_Shot_Saved_To_Post\")).alias(\"total_actions_team1\"),\r\n    (col(\"df2.Goalkeeper_Penalty_Saved\") +\r\n      col(\"df2.Goalkeeper_Punch\") +\r\n      col(\"df2.Goalkeeper_Save\") +\r\n      col(\"df2.Goalkeeper_Shot_Saved\") +\r\n      col(\"df2.Goalkeeper_Smother\") +\r\n      col(\"df2.Goalkeeper_Shot_Saved_To_Post\")).alias(\"total_actions_team2\")\r\n  )\r\n\r\nval endTime = System.nanoTime()\r\nval duration = (endTime - startTime) / 1e9d\r\nprintln(s\"Time taken: $duration seconds\")\r\n",
@@ -217,11 +216,11 @@
           "values": [
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=14",
-              "$$hashKey": "object:9980"
+              "$$hashKey": "object:791"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=15",
-              "$$hashKey": "object:9981"
+              "$$hashKey": "object:792"
             }
           ],
           "interpreterSettingId": "spark"
@@ -234,7 +233,7 @@
       "dateStarted": "2024-05-20T06:42:13+0000",
       "dateFinished": "2024-05-20T06:45:17+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:247"
+      "$$hashKey": "object:190"
     },
     {
       "text": "%md\n# Load all matches from local file --> see other notebook",
@@ -278,12 +277,12 @@
       "dateStarted": "2024-05-22T19:45:33+0000",
       "dateFinished": "2024-05-22T19:45:33+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:248"
+      "$$hashKey": "object:191"
     },
     {
       "text": "import org.apache.spark.sql.SparkSession\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.DataFrame\n\nval spark = SparkSession.builder\n  .appName(\"Load Football Matches Analysis\")\n  .getOrCreate()\n\n\nval matchesDf = spark.read.parquet(\"./data/all_matches.parquet\")\n\nmatchesDf.printSchema()\nmatchesDf.show()\nval totalMatches = matchesDf.count()\nprintln(s\"Total number of matches: $totalMatches\")",
       "user": "anonymous",
-      "dateUpdated": "2024-05-20T06:45:17+0000",
+      "dateUpdated": "2024-05-22T19:44:36+0000",
       "progress": 0,
       "config": {
         "tableHide": true,
@@ -323,19 +322,19 @@
           "values": [
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=16",
-              "$$hashKey": "object:819"
+              "$$hashKey": "object:882"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=17",
-              "$$hashKey": "object:820"
+              "$$hashKey": "object:883"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=18",
-              "$$hashKey": "object:821"
+              "$$hashKey": "object:884"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=19",
-              "$$hashKey": "object:822"
+              "$$hashKey": "object:885"
             }
           ],
           "interpreterSettingId": "spark"
@@ -348,10 +347,12 @@
       "dateStarted": "2024-05-20T06:45:17+0000",
       "dateFinished": "2024-05-20T06:45:21+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:249"
+      "$$hashKey": "object:192"
     },
     {
+      "text": "%md\n\n### Ajouter aux vecteurs les derniers scores des équipes (2 derniers matchs) et ajouter une colonne y qui concerne l'équipe qui a gagner",
       "user": "anonymous",
+      "dateUpdated": "2024-05-22T19:46:33+0000",
       "progress": 0,
       "config": {
         "tableHide": false,
@@ -372,19 +373,6 @@
         "params": {},
         "forms": {}
       },
-      "apps": [],
-      "runtimeInfos": {},
-      "progressUpdateIntervalMs": 500,
-      "jobName": "paragraph_1716407150534_1871655634",
-      "id": "paragraph_1716407150534_1871655634",
-      "dateCreated": "2024-05-22T19:45:50+0000",
-      "status": "FINISHED",
-      "focus": true,
-      "$$hashKey": "object:10021",
-      "text": "%md\n\n### Ajouter aux vecteurs les derniers scores des équipes (2 derniers matchs) et ajouter une colonne y qui concerne l'équipe qui a gagner",
-      "dateUpdated": "2024-05-22T19:46:33+0000",
-      "dateFinished": "2024-05-22T19:46:33+0000",
-      "dateStarted": "2024-05-22T19:46:33+0000",
       "results": {
         "code": "SUCCESS",
         "msg": [
@@ -393,7 +381,17 @@
             "data": "<div class=\"markdown-body\">\n<h3>Ajouter aux vecteurs les derniers scores des équipes (2 derniers matchs) et ajouter une colonne y qui concerne l&rsquo;équipe qui a gagner</h3>\n\n</div>"
           }
         ]
-      }
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1716407150534_1871655634",
+      "id": "paragraph_1716407150534_1871655634",
+      "dateCreated": "2024-05-22T19:45:50+0000",
+      "dateStarted": "2024-05-22T19:46:33+0000",
+      "dateFinished": "2024-05-22T19:46:33+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:193"
     },
     {
       "text": "import org.apache.spark.sql.expressions.Window\r\nimport org.apache.spark.sql.functions._\r\n\r\n// Enrichir le DataFrame avec des informations supplémentaires sur les matchs\r\nval enrichedDf = joinedDf.join(matchesDf.select(\"match_id\", \"match_date\", \"home_team_id\", \"away_team_id\", \"home_score\", \"away_score\"), Seq(\"match_id\"))\r\n\r\n// Fonction pour calculer les résultats des deux derniers matchs pour une équipe donnée\r\ndef calculateLastTwoResults(teamId: String, teamColumn: String, scoreColumn: String, opponentScoreColumn: String): DataFrame = {\r\n    \r\n  // Définition d'une Window pour partitionner par équipe et ordonner par date de match en ordre décroissant\r\n  val windowSpec = Window.partitionBy(teamId).orderBy($\"match_date\".desc) // fonction très importante de trier par date\r\n\r\n  matchesDf\r\n    .withColumn(\"row_number\", row_number().over(windowSpec)) // Ajout d'un numéro de ligne pour chaque partition\r\n    .withColumn(\"result\", when(col(scoreColumn) > col(opponentScoreColumn), 1.0) // Calcul du résultat du match (1.0 pour victoire, 0.5 pour match nul, 0.0 pour défaite)\r\n                          .when(col(scoreColumn) === col(opponentScoreColumn), 0.5)\r\n                          .otherwise(0.0))\r\n    .filter($\"row_number\" <= 2) // Filtrer pour ne conserver que les deux derniers matchs\r\n    .groupBy(teamId) // GroupBy par équipe et agg les résultats des deux derniers matchs\r\n    .agg(sum(\"result\").alias(s\"${teamColumn}_results\"))\r\n    \r\n    // Normaliser les résultats sur une échelle de 0 à 1 (moyenne des deux derniers résultats)\r\n    .withColumn(s\"${teamColumn}_results\", when(col(s\"${teamColumn}_results\").isNull, 0.0)\r\n                                          .otherwise(col(s\"${teamColumn}_results\") / 2.0))\r\n}\r\n\r\n// Calcul des résultats des deux derniers matchs pour l'équipe à domicile et extérieur\r\nval homeTeamResults = calculateLastTwoResults(\"home_team_id\", \"team1\", \"home_score\", \"away_score\")\r\nval awayTeamResults = calculateLastTwoResults(\"away_team_id\", \"team2\", \"away_score\", \"home_score\")\r\n\r\n// Joindre les résultats calculés avec le nouveau df\r\nval finalDf = enrichedDf\r\n  .join(homeTeamResults, enrichedDf(\"home_team_id\") === homeTeamResults(\"home_team_id\"), \"left\")\r\n  .drop(homeTeamResults(\"home_team_id\"))\r\n  .join(awayTeamResults, enrichedDf(\"away_team_id\") === awayTeamResults(\"away_team_id\"), \"left\")\r\n  .drop(awayTeamResults(\"away_team_id\"))\r\n\r\n// Ajouter la colonne \"winning_team\" avec les valeurs \"home_team\", \"away_team\" ou \"draw\"\r\nval finalDfWithWinningTeam = finalDf.withColumn(\"winning_team\", \r\n  when(col(\"home_score\") > col(\"away_score\"), \"home_team\")\r\n  .when(col(\"home_score\") < col(\"away_score\"), \"away_team\")\r\n  .otherwise(\"draw\")\r\n)\r\n\r\nfinalDfWithWinningTeam.show()\r\n",
@@ -438,35 +436,35 @@
           "values": [
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=20",
-              "$$hashKey": "object:10548"
+              "$$hashKey": "object:983"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=21",
-              "$$hashKey": "object:10549"
+              "$$hashKey": "object:984"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=22",
-              "$$hashKey": "object:10550"
+              "$$hashKey": "object:985"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=23",
-              "$$hashKey": "object:10551"
+              "$$hashKey": "object:986"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=24",
-              "$$hashKey": "object:10552"
+              "$$hashKey": "object:987"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=25",
-              "$$hashKey": "object:10553"
+              "$$hashKey": "object:988"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=26",
-              "$$hashKey": "object:10554"
+              "$$hashKey": "object:989"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=27",
-              "$$hashKey": "object:10555"
+              "$$hashKey": "object:990"
             }
           ],
           "interpreterSettingId": "spark"
@@ -479,7 +477,7 @@
       "dateStarted": "2024-05-20T06:45:21+0000",
       "dateFinished": "2024-05-20T06:47:27+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:250"
+      "$$hashKey": "object:194"
     },
     {
       "text": "finalDfWithWinningTeam.printSchema()",
@@ -521,10 +519,12 @@
       "dateStarted": "2024-05-20T06:47:27+0000",
       "dateFinished": "2024-05-20T06:47:28+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:251"
+      "$$hashKey": "object:195"
     },
     {
+      "text": "%md\n\n### Dernier filtre du preprocessing du dataset\n\nPour cette analyse, nous avons décidé de retirer les matchs qui se sont terminés sur un score d'égalité. Cette décision est motivée par plusieurs essais préliminaires qui ont montré que le nombre de matchs nuls est très faible comparé aux matchs avec un vainqueur. Cela crée un \"unbalanced data\" dans les données, rendant l'amélioration de notre modèle très compliquée. En excluant ces matchs, nous avons pu obtenir des résultats plus fiables et une meilleure performance du modèle.\n\n",
       "user": "anonymous",
+      "dateUpdated": "2024-05-22T19:54:41+0000",
       "progress": 0,
       "config": {
         "tableHide": false,
@@ -545,19 +545,6 @@
         "params": {},
         "forms": {}
       },
-      "apps": [],
-      "runtimeInfos": {},
-      "progressUpdateIntervalMs": 500,
-      "jobName": "paragraph_1716407420725_748531510",
-      "id": "paragraph_1716407420725_748531510",
-      "dateCreated": "2024-05-22T19:50:20+0000",
-      "status": "FINISHED",
-      "focus": true,
-      "$$hashKey": "object:10588",
-      "text": "%md\n\n### Dernier filtre du preprocessing du dataset\n\nPour cette analyse, nous avons décidé de retirer les matchs qui se sont terminés sur un score d'égalité. Cette décision est motivée par plusieurs essais préliminaires qui ont montré que le nombre de matchs nuls est très faible comparé aux matchs avec un vainqueur. Cela crée un \"unbalanced data\" dans les données, rendant l'amélioration de notre modèle très compliquée. En excluant ces matchs, nous avons pu obtenir des résultats plus fiables et une meilleure performance du modèle.\n\n",
-      "dateUpdated": "2024-05-22T19:54:41+0000",
-      "dateFinished": "2024-05-22T19:54:41+0000",
-      "dateStarted": "2024-05-22T19:54:41+0000",
       "results": {
         "code": "SUCCESS",
         "msg": [
@@ -566,7 +553,17 @@
             "data": "<div class=\"markdown-body\">\n<h3>Dernier filtre du preprocessing du dataset</h3>\n<p>Pour cette analyse, nous avons décidé de retirer les matchs qui se sont terminés sur un score d&rsquo;égalité. Cette décision est motivée par plusieurs essais préliminaires qui ont montré que le nombre de matchs nuls est très faible comparé aux matchs avec un vainqueur. Cela crée un &ldquo;unbalanced data&rdquo; dans les données, rendant l&rsquo;amélioration de notre modèle très compliquée. En excluant ces matchs, nous avons pu obtenir des résultats plus fiables et une meilleure performance du modèle.</p>\n\n</div>"
           }
         ]
-      }
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1716407420725_748531510",
+      "id": "paragraph_1716407420725_748531510",
+      "dateCreated": "2024-05-22T19:50:20+0000",
+      "dateStarted": "2024-05-22T19:54:41+0000",
+      "dateFinished": "2024-05-22T19:54:41+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:196"
     },
     {
       "text": "val filteredDf = finalDfWithWinningTeam.filter(col(\"winning_team\") =!= \"draw\") // Filtrer le DataFrame pour ne conserver que les matchs avec un gagnant (exclure les matchs nuls) comme dit\r\n\r\n\r\n//Afficher les victoires des 2 équipes\r\nval teamWins = filteredDf.groupBy(\"winning_team\").count()\r\nteamWins.show()",
@@ -609,43 +606,43 @@
           "values": [
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=961",
-              "$$hashKey": "object:10760"
+              "$$hashKey": "object:1144"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=962",
-              "$$hashKey": "object:10761"
+              "$$hashKey": "object:1145"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=963",
-              "$$hashKey": "object:10762"
+              "$$hashKey": "object:1146"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=964",
-              "$$hashKey": "object:10763"
+              "$$hashKey": "object:1147"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=965",
-              "$$hashKey": "object:10764"
+              "$$hashKey": "object:1148"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=966",
-              "$$hashKey": "object:10765"
+              "$$hashKey": "object:1149"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=967",
-              "$$hashKey": "object:10766"
+              "$$hashKey": "object:1150"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=968",
-              "$$hashKey": "object:10767"
+              "$$hashKey": "object:1151"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=969",
-              "$$hashKey": "object:10768"
+              "$$hashKey": "object:1152"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=970",
-              "$$hashKey": "object:10769"
+              "$$hashKey": "object:1153"
             }
           ],
           "interpreterSettingId": "spark"
@@ -658,12 +655,12 @@
       "dateStarted": "2024-05-20T10:25:47+0000",
       "dateFinished": "2024-05-20T10:27:33+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:252"
+      "$$hashKey": "object:197"
     },
     {
-      "text": "%md\n\n# Machine Learning with Spark ML",
+      "text": "%md\n\n# Machine Learning avec Spark ML\n\nCi-dessous, vous trouverez le code utilisé pour construire notre modèle. Comme discuté en cours, nous avons créé une pipeline pour entraîner un modèle capable de prédire avec précision les résultats des matchs. Il est important de noter que nous avons testé plusieurs configurations, et que le meilleur résultat obtenu est présenté ici.\n\nInitialement, nous avons exploré diverses combinaisons, notamment l'utilisation d'une classe \"égalité\" supplémentaire, qui, comme mentionné précédemment, conduisait à un dataset déséquilibré. Nous avons également testé différents classificateurs tels que SVC, Decision Tree et Bayes. Cependant, nous avons rencontré certains problèmes avec ces approches et avons finalement retenu les modèles suivants pour notre pipeline :\n\n- **RandomForestClassifier**\n- **LogisticRegression**\n\nLe code est commenté pour faciliter la compréhension du processus :\n\n---",
       "user": "anonymous",
-      "dateUpdated": "2024-05-22T19:55:20+0000",
+      "dateUpdated": "2024-05-23T05:55:05+0000",
       "progress": 0,
       "config": {
         "tableHide": false,
@@ -689,7 +686,7 @@
         "msg": [
           {
             "type": "HTML",
-            "data": "<div class=\"markdown-body\">\n<h1>Machine Learning with Spark ML</h1>\n\n</div>"
+            "data": "<div class=\"markdown-body\">\n<h1>Machine Learning avec Spark ML</h1>\n<p>Ci-dessous, vous trouverez le code utilisé pour construire notre modèle. Comme discuté en cours, nous avons créé une pipeline pour entraîner un modèle capable de prédire avec précision les résultats des matchs. Il est important de noter que nous avons testé plusieurs configurations, et que le meilleur résultat obtenu est présenté ici.</p>\n<p>Initialement, nous avons exploré diverses combinaisons, notamment l&rsquo;utilisation d&rsquo;une classe &ldquo;égalité&rdquo; supplémentaire, qui, comme mentionné précédemment, conduisait à un dataset déséquilibré. Nous avons également testé différents classificateurs tels que SVC, Decision Tree et Bayes. Cependant, nous avons rencontré certains problèmes avec ces approches et avons finalement retenu les modèles suivants pour notre pipeline :</p>\n<ul>\n<li><strong>RandomForestClassifier</strong></li>\n<li><strong>LogisticRegression</strong></li>\n</ul>\n<p>Le code est commenté pour faciliter la compréhension du processus :</p>\n<hr />\n\n</div>"
           }
         ]
       },
@@ -699,15 +696,15 @@
       "jobName": "paragraph_1716144886274_526549495",
       "id": "paragraph_1716144886274_526549495",
       "dateCreated": "2024-05-19T18:54:46+0000",
-      "dateStarted": "2024-05-22T19:55:20+0000",
-      "dateFinished": "2024-05-22T19:55:20+0000",
+      "dateStarted": "2024-05-23T05:55:05+0000",
+      "dateFinished": "2024-05-23T05:55:08+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:253"
+      "$$hashKey": "object:198"
     },
     {
-      "text": "import org.apache.spark.ml.{Pipeline, PipelineModel}\r\nimport org.apache.spark.ml.feature.{VectorAssembler, StringIndexer, OneHotEncoder}\r\nimport org.apache.spark.ml.classification.LogisticRegression\r\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\r\nimport org.apache.spark.sql.SparkSession\r\nimport org.apache.spark.sql.functions._\r\nimport org.apache.spark.sql.types._\r\n\r\nval spark = SparkSession.builder()\r\n  .appName(\"WinningTeamPrediction\")\r\n  .getOrCreate()\r\n\r\nval schema = new StructType()\r\n  .add(\"match_id\", StringType, false)\r\n  .add(\"match_teams\", StringType, false)\r\n  .add(\"Pass_team1\", LongType, true)\r\n  .add(\"Pass_team2\", LongType, true)\r\n  .add(\"Shot_team1\", LongType, true)\r\n  .add(\"Shot_team2\", LongType, true)\r\n  .add(\"Foul_won_team1\", LongType, true)\r\n  .add(\"Foul_won_team2\", LongType, true)\r\n  .add(\"Foul_committed_team1\", LongType, true)\r\n  .add(\"Foul_committed_team2\", LongType, true)\r\n  .add(\"Bad_Behaviour_Yellow_Card_team1\", LongType, true)\r\n  .add(\"Bad_Behaviour_Yellow_Card_team2\", LongType, true)\r\n  .add(\"total_red_cards_team1\", LongType, true)\r\n  .add(\"total_red_cards_team2\", LongType, true)\r\n  .add(\"total_actions_team1\", LongType, true)\r\n  .add(\"total_actions_team2\", LongType, true)\r\n  .add(\"match_date\", StringType, true)\r\n  .add(\"home_score\", LongType, true)\r\n  .add(\"away_score\", LongType, true)\r\n  .add(\"home_team_id\", LongType, true)\r\n  .add(\"team1_results\", DoubleType, true)\r\n  .add(\"away_team_id\", LongType, true)\r\n  .add(\"team2_results\", DoubleType, true)\r\n  .add(\"winning_team\", StringType, false)\r\n",
+      "text": "import org.apache.spark.ml.{Pipeline, PipelineModel}\r\nimport org.apache.spark.ml.feature.{VectorAssembler, StringIndexer, OneHotEncoder}\r\nimport org.apache.spark.ml.classification.LogisticRegression\r\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\r\nimport org.apache.spark.sql.SparkSession\r\nimport org.apache.spark.sql.functions._\r\nimport org.apache.spark.sql.types._\r\n\r\n\r\n// Initialisation de la session Spark\r\nval spark = SparkSession.builder()\r\n  .appName(\"WinningTeamPrediction\")  \r\n  .getOrCreate()                    \r\n\r\n// Définition du schéma pour le DataFrame --> utile pour définir quel features ont veut utiliser lors de l'entrainement\r\nval schema = new StructType()\r\n  // Ajout des colonnes avec leur nom, type et utilisation ou non\r\n  .add(\"match_id\", StringType, false)                       // Id\r\n  .add(\"match_teams\", StringType, false)                    // Noms des équipes\r\n  .add(\"Pass_team1\", LongType, true)                        // Nombre de passes de l'équipe 1\r\n  .add(\"Pass_team2\", LongType, true)                        // Nombre de passes de l'équipe 2\r\n  .add(\"Shot_team1\", LongType, true)                        // Nombre de tirs de l'équipe 1\r\n  .add(\"Shot_team2\", LongType, true)                        // Nombre de tirs de l'équipe 2\r\n  .add(\"Foul_won_team1\", LongType, true)                    // Fautes subies par l'équipe 1\r\n  .add(\"Foul_won_team2\", LongType, true)                    // Fautes subies par l'équipe 2\r\n  .add(\"Foul_committed_team1\", LongType, true)              // Fautes commises par l'équipe 1\r\n  .add(\"Foul_committed_team2\", LongType, true)              // Fautes commises par l'équipe 2\r\n  .add(\"Bad_Behaviour_Yellow_Card_team1\", LongType, true)   // Cartons jaunes de l'équipe 1\r\n  .add(\"Bad_Behaviour_Yellow_Card_team2\", LongType, true)   // Cartons jaunes de l'équipe 2\r\n  .add(\"total_red_cards_team1\", LongType, true)             // Total des cartons rouges de l'équipe 1\r\n  .add(\"total_red_cards_team2\", LongType, true)             // Total des cartons rouges de l'équipe 2\r\n  .add(\"total_actions_team1\", LongType, true)               // Total des actions de l'équipe 1\r\n  .add(\"total_actions_team2\", LongType, true)               // Total des actions de l'équipe 2\r\n  .add(\"match_date\", StringType, true)                      \r\n  .add(\"home_score\", LongType, true)                        // Score de l'équipe à domicile\r\n  .add(\"away_score\", LongType, true)                        // Score de l'équipe à l'extérieur\r\n  .add(\"home_team_id\", LongType, true)                      // ID de l'équipe à domicile\r\n  .add(\"team1_results\", DoubleType, true)                   // Résultats de l'équipe 1\r\n  .add(\"away_team_id\", LongType, true)                      // ID de l'équipe à l'extérieur\r\n  .add(\"team2_results\", DoubleType, true)                   // Résultats de l'équipe 2\r\n  .add(\"winning_team\", StringType, false)                   // Équipe gagnante\r\n\r\n",
       "user": "anonymous",
-      "dateUpdated": "2024-05-22T18:35:53+0000",
+      "dateUpdated": "2024-05-23T06:00:49+0000",
       "progress": 0,
       "config": {
         "editorSetting": {
@@ -744,12 +741,12 @@
       "dateStarted": "2024-05-20T10:27:33+0000",
       "dateFinished": "2024-05-20T10:27:34+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:254"
+      "$$hashKey": "object:199"
     },
     {
-      "text": "import org.apache.spark.ml.classification.{LogisticRegression, LinearSVC, GBTClassifier, RandomForestClassifier}\r\nimport org.apache.spark.ml.tuning.{ParamGridBuilder, CrossValidator}\r\n\r\n// Step 1\r\nval featureCols = Array(\"Pass_team1\", \"Pass_team2\", \"Shot_team1\", \"Shot_team2\", \"Foul_won_team1\", \"Foul_won_team2\", \r\n  \"Foul_committed_team1\", \"Foul_committed_team2\", \"Bad_Behaviour_Yellow_Card_team1\", \r\n  \"Bad_Behaviour_Yellow_Card_team2\", \"total_red_cards_team1\", \"total_red_cards_team2\", \r\n  \"total_actions_team1\", \"total_actions_team2\", \"team1_results\", \"team2_results\")\r\n\r\nval assembler = new VectorAssembler()\r\n  .setInputCols(featureCols)\r\n  .setOutputCol(\"features\")\r\n\r\n// Step 2\r\nval labelIndexer = new StringIndexer()\r\n  .setInputCol(\"winning_team\")\r\n  .setOutputCol(\"label\")\r\n  .fit(filteredDf)\r\n\r\nval indexedData = labelIndexer.transform(filteredDf)\r\n\r\n// Step 3\r\nval Array(trainingData, testData) = indexedData.randomSplit(Array(0.8, 0.2))\r\n\r\n// Step 4\r\nval lr = new LogisticRegression()\r\n  .setLabelCol(\"label\")\r\n  .setFeaturesCol(\"features\")\r\n  .setMaxIter(10)\r\n\r\nval rf = new RandomForestClassifier()\r\n  .setLabelCol(\"label\")\r\n  .setFeaturesCol(\"features\")\r\n\r\n// Step 5\r\nval lrParamGrid = new ParamGridBuilder()\r\n  .addGrid(lr.regParam, Array(0.1, 0.01))\r\n  .addGrid(lr.elasticNetParam, Array(0.0, 0.5, 1.0))\r\n  .build()\r\n\r\nval rfParamGrid = new ParamGridBuilder()\r\n  .addGrid(rf.numTrees, Array(20, 50))\r\n  .addGrid(rf.maxDepth, Array(5, 10))\r\n  .build()\r\n\r\n// Step 6\r\nval evaluator = new MulticlassClassificationEvaluator()\r\n  .setLabelCol(\"label\")\r\n  .setPredictionCol(\"prediction\")\r\n  .setMetricName(\"accuracy\")\r\n\r\n// Step 7\r\nval lrCv = new CrossValidator()\r\n  .setEstimator(lr)\r\n  .setEvaluator(evaluator)\r\n  .setEstimatorParamMaps(lrParamGrid)\r\n  .setNumFolds(3)\r\n\r\nval rfCv = new CrossValidator()\r\n  .setEstimator(rf)\r\n  .setEvaluator(evaluator)\r\n  .setEstimatorParamMaps(rfParamGrid)\r\n  .setNumFolds(3)\r\n\r\n// Step 8\r\nval lrPipeline = new Pipeline().setStages(Array(assembler, lrCv))\r\nval rfPipeline = new Pipeline().setStages(Array(assembler, rfCv))\r\n\r\n// Train the models\r\nval lrModel = lrPipeline.fit(trainingData)\r\nval rfModel = rfPipeline.fit(trainingData)\r\n\r\n// Make predictions\r\nval lrPredictions = lrModel.transform(testData)\r\nval rfPredictions = rfModel.transform(testData)\r\n\r\n// Evaluate the models\r\nval lrAccuracy = evaluator.evaluate(lrPredictions)\r\nval rfAccuracy = evaluator.evaluate(rfPredictions)\r\n\r\nprintln(s\"Logistic Regression Test set accuracy = $lrAccuracy\")\r\nprintln(s\"Random Forest Test set accuracy = $rfAccuracy\")\r\n\r\n//lrPredictions.select(\"match_id\", \"winning_team\", \"prediction\").show(10)\r\n//rfPredictions.select(\"match_id\", \"winning_team\", \"prediction\").show(10)",
+      "text": "import org.apache.spark.ml.classification.{LogisticRegression, LinearSVC, GBTClassifier, RandomForestClassifier}\r\nimport org.apache.spark.ml.tuning.{ParamGridBuilder, CrossValidator}\r\n\r\n// 1. Définir les colonnes de features et assembler les features en un vecteur\r\n\r\nval featureCols = Array(\"Pass_team1\", \"Pass_team2\", \"Shot_team1\", \"Shot_team2\", \"Foul_won_team1\", \"Foul_won_team2\", \r\n  \"Foul_committed_team1\", \"Foul_committed_team2\", \"Bad_Behaviour_Yellow_Card_team1\", \r\n  \"Bad_Behaviour_Yellow_Card_team2\", \"total_red_cards_team1\", \"total_red_cards_team2\", \r\n  \"total_actions_team1\", \"total_actions_team2\", \"team1_results\", \"team2_results\")\r\n\r\nval assembler = new VectorAssembler()\r\n  .setInputCols(featureCols)\r\n  .setOutputCol(\"features\")\r\n\r\n// 2. index la colonne de labels --> https://stackoverflow.com/questions/54497622/spark-scala-new-pipline-for-stringindexer-multiple-columns\r\nval labelIndexer = new StringIndexer()\r\n  .setInputCol(\"winning_team\")\r\n  .setOutputCol(\"label\")\r\n  .fit(filteredDf)\r\n\r\nval indexedData = labelIndexer.transform(filteredDf) // Transformer les do pour inclure les labels indexés du coup\r\n\r\n// 3. Split les données en set de train et de test\r\nval Array(trainingData, testData) = indexedData.randomSplit(Array(0.8, 0.2))\r\n\r\n// 4. Définir les modèles de classification\r\nval lr = new LogisticRegression()\r\n  .setLabelCol(\"label\")\r\n  .setFeaturesCol(\"features\")\r\n  .setMaxIter(10)\r\n\r\nval rf = new RandomForestClassifier()\r\n  .setLabelCol(\"label\")\r\n  .setFeaturesCol(\"features\")\r\n\r\n// 5. Construire les ParamGrid pour tester plusieurs paramètres (on peut mettre beaucoup plus)\r\nval lrParamGrid = new ParamGridBuilder() // --> logistic regression\r\n  .addGrid(lr.regParam, Array(0.1, 0.01))\r\n  .addGrid(lr.elasticNetParam, Array(0.0, 0.5, 1.0))\r\n  .build()\r\n\r\nval rfParamGrid = new ParamGridBuilder() // --> random forest\r\n  .addGrid(rf.numTrees, Array(20, 50))\r\n  .addGrid(rf.maxDepth, Array(5, 10))\r\n  .build()\r\n\r\n// 6. Définir l'évaluateur pour mesurer la précision ou autres\r\nval evaluator = new MulticlassClassificationEvaluator()\r\n  .setLabelCol(\"label\")\r\n  .setPredictionCol(\"prediction\")\r\n  .setMetricName(\"accuracy\")\r\n\r\n// 7. Configurer la cross validation\r\nval lrCv = new CrossValidator() // --> logistic regression\r\n  .setEstimator(lr)\r\n  .setEvaluator(evaluator)\r\n  .setEstimatorParamMaps(lrParamGrid)\r\n  .setNumFolds(3)\r\n\r\nval rfCv = new CrossValidator() // --> random forest\r\n  .setEstimator(rf)\r\n  .setEvaluator(evaluator)\r\n  .setEstimatorParamMaps(rfParamGrid)\r\n  .setNumFolds(3)\r\n\r\n// 8. Création des pipelines pour chaque modèle (comme dans la documentation)\r\nval lrPipeline = new Pipeline().setStages(Array(assembler, lrCv)) // --> logistic regression\r\nval rfPipeline = new Pipeline().setStages(Array(assembler, rfCv)) // --> random forest\r\n\r\n// Train\r\nval lrModel = lrPipeline.fit(trainingData) // --> logistic regression\r\nval rfModel = rfPipeline.fit(trainingData) // --> random forest\r\n\r\n// Faire les prédictions\r\nval lrPredictions = lrModel.transform(testData) // --> logistic regression\r\nval rfPredictions = rfModel.transform(testData) // --> random forest\r\n\r\n// Evaluer les modèles\r\nval lrAccuracy = evaluator.evaluate(lrPredictions) // --> logistic regression\r\nval rfAccuracy = evaluator.evaluate(rfPredictions) // --> random forest\r\n\r\nprintln(s\"Logistic Regression Test set accuracy = $lrAccuracy\") \r\nprintln(s\"Random Forest Test set accuracy = $rfAccuracy\")\r\n\r\n//lrPredictions.select(\"match_id\", \"winning_team\", \"prediction\").show(10)\r\n//rfPredictions.select(\"match_id\", \"winning_team\", \"prediction\").show(10)",
       "user": "anonymous",
-      "dateUpdated": "2024-05-22T18:36:42+0000",
+      "dateUpdated": "2024-05-23T06:47:41+0000",
       "progress": 0,
       "config": {
         "editorSetting": {
@@ -787,2127 +784,2127 @@
           "values": [
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=971",
-              "$$hashKey": "object:6828"
+              "$$hashKey": "object:12213"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=972",
-              "$$hashKey": "object:6829"
+              "$$hashKey": "object:12214"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=973",
-              "$$hashKey": "object:6830"
+              "$$hashKey": "object:12215"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=974",
-              "$$hashKey": "object:6831"
+              "$$hashKey": "object:12216"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=975",
-              "$$hashKey": "object:6832"
+              "$$hashKey": "object:12217"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=976",
-              "$$hashKey": "object:6833"
+              "$$hashKey": "object:12218"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=977",
-              "$$hashKey": "object:6834"
+              "$$hashKey": "object:12219"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=978",
-              "$$hashKey": "object:6835"
+              "$$hashKey": "object:12220"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=979",
-              "$$hashKey": "object:6836"
+              "$$hashKey": "object:12221"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=980",
-              "$$hashKey": "object:6837"
+              "$$hashKey": "object:12222"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=981",
-              "$$hashKey": "object:6838"
+              "$$hashKey": "object:12223"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=982",
-              "$$hashKey": "object:6839"
+              "$$hashKey": "object:12224"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=983",
-              "$$hashKey": "object:6840"
+              "$$hashKey": "object:12225"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=984",
-              "$$hashKey": "object:6841"
+              "$$hashKey": "object:12226"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=985",
-              "$$hashKey": "object:6842"
+              "$$hashKey": "object:12227"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=986",
-              "$$hashKey": "object:6843"
+              "$$hashKey": "object:12228"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=987",
-              "$$hashKey": "object:6844"
+              "$$hashKey": "object:12229"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=988",
-              "$$hashKey": "object:6845"
+              "$$hashKey": "object:12230"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=989",
-              "$$hashKey": "object:6846"
+              "$$hashKey": "object:12231"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=990",
-              "$$hashKey": "object:6847"
+              "$$hashKey": "object:12232"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=991",
-              "$$hashKey": "object:6848"
+              "$$hashKey": "object:12233"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=992",
-              "$$hashKey": "object:6849"
+              "$$hashKey": "object:12234"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=993",
-              "$$hashKey": "object:6850"
+              "$$hashKey": "object:12235"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=994",
-              "$$hashKey": "object:6851"
+              "$$hashKey": "object:12236"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=995",
-              "$$hashKey": "object:6852"
+              "$$hashKey": "object:12237"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=996",
-              "$$hashKey": "object:6853"
+              "$$hashKey": "object:12238"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=997",
-              "$$hashKey": "object:6854"
+              "$$hashKey": "object:12239"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=998",
-              "$$hashKey": "object:6855"
+              "$$hashKey": "object:12240"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=999",
-              "$$hashKey": "object:6856"
+              "$$hashKey": "object:12241"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1000",
-              "$$hashKey": "object:6857"
+              "$$hashKey": "object:12242"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1001",
-              "$$hashKey": "object:6858"
+              "$$hashKey": "object:12243"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1002",
-              "$$hashKey": "object:6859"
+              "$$hashKey": "object:12244"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1003",
-              "$$hashKey": "object:6860"
+              "$$hashKey": "object:12245"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1004",
-              "$$hashKey": "object:6861"
+              "$$hashKey": "object:12246"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1005",
-              "$$hashKey": "object:6862"
+              "$$hashKey": "object:12247"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1006",
-              "$$hashKey": "object:6863"
+              "$$hashKey": "object:12248"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1007",
-              "$$hashKey": "object:6864"
+              "$$hashKey": "object:12249"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1008",
-              "$$hashKey": "object:6865"
+              "$$hashKey": "object:12250"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1009",
-              "$$hashKey": "object:6866"
+              "$$hashKey": "object:12251"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1010",
-              "$$hashKey": "object:6867"
+              "$$hashKey": "object:12252"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1011",
-              "$$hashKey": "object:6868"
+              "$$hashKey": "object:12253"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1012",
-              "$$hashKey": "object:6869"
+              "$$hashKey": "object:12254"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1013",
-              "$$hashKey": "object:6870"
+              "$$hashKey": "object:12255"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1014",
-              "$$hashKey": "object:6871"
+              "$$hashKey": "object:12256"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1015",
-              "$$hashKey": "object:6872"
+              "$$hashKey": "object:12257"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1016",
-              "$$hashKey": "object:6873"
+              "$$hashKey": "object:12258"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1017",
-              "$$hashKey": "object:6874"
+              "$$hashKey": "object:12259"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1018",
-              "$$hashKey": "object:6875"
+              "$$hashKey": "object:12260"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1019",
-              "$$hashKey": "object:6876"
+              "$$hashKey": "object:12261"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1020",
-              "$$hashKey": "object:6877"
+              "$$hashKey": "object:12262"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1021",
-              "$$hashKey": "object:6878"
+              "$$hashKey": "object:12263"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1022",
-              "$$hashKey": "object:6879"
+              "$$hashKey": "object:12264"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1023",
-              "$$hashKey": "object:6880"
+              "$$hashKey": "object:12265"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1024",
-              "$$hashKey": "object:6881"
+              "$$hashKey": "object:12266"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1025",
-              "$$hashKey": "object:6882"
+              "$$hashKey": "object:12267"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1026",
-              "$$hashKey": "object:6883"
+              "$$hashKey": "object:12268"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1027",
-              "$$hashKey": "object:6884"
+              "$$hashKey": "object:12269"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1028",
-              "$$hashKey": "object:6885"
+              "$$hashKey": "object:12270"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1029",
-              "$$hashKey": "object:6886"
+              "$$hashKey": "object:12271"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1030",
-              "$$hashKey": "object:6887"
+              "$$hashKey": "object:12272"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1031",
-              "$$hashKey": "object:6888"
+              "$$hashKey": "object:12273"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1032",
-              "$$hashKey": "object:6889"
+              "$$hashKey": "object:12274"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1033",
-              "$$hashKey": "object:6890"
+              "$$hashKey": "object:12275"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1034",
-              "$$hashKey": "object:6891"
+              "$$hashKey": "object:12276"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1035",
-              "$$hashKey": "object:6892"
+              "$$hashKey": "object:12277"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1036",
-              "$$hashKey": "object:6893"
+              "$$hashKey": "object:12278"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1037",
-              "$$hashKey": "object:6894"
+              "$$hashKey": "object:12279"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1038",
-              "$$hashKey": "object:6895"
+              "$$hashKey": "object:12280"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1039",
-              "$$hashKey": "object:6896"
+              "$$hashKey": "object:12281"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1040",
-              "$$hashKey": "object:6897"
+              "$$hashKey": "object:12282"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1041",
-              "$$hashKey": "object:6898"
+              "$$hashKey": "object:12283"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1042",
-              "$$hashKey": "object:6899"
+              "$$hashKey": "object:12284"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1043",
-              "$$hashKey": "object:6900"
+              "$$hashKey": "object:12285"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1044",
-              "$$hashKey": "object:6901"
+              "$$hashKey": "object:12286"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1045",
-              "$$hashKey": "object:6902"
+              "$$hashKey": "object:12287"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1046",
-              "$$hashKey": "object:6903"
+              "$$hashKey": "object:12288"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1047",
-              "$$hashKey": "object:6904"
+              "$$hashKey": "object:12289"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1048",
-              "$$hashKey": "object:6905"
+              "$$hashKey": "object:12290"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1049",
-              "$$hashKey": "object:6906"
+              "$$hashKey": "object:12291"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1050",
-              "$$hashKey": "object:6907"
+              "$$hashKey": "object:12292"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1051",
-              "$$hashKey": "object:6908"
+              "$$hashKey": "object:12293"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1052",
-              "$$hashKey": "object:6909"
+              "$$hashKey": "object:12294"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1053",
-              "$$hashKey": "object:6910"
+              "$$hashKey": "object:12295"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1054",
-              "$$hashKey": "object:6911"
+              "$$hashKey": "object:12296"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1055",
-              "$$hashKey": "object:6912"
+              "$$hashKey": "object:12297"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1056",
-              "$$hashKey": "object:6913"
+              "$$hashKey": "object:12298"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1057",
-              "$$hashKey": "object:6914"
+              "$$hashKey": "object:12299"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1058",
-              "$$hashKey": "object:6915"
+              "$$hashKey": "object:12300"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1059",
-              "$$hashKey": "object:6916"
+              "$$hashKey": "object:12301"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1060",
-              "$$hashKey": "object:6917"
+              "$$hashKey": "object:12302"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1061",
-              "$$hashKey": "object:6918"
+              "$$hashKey": "object:12303"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1062",
-              "$$hashKey": "object:6919"
+              "$$hashKey": "object:12304"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1063",
-              "$$hashKey": "object:6920"
+              "$$hashKey": "object:12305"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1064",
-              "$$hashKey": "object:6921"
+              "$$hashKey": "object:12306"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1065",
-              "$$hashKey": "object:6922"
+              "$$hashKey": "object:12307"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1066",
-              "$$hashKey": "object:6923"
+              "$$hashKey": "object:12308"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1067",
-              "$$hashKey": "object:6924"
+              "$$hashKey": "object:12309"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1068",
-              "$$hashKey": "object:6925"
+              "$$hashKey": "object:12310"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1069",
-              "$$hashKey": "object:6926"
+              "$$hashKey": "object:12311"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1070",
-              "$$hashKey": "object:6927"
+              "$$hashKey": "object:12312"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1071",
-              "$$hashKey": "object:6928"
+              "$$hashKey": "object:12313"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1072",
-              "$$hashKey": "object:6929"
+              "$$hashKey": "object:12314"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1073",
-              "$$hashKey": "object:6930"
+              "$$hashKey": "object:12315"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1074",
-              "$$hashKey": "object:6931"
+              "$$hashKey": "object:12316"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1075",
-              "$$hashKey": "object:6932"
+              "$$hashKey": "object:12317"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1076",
-              "$$hashKey": "object:6933"
+              "$$hashKey": "object:12318"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1077",
-              "$$hashKey": "object:6934"
+              "$$hashKey": "object:12319"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1078",
-              "$$hashKey": "object:6935"
+              "$$hashKey": "object:12320"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1079",
-              "$$hashKey": "object:6936"
+              "$$hashKey": "object:12321"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1080",
-              "$$hashKey": "object:6937"
+              "$$hashKey": "object:12322"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1081",
-              "$$hashKey": "object:6938"
+              "$$hashKey": "object:12323"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1082",
-              "$$hashKey": "object:6939"
+              "$$hashKey": "object:12324"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1083",
-              "$$hashKey": "object:6940"
+              "$$hashKey": "object:12325"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1084",
-              "$$hashKey": "object:6941"
+              "$$hashKey": "object:12326"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1085",
-              "$$hashKey": "object:6942"
+              "$$hashKey": "object:12327"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1086",
-              "$$hashKey": "object:6943"
+              "$$hashKey": "object:12328"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1087",
-              "$$hashKey": "object:6944"
+              "$$hashKey": "object:12329"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1088",
-              "$$hashKey": "object:6945"
+              "$$hashKey": "object:12330"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1089",
-              "$$hashKey": "object:6946"
+              "$$hashKey": "object:12331"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1090",
-              "$$hashKey": "object:6947"
+              "$$hashKey": "object:12332"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1091",
-              "$$hashKey": "object:6948"
+              "$$hashKey": "object:12333"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1092",
-              "$$hashKey": "object:6949"
+              "$$hashKey": "object:12334"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1093",
-              "$$hashKey": "object:6950"
+              "$$hashKey": "object:12335"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1094",
-              "$$hashKey": "object:6951"
+              "$$hashKey": "object:12336"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1095",
-              "$$hashKey": "object:6952"
+              "$$hashKey": "object:12337"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1096",
-              "$$hashKey": "object:6953"
+              "$$hashKey": "object:12338"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1097",
-              "$$hashKey": "object:6954"
+              "$$hashKey": "object:12339"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1098",
-              "$$hashKey": "object:6955"
+              "$$hashKey": "object:12340"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1099",
-              "$$hashKey": "object:6956"
+              "$$hashKey": "object:12341"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1100",
-              "$$hashKey": "object:6957"
+              "$$hashKey": "object:12342"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1101",
-              "$$hashKey": "object:6958"
+              "$$hashKey": "object:12343"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1102",
-              "$$hashKey": "object:6959"
+              "$$hashKey": "object:12344"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1103",
-              "$$hashKey": "object:6960"
+              "$$hashKey": "object:12345"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1104",
-              "$$hashKey": "object:6961"
+              "$$hashKey": "object:12346"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1105",
-              "$$hashKey": "object:6962"
+              "$$hashKey": "object:12347"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1106",
-              "$$hashKey": "object:6963"
+              "$$hashKey": "object:12348"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1107",
-              "$$hashKey": "object:6964"
+              "$$hashKey": "object:12349"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1108",
-              "$$hashKey": "object:6965"
+              "$$hashKey": "object:12350"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1109",
-              "$$hashKey": "object:6966"
+              "$$hashKey": "object:12351"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1110",
-              "$$hashKey": "object:6967"
+              "$$hashKey": "object:12352"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1111",
-              "$$hashKey": "object:6968"
+              "$$hashKey": "object:12353"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1112",
-              "$$hashKey": "object:6969"
+              "$$hashKey": "object:12354"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1113",
-              "$$hashKey": "object:6970"
+              "$$hashKey": "object:12355"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1114",
-              "$$hashKey": "object:6971"
+              "$$hashKey": "object:12356"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1115",
-              "$$hashKey": "object:6972"
+              "$$hashKey": "object:12357"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1116",
-              "$$hashKey": "object:6973"
+              "$$hashKey": "object:12358"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1117",
-              "$$hashKey": "object:6974"
+              "$$hashKey": "object:12359"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1118",
-              "$$hashKey": "object:6975"
+              "$$hashKey": "object:12360"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1119",
-              "$$hashKey": "object:6976"
+              "$$hashKey": "object:12361"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1120",
-              "$$hashKey": "object:6977"
+              "$$hashKey": "object:12362"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1121",
-              "$$hashKey": "object:6978"
+              "$$hashKey": "object:12363"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1122",
-              "$$hashKey": "object:6979"
+              "$$hashKey": "object:12364"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1123",
-              "$$hashKey": "object:6980"
+              "$$hashKey": "object:12365"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1124",
-              "$$hashKey": "object:6981"
+              "$$hashKey": "object:12366"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1125",
-              "$$hashKey": "object:6982"
+              "$$hashKey": "object:12367"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1126",
-              "$$hashKey": "object:6983"
+              "$$hashKey": "object:12368"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1127",
-              "$$hashKey": "object:6984"
+              "$$hashKey": "object:12369"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1128",
-              "$$hashKey": "object:6985"
+              "$$hashKey": "object:12370"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1129",
-              "$$hashKey": "object:6986"
+              "$$hashKey": "object:12371"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1130",
-              "$$hashKey": "object:6987"
+              "$$hashKey": "object:12372"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1131",
-              "$$hashKey": "object:6988"
+              "$$hashKey": "object:12373"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1132",
-              "$$hashKey": "object:6989"
+              "$$hashKey": "object:12374"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1133",
-              "$$hashKey": "object:6990"
+              "$$hashKey": "object:12375"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1134",
-              "$$hashKey": "object:6991"
+              "$$hashKey": "object:12376"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1135",
-              "$$hashKey": "object:6992"
+              "$$hashKey": "object:12377"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1136",
-              "$$hashKey": "object:6993"
+              "$$hashKey": "object:12378"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1137",
-              "$$hashKey": "object:6994"
+              "$$hashKey": "object:12379"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1138",
-              "$$hashKey": "object:6995"
+              "$$hashKey": "object:12380"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1139",
-              "$$hashKey": "object:6996"
+              "$$hashKey": "object:12381"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1140",
-              "$$hashKey": "object:6997"
+              "$$hashKey": "object:12382"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1141",
-              "$$hashKey": "object:6998"
+              "$$hashKey": "object:12383"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1142",
-              "$$hashKey": "object:6999"
+              "$$hashKey": "object:12384"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1143",
-              "$$hashKey": "object:7000"
+              "$$hashKey": "object:12385"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1144",
-              "$$hashKey": "object:7001"
+              "$$hashKey": "object:12386"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1145",
-              "$$hashKey": "object:7002"
+              "$$hashKey": "object:12387"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1146",
-              "$$hashKey": "object:7003"
+              "$$hashKey": "object:12388"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1147",
-              "$$hashKey": "object:7004"
+              "$$hashKey": "object:12389"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1148",
-              "$$hashKey": "object:7005"
+              "$$hashKey": "object:12390"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1149",
-              "$$hashKey": "object:7006"
+              "$$hashKey": "object:12391"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1150",
-              "$$hashKey": "object:7007"
+              "$$hashKey": "object:12392"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1151",
-              "$$hashKey": "object:7008"
+              "$$hashKey": "object:12393"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1152",
-              "$$hashKey": "object:7009"
+              "$$hashKey": "object:12394"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1153",
-              "$$hashKey": "object:7010"
+              "$$hashKey": "object:12395"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1154",
-              "$$hashKey": "object:7011"
+              "$$hashKey": "object:12396"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1155",
-              "$$hashKey": "object:7012"
+              "$$hashKey": "object:12397"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1156",
-              "$$hashKey": "object:7013"
+              "$$hashKey": "object:12398"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1157",
-              "$$hashKey": "object:7014"
+              "$$hashKey": "object:12399"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1158",
-              "$$hashKey": "object:7015"
+              "$$hashKey": "object:12400"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1159",
-              "$$hashKey": "object:7016"
+              "$$hashKey": "object:12401"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1160",
-              "$$hashKey": "object:7017"
+              "$$hashKey": "object:12402"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1161",
-              "$$hashKey": "object:7018"
+              "$$hashKey": "object:12403"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1162",
-              "$$hashKey": "object:7019"
+              "$$hashKey": "object:12404"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1163",
-              "$$hashKey": "object:7020"
+              "$$hashKey": "object:12405"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1164",
-              "$$hashKey": "object:7021"
+              "$$hashKey": "object:12406"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1165",
-              "$$hashKey": "object:7022"
+              "$$hashKey": "object:12407"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1166",
-              "$$hashKey": "object:7023"
+              "$$hashKey": "object:12408"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1167",
-              "$$hashKey": "object:7024"
+              "$$hashKey": "object:12409"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1168",
-              "$$hashKey": "object:7025"
+              "$$hashKey": "object:12410"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1169",
-              "$$hashKey": "object:7026"
+              "$$hashKey": "object:12411"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1170",
-              "$$hashKey": "object:7027"
+              "$$hashKey": "object:12412"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1171",
-              "$$hashKey": "object:7028"
+              "$$hashKey": "object:12413"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1172",
-              "$$hashKey": "object:7029"
+              "$$hashKey": "object:12414"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1173",
-              "$$hashKey": "object:7030"
+              "$$hashKey": "object:12415"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1174",
-              "$$hashKey": "object:7031"
+              "$$hashKey": "object:12416"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1175",
-              "$$hashKey": "object:7032"
+              "$$hashKey": "object:12417"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1176",
-              "$$hashKey": "object:7033"
+              "$$hashKey": "object:12418"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1177",
-              "$$hashKey": "object:7034"
+              "$$hashKey": "object:12419"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1178",
-              "$$hashKey": "object:7035"
+              "$$hashKey": "object:12420"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1179",
-              "$$hashKey": "object:7036"
+              "$$hashKey": "object:12421"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1180",
-              "$$hashKey": "object:7037"
+              "$$hashKey": "object:12422"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1181",
-              "$$hashKey": "object:7038"
+              "$$hashKey": "object:12423"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1182",
-              "$$hashKey": "object:7039"
+              "$$hashKey": "object:12424"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1183",
-              "$$hashKey": "object:7040"
+              "$$hashKey": "object:12425"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1184",
-              "$$hashKey": "object:7041"
+              "$$hashKey": "object:12426"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1185",
-              "$$hashKey": "object:7042"
+              "$$hashKey": "object:12427"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1186",
-              "$$hashKey": "object:7043"
+              "$$hashKey": "object:12428"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1187",
-              "$$hashKey": "object:7044"
+              "$$hashKey": "object:12429"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1188",
-              "$$hashKey": "object:7045"
+              "$$hashKey": "object:12430"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1189",
-              "$$hashKey": "object:7046"
+              "$$hashKey": "object:12431"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1190",
-              "$$hashKey": "object:7047"
+              "$$hashKey": "object:12432"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1191",
-              "$$hashKey": "object:7048"
+              "$$hashKey": "object:12433"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1192",
-              "$$hashKey": "object:7049"
+              "$$hashKey": "object:12434"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1193",
-              "$$hashKey": "object:7050"
+              "$$hashKey": "object:12435"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1194",
-              "$$hashKey": "object:7051"
+              "$$hashKey": "object:12436"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1195",
-              "$$hashKey": "object:7052"
+              "$$hashKey": "object:12437"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1196",
-              "$$hashKey": "object:7053"
+              "$$hashKey": "object:12438"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1197",
-              "$$hashKey": "object:7054"
+              "$$hashKey": "object:12439"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1198",
-              "$$hashKey": "object:7055"
+              "$$hashKey": "object:12440"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1199",
-              "$$hashKey": "object:7056"
+              "$$hashKey": "object:12441"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1200",
-              "$$hashKey": "object:7057"
+              "$$hashKey": "object:12442"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1201",
-              "$$hashKey": "object:7058"
+              "$$hashKey": "object:12443"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1202",
-              "$$hashKey": "object:7059"
+              "$$hashKey": "object:12444"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1203",
-              "$$hashKey": "object:7060"
+              "$$hashKey": "object:12445"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1204",
-              "$$hashKey": "object:7061"
+              "$$hashKey": "object:12446"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1205",
-              "$$hashKey": "object:7062"
+              "$$hashKey": "object:12447"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1206",
-              "$$hashKey": "object:7063"
+              "$$hashKey": "object:12448"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1207",
-              "$$hashKey": "object:7064"
+              "$$hashKey": "object:12449"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1208",
-              "$$hashKey": "object:7065"
+              "$$hashKey": "object:12450"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1209",
-              "$$hashKey": "object:7066"
+              "$$hashKey": "object:12451"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1210",
-              "$$hashKey": "object:7067"
+              "$$hashKey": "object:12452"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1211",
-              "$$hashKey": "object:7068"
+              "$$hashKey": "object:12453"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1212",
-              "$$hashKey": "object:7069"
+              "$$hashKey": "object:12454"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1213",
-              "$$hashKey": "object:7070"
+              "$$hashKey": "object:12455"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1214",
-              "$$hashKey": "object:7071"
+              "$$hashKey": "object:12456"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1215",
-              "$$hashKey": "object:7072"
+              "$$hashKey": "object:12457"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1216",
-              "$$hashKey": "object:7073"
+              "$$hashKey": "object:12458"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1217",
-              "$$hashKey": "object:7074"
+              "$$hashKey": "object:12459"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1218",
-              "$$hashKey": "object:7075"
+              "$$hashKey": "object:12460"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1219",
-              "$$hashKey": "object:7076"
+              "$$hashKey": "object:12461"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1220",
-              "$$hashKey": "object:7077"
+              "$$hashKey": "object:12462"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1221",
-              "$$hashKey": "object:7078"
+              "$$hashKey": "object:12463"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1222",
-              "$$hashKey": "object:7079"
+              "$$hashKey": "object:12464"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1223",
-              "$$hashKey": "object:7080"
+              "$$hashKey": "object:12465"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1224",
-              "$$hashKey": "object:7081"
+              "$$hashKey": "object:12466"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1225",
-              "$$hashKey": "object:7082"
+              "$$hashKey": "object:12467"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1226",
-              "$$hashKey": "object:7083"
+              "$$hashKey": "object:12468"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1227",
-              "$$hashKey": "object:7084"
+              "$$hashKey": "object:12469"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1228",
-              "$$hashKey": "object:7085"
+              "$$hashKey": "object:12470"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1229",
-              "$$hashKey": "object:7086"
+              "$$hashKey": "object:12471"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1230",
-              "$$hashKey": "object:7087"
+              "$$hashKey": "object:12472"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1231",
-              "$$hashKey": "object:7088"
+              "$$hashKey": "object:12473"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1232",
-              "$$hashKey": "object:7089"
+              "$$hashKey": "object:12474"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1233",
-              "$$hashKey": "object:7090"
+              "$$hashKey": "object:12475"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1234",
-              "$$hashKey": "object:7091"
+              "$$hashKey": "object:12476"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1235",
-              "$$hashKey": "object:7092"
+              "$$hashKey": "object:12477"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1236",
-              "$$hashKey": "object:7093"
+              "$$hashKey": "object:12478"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1237",
-              "$$hashKey": "object:7094"
+              "$$hashKey": "object:12479"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1238",
-              "$$hashKey": "object:7095"
+              "$$hashKey": "object:12480"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1239",
-              "$$hashKey": "object:7096"
+              "$$hashKey": "object:12481"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1240",
-              "$$hashKey": "object:7097"
+              "$$hashKey": "object:12482"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1241",
-              "$$hashKey": "object:7098"
+              "$$hashKey": "object:12483"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1242",
-              "$$hashKey": "object:7099"
+              "$$hashKey": "object:12484"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1243",
-              "$$hashKey": "object:7100"
+              "$$hashKey": "object:12485"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1244",
-              "$$hashKey": "object:7101"
+              "$$hashKey": "object:12486"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1245",
-              "$$hashKey": "object:7102"
+              "$$hashKey": "object:12487"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1246",
-              "$$hashKey": "object:7103"
+              "$$hashKey": "object:12488"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1247",
-              "$$hashKey": "object:7104"
+              "$$hashKey": "object:12489"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1248",
-              "$$hashKey": "object:7105"
+              "$$hashKey": "object:12490"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1249",
-              "$$hashKey": "object:7106"
+              "$$hashKey": "object:12491"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1250",
-              "$$hashKey": "object:7107"
+              "$$hashKey": "object:12492"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1251",
-              "$$hashKey": "object:7108"
+              "$$hashKey": "object:12493"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1252",
-              "$$hashKey": "object:7109"
+              "$$hashKey": "object:12494"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1253",
-              "$$hashKey": "object:7110"
+              "$$hashKey": "object:12495"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1254",
-              "$$hashKey": "object:7111"
+              "$$hashKey": "object:12496"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1255",
-              "$$hashKey": "object:7112"
+              "$$hashKey": "object:12497"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1256",
-              "$$hashKey": "object:7113"
+              "$$hashKey": "object:12498"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1257",
-              "$$hashKey": "object:7114"
+              "$$hashKey": "object:12499"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1258",
-              "$$hashKey": "object:7115"
+              "$$hashKey": "object:12500"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1259",
-              "$$hashKey": "object:7116"
+              "$$hashKey": "object:12501"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1260",
-              "$$hashKey": "object:7117"
+              "$$hashKey": "object:12502"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1261",
-              "$$hashKey": "object:7118"
+              "$$hashKey": "object:12503"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1262",
-              "$$hashKey": "object:7119"
+              "$$hashKey": "object:12504"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1263",
-              "$$hashKey": "object:7120"
+              "$$hashKey": "object:12505"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1264",
-              "$$hashKey": "object:7121"
+              "$$hashKey": "object:12506"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1265",
-              "$$hashKey": "object:7122"
+              "$$hashKey": "object:12507"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1266",
-              "$$hashKey": "object:7123"
+              "$$hashKey": "object:12508"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1267",
-              "$$hashKey": "object:7124"
+              "$$hashKey": "object:12509"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1268",
-              "$$hashKey": "object:7125"
+              "$$hashKey": "object:12510"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1269",
-              "$$hashKey": "object:7126"
+              "$$hashKey": "object:12511"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1270",
-              "$$hashKey": "object:7127"
+              "$$hashKey": "object:12512"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1271",
-              "$$hashKey": "object:7128"
+              "$$hashKey": "object:12513"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1272",
-              "$$hashKey": "object:7129"
+              "$$hashKey": "object:12514"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1273",
-              "$$hashKey": "object:7130"
+              "$$hashKey": "object:12515"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1274",
-              "$$hashKey": "object:7131"
+              "$$hashKey": "object:12516"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1275",
-              "$$hashKey": "object:7132"
+              "$$hashKey": "object:12517"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1276",
-              "$$hashKey": "object:7133"
+              "$$hashKey": "object:12518"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1277",
-              "$$hashKey": "object:7134"
+              "$$hashKey": "object:12519"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1278",
-              "$$hashKey": "object:7135"
+              "$$hashKey": "object:12520"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1279",
-              "$$hashKey": "object:7136"
+              "$$hashKey": "object:12521"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1280",
-              "$$hashKey": "object:7137"
+              "$$hashKey": "object:12522"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1281",
-              "$$hashKey": "object:7138"
+              "$$hashKey": "object:12523"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1282",
-              "$$hashKey": "object:7139"
+              "$$hashKey": "object:12524"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1283",
-              "$$hashKey": "object:7140"
+              "$$hashKey": "object:12525"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1284",
-              "$$hashKey": "object:7141"
+              "$$hashKey": "object:12526"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1285",
-              "$$hashKey": "object:7142"
+              "$$hashKey": "object:12527"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1286",
-              "$$hashKey": "object:7143"
+              "$$hashKey": "object:12528"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1287",
-              "$$hashKey": "object:7144"
+              "$$hashKey": "object:12529"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1288",
-              "$$hashKey": "object:7145"
+              "$$hashKey": "object:12530"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1289",
-              "$$hashKey": "object:7146"
+              "$$hashKey": "object:12531"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1290",
-              "$$hashKey": "object:7147"
+              "$$hashKey": "object:12532"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1291",
-              "$$hashKey": "object:7148"
+              "$$hashKey": "object:12533"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1292",
-              "$$hashKey": "object:7149"
+              "$$hashKey": "object:12534"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1293",
-              "$$hashKey": "object:7150"
+              "$$hashKey": "object:12535"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1294",
-              "$$hashKey": "object:7151"
+              "$$hashKey": "object:12536"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1295",
-              "$$hashKey": "object:7152"
+              "$$hashKey": "object:12537"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1296",
-              "$$hashKey": "object:7153"
+              "$$hashKey": "object:12538"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1297",
-              "$$hashKey": "object:7154"
+              "$$hashKey": "object:12539"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1298",
-              "$$hashKey": "object:7155"
+              "$$hashKey": "object:12540"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1299",
-              "$$hashKey": "object:7156"
+              "$$hashKey": "object:12541"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1300",
-              "$$hashKey": "object:7157"
+              "$$hashKey": "object:12542"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1301",
-              "$$hashKey": "object:7158"
+              "$$hashKey": "object:12543"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1302",
-              "$$hashKey": "object:7159"
+              "$$hashKey": "object:12544"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1303",
-              "$$hashKey": "object:7160"
+              "$$hashKey": "object:12545"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1304",
-              "$$hashKey": "object:7161"
+              "$$hashKey": "object:12546"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1305",
-              "$$hashKey": "object:7162"
+              "$$hashKey": "object:12547"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1306",
-              "$$hashKey": "object:7163"
+              "$$hashKey": "object:12548"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1307",
-              "$$hashKey": "object:7164"
+              "$$hashKey": "object:12549"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1308",
-              "$$hashKey": "object:7165"
+              "$$hashKey": "object:12550"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1309",
-              "$$hashKey": "object:7166"
+              "$$hashKey": "object:12551"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1310",
-              "$$hashKey": "object:7167"
+              "$$hashKey": "object:12552"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1311",
-              "$$hashKey": "object:7168"
+              "$$hashKey": "object:12553"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1312",
-              "$$hashKey": "object:7169"
+              "$$hashKey": "object:12554"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1313",
-              "$$hashKey": "object:7170"
+              "$$hashKey": "object:12555"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1314",
-              "$$hashKey": "object:7171"
+              "$$hashKey": "object:12556"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1315",
-              "$$hashKey": "object:7172"
+              "$$hashKey": "object:12557"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1316",
-              "$$hashKey": "object:7173"
+              "$$hashKey": "object:12558"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1317",
-              "$$hashKey": "object:7174"
+              "$$hashKey": "object:12559"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1318",
-              "$$hashKey": "object:7175"
+              "$$hashKey": "object:12560"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1319",
-              "$$hashKey": "object:7176"
+              "$$hashKey": "object:12561"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1320",
-              "$$hashKey": "object:7177"
+              "$$hashKey": "object:12562"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1321",
-              "$$hashKey": "object:7178"
+              "$$hashKey": "object:12563"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1322",
-              "$$hashKey": "object:7179"
+              "$$hashKey": "object:12564"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1323",
-              "$$hashKey": "object:7180"
+              "$$hashKey": "object:12565"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1324",
-              "$$hashKey": "object:7181"
+              "$$hashKey": "object:12566"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1325",
-              "$$hashKey": "object:7182"
+              "$$hashKey": "object:12567"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1326",
-              "$$hashKey": "object:7183"
+              "$$hashKey": "object:12568"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1327",
-              "$$hashKey": "object:7184"
+              "$$hashKey": "object:12569"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1328",
-              "$$hashKey": "object:7185"
+              "$$hashKey": "object:12570"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1329",
-              "$$hashKey": "object:7186"
+              "$$hashKey": "object:12571"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1330",
-              "$$hashKey": "object:7187"
+              "$$hashKey": "object:12572"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1331",
-              "$$hashKey": "object:7188"
+              "$$hashKey": "object:12573"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1332",
-              "$$hashKey": "object:7189"
+              "$$hashKey": "object:12574"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1333",
-              "$$hashKey": "object:7190"
+              "$$hashKey": "object:12575"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1334",
-              "$$hashKey": "object:7191"
+              "$$hashKey": "object:12576"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1335",
-              "$$hashKey": "object:7192"
+              "$$hashKey": "object:12577"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1336",
-              "$$hashKey": "object:7193"
+              "$$hashKey": "object:12578"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1337",
-              "$$hashKey": "object:7194"
+              "$$hashKey": "object:12579"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1338",
-              "$$hashKey": "object:7195"
+              "$$hashKey": "object:12580"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1339",
-              "$$hashKey": "object:7196"
+              "$$hashKey": "object:12581"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1340",
-              "$$hashKey": "object:7197"
+              "$$hashKey": "object:12582"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1341",
-              "$$hashKey": "object:7198"
+              "$$hashKey": "object:12583"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1342",
-              "$$hashKey": "object:7199"
+              "$$hashKey": "object:12584"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1343",
-              "$$hashKey": "object:7200"
+              "$$hashKey": "object:12585"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1344",
-              "$$hashKey": "object:7201"
+              "$$hashKey": "object:12586"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1345",
-              "$$hashKey": "object:7202"
+              "$$hashKey": "object:12587"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1346",
-              "$$hashKey": "object:7203"
+              "$$hashKey": "object:12588"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1347",
-              "$$hashKey": "object:7204"
+              "$$hashKey": "object:12589"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1348",
-              "$$hashKey": "object:7205"
+              "$$hashKey": "object:12590"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1349",
-              "$$hashKey": "object:7206"
+              "$$hashKey": "object:12591"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1350",
-              "$$hashKey": "object:7207"
+              "$$hashKey": "object:12592"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1351",
-              "$$hashKey": "object:7208"
+              "$$hashKey": "object:12593"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1352",
-              "$$hashKey": "object:7209"
+              "$$hashKey": "object:12594"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1353",
-              "$$hashKey": "object:7210"
+              "$$hashKey": "object:12595"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1354",
-              "$$hashKey": "object:7211"
+              "$$hashKey": "object:12596"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1355",
-              "$$hashKey": "object:7212"
+              "$$hashKey": "object:12597"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1356",
-              "$$hashKey": "object:7213"
+              "$$hashKey": "object:12598"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1357",
-              "$$hashKey": "object:7214"
+              "$$hashKey": "object:12599"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1358",
-              "$$hashKey": "object:7215"
+              "$$hashKey": "object:12600"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1359",
-              "$$hashKey": "object:7216"
+              "$$hashKey": "object:12601"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1360",
-              "$$hashKey": "object:7217"
+              "$$hashKey": "object:12602"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1361",
-              "$$hashKey": "object:7218"
+              "$$hashKey": "object:12603"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1362",
-              "$$hashKey": "object:7219"
+              "$$hashKey": "object:12604"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1363",
-              "$$hashKey": "object:7220"
+              "$$hashKey": "object:12605"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1364",
-              "$$hashKey": "object:7221"
+              "$$hashKey": "object:12606"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1365",
-              "$$hashKey": "object:7222"
+              "$$hashKey": "object:12607"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1366",
-              "$$hashKey": "object:7223"
+              "$$hashKey": "object:12608"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1367",
-              "$$hashKey": "object:7224"
+              "$$hashKey": "object:12609"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1368",
-              "$$hashKey": "object:7225"
+              "$$hashKey": "object:12610"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1369",
-              "$$hashKey": "object:7226"
+              "$$hashKey": "object:12611"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1370",
-              "$$hashKey": "object:7227"
+              "$$hashKey": "object:12612"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1371",
-              "$$hashKey": "object:7228"
+              "$$hashKey": "object:12613"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1372",
-              "$$hashKey": "object:7229"
+              "$$hashKey": "object:12614"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1373",
-              "$$hashKey": "object:7230"
+              "$$hashKey": "object:12615"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1374",
-              "$$hashKey": "object:7231"
+              "$$hashKey": "object:12616"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1375",
-              "$$hashKey": "object:7232"
+              "$$hashKey": "object:12617"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1376",
-              "$$hashKey": "object:7233"
+              "$$hashKey": "object:12618"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1377",
-              "$$hashKey": "object:7234"
+              "$$hashKey": "object:12619"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1378",
-              "$$hashKey": "object:7235"
+              "$$hashKey": "object:12620"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1379",
-              "$$hashKey": "object:7236"
+              "$$hashKey": "object:12621"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1380",
-              "$$hashKey": "object:7237"
+              "$$hashKey": "object:12622"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1381",
-              "$$hashKey": "object:7238"
+              "$$hashKey": "object:12623"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1382",
-              "$$hashKey": "object:7239"
+              "$$hashKey": "object:12624"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1383",
-              "$$hashKey": "object:7240"
+              "$$hashKey": "object:12625"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1384",
-              "$$hashKey": "object:7241"
+              "$$hashKey": "object:12626"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1385",
-              "$$hashKey": "object:7242"
+              "$$hashKey": "object:12627"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1386",
-              "$$hashKey": "object:7243"
+              "$$hashKey": "object:12628"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1387",
-              "$$hashKey": "object:7244"
+              "$$hashKey": "object:12629"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1388",
-              "$$hashKey": "object:7245"
+              "$$hashKey": "object:12630"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1389",
-              "$$hashKey": "object:7246"
+              "$$hashKey": "object:12631"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1390",
-              "$$hashKey": "object:7247"
+              "$$hashKey": "object:12632"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1391",
-              "$$hashKey": "object:7248"
+              "$$hashKey": "object:12633"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1392",
-              "$$hashKey": "object:7249"
+              "$$hashKey": "object:12634"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1393",
-              "$$hashKey": "object:7250"
+              "$$hashKey": "object:12635"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1394",
-              "$$hashKey": "object:7251"
+              "$$hashKey": "object:12636"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1395",
-              "$$hashKey": "object:7252"
+              "$$hashKey": "object:12637"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1396",
-              "$$hashKey": "object:7253"
+              "$$hashKey": "object:12638"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1397",
-              "$$hashKey": "object:7254"
+              "$$hashKey": "object:12639"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1398",
-              "$$hashKey": "object:7255"
+              "$$hashKey": "object:12640"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1399",
-              "$$hashKey": "object:7256"
+              "$$hashKey": "object:12641"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1400",
-              "$$hashKey": "object:7257"
+              "$$hashKey": "object:12642"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1401",
-              "$$hashKey": "object:7258"
+              "$$hashKey": "object:12643"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1402",
-              "$$hashKey": "object:7259"
+              "$$hashKey": "object:12644"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1403",
-              "$$hashKey": "object:7260"
+              "$$hashKey": "object:12645"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1404",
-              "$$hashKey": "object:7261"
+              "$$hashKey": "object:12646"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1405",
-              "$$hashKey": "object:7262"
+              "$$hashKey": "object:12647"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1406",
-              "$$hashKey": "object:7263"
+              "$$hashKey": "object:12648"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1407",
-              "$$hashKey": "object:7264"
+              "$$hashKey": "object:12649"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1408",
-              "$$hashKey": "object:7265"
+              "$$hashKey": "object:12650"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1409",
-              "$$hashKey": "object:7266"
+              "$$hashKey": "object:12651"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1410",
-              "$$hashKey": "object:7267"
+              "$$hashKey": "object:12652"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1411",
-              "$$hashKey": "object:7268"
+              "$$hashKey": "object:12653"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1412",
-              "$$hashKey": "object:7269"
+              "$$hashKey": "object:12654"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1413",
-              "$$hashKey": "object:7270"
+              "$$hashKey": "object:12655"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1414",
-              "$$hashKey": "object:7271"
+              "$$hashKey": "object:12656"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1415",
-              "$$hashKey": "object:7272"
+              "$$hashKey": "object:12657"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1416",
-              "$$hashKey": "object:7273"
+              "$$hashKey": "object:12658"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1417",
-              "$$hashKey": "object:7274"
+              "$$hashKey": "object:12659"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1418",
-              "$$hashKey": "object:7275"
+              "$$hashKey": "object:12660"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1419",
-              "$$hashKey": "object:7276"
+              "$$hashKey": "object:12661"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1420",
-              "$$hashKey": "object:7277"
+              "$$hashKey": "object:12662"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1421",
-              "$$hashKey": "object:7278"
+              "$$hashKey": "object:12663"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1422",
-              "$$hashKey": "object:7279"
+              "$$hashKey": "object:12664"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1423",
-              "$$hashKey": "object:7280"
+              "$$hashKey": "object:12665"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1424",
-              "$$hashKey": "object:7281"
+              "$$hashKey": "object:12666"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1425",
-              "$$hashKey": "object:7282"
+              "$$hashKey": "object:12667"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1426",
-              "$$hashKey": "object:7283"
+              "$$hashKey": "object:12668"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1427",
-              "$$hashKey": "object:7284"
+              "$$hashKey": "object:12669"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1428",
-              "$$hashKey": "object:7285"
+              "$$hashKey": "object:12670"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1429",
-              "$$hashKey": "object:7286"
+              "$$hashKey": "object:12671"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1430",
-              "$$hashKey": "object:7287"
+              "$$hashKey": "object:12672"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1431",
-              "$$hashKey": "object:7288"
+              "$$hashKey": "object:12673"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1432",
-              "$$hashKey": "object:7289"
+              "$$hashKey": "object:12674"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1433",
-              "$$hashKey": "object:7290"
+              "$$hashKey": "object:12675"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1434",
-              "$$hashKey": "object:7291"
+              "$$hashKey": "object:12676"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1435",
-              "$$hashKey": "object:7292"
+              "$$hashKey": "object:12677"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1436",
-              "$$hashKey": "object:7293"
+              "$$hashKey": "object:12678"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1437",
-              "$$hashKey": "object:7294"
+              "$$hashKey": "object:12679"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1438",
-              "$$hashKey": "object:7295"
+              "$$hashKey": "object:12680"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1439",
-              "$$hashKey": "object:7296"
+              "$$hashKey": "object:12681"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1440",
-              "$$hashKey": "object:7297"
+              "$$hashKey": "object:12682"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1441",
-              "$$hashKey": "object:7298"
+              "$$hashKey": "object:12683"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1442",
-              "$$hashKey": "object:7299"
+              "$$hashKey": "object:12684"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1443",
-              "$$hashKey": "object:7300"
+              "$$hashKey": "object:12685"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1444",
-              "$$hashKey": "object:7301"
+              "$$hashKey": "object:12686"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1445",
-              "$$hashKey": "object:7302"
+              "$$hashKey": "object:12687"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1446",
-              "$$hashKey": "object:7303"
+              "$$hashKey": "object:12688"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1447",
-              "$$hashKey": "object:7304"
+              "$$hashKey": "object:12689"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1448",
-              "$$hashKey": "object:7305"
+              "$$hashKey": "object:12690"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1449",
-              "$$hashKey": "object:7306"
+              "$$hashKey": "object:12691"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1450",
-              "$$hashKey": "object:7307"
+              "$$hashKey": "object:12692"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1451",
-              "$$hashKey": "object:7308"
+              "$$hashKey": "object:12693"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1452",
-              "$$hashKey": "object:7309"
+              "$$hashKey": "object:12694"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1453",
-              "$$hashKey": "object:7310"
+              "$$hashKey": "object:12695"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1454",
-              "$$hashKey": "object:7311"
+              "$$hashKey": "object:12696"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1455",
-              "$$hashKey": "object:7312"
+              "$$hashKey": "object:12697"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1456",
-              "$$hashKey": "object:7313"
+              "$$hashKey": "object:12698"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1457",
-              "$$hashKey": "object:7314"
+              "$$hashKey": "object:12699"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1458",
-              "$$hashKey": "object:7315"
+              "$$hashKey": "object:12700"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1459",
-              "$$hashKey": "object:7316"
+              "$$hashKey": "object:12701"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1460",
-              "$$hashKey": "object:7317"
+              "$$hashKey": "object:12702"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1461",
-              "$$hashKey": "object:7318"
+              "$$hashKey": "object:12703"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1462",
-              "$$hashKey": "object:7319"
+              "$$hashKey": "object:12704"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1463",
-              "$$hashKey": "object:7320"
+              "$$hashKey": "object:12705"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1464",
-              "$$hashKey": "object:7321"
+              "$$hashKey": "object:12706"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1465",
-              "$$hashKey": "object:7322"
+              "$$hashKey": "object:12707"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1466",
-              "$$hashKey": "object:7323"
+              "$$hashKey": "object:12708"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1467",
-              "$$hashKey": "object:7324"
+              "$$hashKey": "object:12709"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1468",
-              "$$hashKey": "object:7325"
+              "$$hashKey": "object:12710"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1469",
-              "$$hashKey": "object:7326"
+              "$$hashKey": "object:12711"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1470",
-              "$$hashKey": "object:7327"
+              "$$hashKey": "object:12712"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1471",
-              "$$hashKey": "object:7328"
+              "$$hashKey": "object:12713"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1472",
-              "$$hashKey": "object:7329"
+              "$$hashKey": "object:12714"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1473",
-              "$$hashKey": "object:7330"
+              "$$hashKey": "object:12715"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1474",
-              "$$hashKey": "object:7331"
+              "$$hashKey": "object:12716"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1475",
-              "$$hashKey": "object:7332"
+              "$$hashKey": "object:12717"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1476",
-              "$$hashKey": "object:7333"
+              "$$hashKey": "object:12718"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1477",
-              "$$hashKey": "object:7334"
+              "$$hashKey": "object:12719"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1478",
-              "$$hashKey": "object:7335"
+              "$$hashKey": "object:12720"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1479",
-              "$$hashKey": "object:7336"
+              "$$hashKey": "object:12721"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1480",
-              "$$hashKey": "object:7337"
+              "$$hashKey": "object:12722"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1481",
-              "$$hashKey": "object:7338"
+              "$$hashKey": "object:12723"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1482",
-              "$$hashKey": "object:7339"
+              "$$hashKey": "object:12724"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1483",
-              "$$hashKey": "object:7340"
+              "$$hashKey": "object:12725"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1484",
-              "$$hashKey": "object:7341"
+              "$$hashKey": "object:12726"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1485",
-              "$$hashKey": "object:7342"
+              "$$hashKey": "object:12727"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1486",
-              "$$hashKey": "object:7343"
+              "$$hashKey": "object:12728"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1487",
-              "$$hashKey": "object:7344"
+              "$$hashKey": "object:12729"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1488",
-              "$$hashKey": "object:7345"
+              "$$hashKey": "object:12730"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1489",
-              "$$hashKey": "object:7346"
+              "$$hashKey": "object:12731"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1490",
-              "$$hashKey": "object:7347"
+              "$$hashKey": "object:12732"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1491",
-              "$$hashKey": "object:7348"
+              "$$hashKey": "object:12733"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1492",
-              "$$hashKey": "object:7349"
+              "$$hashKey": "object:12734"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1493",
-              "$$hashKey": "object:7350"
+              "$$hashKey": "object:12735"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1494",
-              "$$hashKey": "object:7351"
+              "$$hashKey": "object:12736"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1495",
-              "$$hashKey": "object:7352"
+              "$$hashKey": "object:12737"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1496",
-              "$$hashKey": "object:7353"
+              "$$hashKey": "object:12738"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1497",
-              "$$hashKey": "object:7354"
+              "$$hashKey": "object:12739"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1498",
-              "$$hashKey": "object:7355"
+              "$$hashKey": "object:12740"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1499",
-              "$$hashKey": "object:7356"
+              "$$hashKey": "object:12741"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1500",
-              "$$hashKey": "object:7357"
+              "$$hashKey": "object:12742"
             },
             {
               "jobUrl": "http://ebe6f6256f03:4040/jobs/job?id=1501",
-              "$$hashKey": "object:7358"
+              "$$hashKey": "object:12743"
             }
           ],
           "interpreterSettingId": "spark"
@@ -2920,7 +2917,51 @@
       "dateStarted": "2024-05-20T10:27:34+0000",
       "dateFinished": "2024-05-20T10:44:49+0000",
       "status": "FINISHED",
-      "$$hashKey": "object:255"
+      "$$hashKey": "object:200"
+    },
+    {
+      "text": "%md\n\n# Conclusion final sur les résultats \n\nLes résultats obtenus montrent les précisions des deux modèles de classification testés :\n\n- Logistic Regression : Test set accuracy = 0.703862660944206\n- Random Forest : Test set accuracy = 0.6824034334763949\n\n## Interprétation des différents résultats \n\n**Régression Logistique :**\n\n- La régression logistique a atteint une précision de 70.39% sur l'ensemble de test. On peut dire qu'une précision de 70% est relativement bonne, surtout pour des données sportives qui peuvent être très très variables. En effet, la plupart des essais de création de modèles de prédiction ont souvent été faits sur tous les scores de matchs. Dans notre cas, nous traitons les données qui sont directement issues du match. Les résultats que nous avons pu observer tournaient autour de 60%. Il ne faut pas oublier qu'ils utilisaient uniquement les scores des matchs comme caractéristiques, alors que nous utilisons les données internes au match. Nous supposons donc que nous aurons de meilleurs résultats, et cela a été le cas avec 70%.\n\n\n**Random Forest :**\n\n- Le modèle Random Forest a obtenu une précision de 68.24% sur l'ensemble de test, ce qui est légèrement inférieur à celle de la régression logistique. Bien que ce modèle soit souvent plus performante pour des tâches complexes, dans notre cas, elle n'a pas fait mieux que la régression logistique.\n\n\n## Améliorations possibles\n\n- Envisager d'explorer des hyperparamètres différents pour les modèles mis en place\n- Tester d'autres modèles différents. Il serait même intéressant de créer un modèle de prédiction avec des résaux de neuronnes qui pourrait être plus performant.\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-05-23T07:17:25+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1716147640480_1599795842",
+      "id": "paragraph_1716147640480_1599795842",
+      "dateCreated": "2024-05-19T19:40:40+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:201",
+      "dateFinished": "2024-05-23T07:17:25+0000",
+      "dateStarted": "2024-05-23T07:17:25+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h1>Conclusion final sur les résultats</h1>\n<p>Les résultats obtenus montrent les précisions des deux modèles de classification testés :</p>\n<ul>\n<li>Logistic Regression : Test set accuracy = 0.703862660944206</li>\n<li>Random Forest : Test set accuracy = 0.6824034334763949</li>\n</ul>\n<h2>Interprétation des différents résultats</h2>\n<p><strong>Régression Logistique :</strong></p>\n<ul>\n<li>La régression logistique a atteint une précision de 70.39% sur l&rsquo;ensemble de test. On peut dire qu&rsquo;une précision de 70% est relativement bonne, surtout pour des données sportives qui peuvent être très très variables. En effet, la plupart des essais de création de modèles de prédiction ont souvent été faits sur tous les scores de matchs. Dans notre cas, nous traitons les données qui sont directement issues du match. Les résultats que nous avons pu observer tournaient autour de 60%. Il ne faut pas oublier qu&rsquo;ils utilisaient uniquement les scores des matchs comme caractéristiques, alors que nous utilisons les données internes au match. Nous supposons donc que nous aurons de meilleurs résultats, et cela a été le cas avec 70%.</li>\n</ul>\n<p><strong>Random Forest :</strong></p>\n<ul>\n<li>Le modèle Random Forest a obtenu une précision de 68.24% sur l&rsquo;ensemble de test, ce qui est légèrement inférieur à celle de la régression logistique. Bien que ce modèle soit souvent plus performante pour des tâches complexes, dans notre cas, elle n&rsquo;a pas fait mieux que la régression logistique.</li>\n</ul>\n<h2>Améliorations possibles</h2>\n<ul>\n<li>Envisager d&rsquo;explorer des hyperparamètres différents pour les modèles mis en place</li>\n<li>Tester d&rsquo;autres modèles différents. Il serait même intéressant de créer un modèle de prédiction avec des résaux de neuronnes qui pourrait être plus performant.</li>\n</ul>\n\n</div>"
+          }
+        ]
+      }
     },
     {
       "user": "anonymous",
@@ -2945,11 +2986,12 @@
       "apps": [],
       "runtimeInfos": {},
       "progressUpdateIntervalMs": 500,
-      "jobName": "paragraph_1716147640480_1599795842",
-      "id": "paragraph_1716147640480_1599795842",
-      "dateCreated": "2024-05-19T19:40:40+0000",
+      "jobName": "paragraph_1716448336857_1750386115",
+      "id": "paragraph_1716448336857_1750386115",
+      "dateCreated": "2024-05-23T07:12:16+0000",
       "status": "READY",
-      "$$hashKey": "object:256"
+      "focus": true,
+      "$$hashKey": "object:14869"
     }
   ],
   "name": "Model_1_refactored",
