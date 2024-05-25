@@ -1,1 +1,7 @@
 .idea
+bda_group_d/data/open-data/data/events
+bda_group_d/data/open-data/data/matches
+bda_group_d/data/open-data/data/lineups
+bda_group_d/data/open-data/data/three-sixty
+bda_group_d/data/open-data/data/all_matches.json
+*.parquet
