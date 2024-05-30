@@ -1,0 +1,3 @@
+# Phase 4 - Analyse des données, choix finaux et résultats
+
+Dans cette dernière phase, nous allons vous présenter les résultats obtenus après avoir analysé les données, sélectionné les features pertinents et entraîné nos modèles de machine learning avce spark dans les différents Zepellin. Nous allons également discuter des choix finaux que nous avons faits et des améliorations possibles pour notre projet.

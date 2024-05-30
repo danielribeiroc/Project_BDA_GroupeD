@@ -1,5 +1,5 @@
 
-## Selection du dataset
+## Phase 1 - Selection du dataset
 ### Dataset 1: Stats bomb
 - **Data** : https://github.com/statsbomb/open-data
 - **Taille** : 10 GiB

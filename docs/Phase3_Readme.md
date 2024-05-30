@@ -1,5 +1,5 @@
 
-## Plannification de la Phase 3 - Description des features et des questions analytiques
+## Phase 3 - Plannification - Description des features et des questions analytiques
 
 Notre objectif principal est de prédire les scores des matchs en exploitant des features extraites du dataset. Ces features sélectionnées incluent:
 
