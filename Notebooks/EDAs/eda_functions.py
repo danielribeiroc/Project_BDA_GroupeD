@@ -2,6 +2,14 @@ import numpy as np
 import plotly.graph_objects as go
 from sklearn.preprocessing import MinMaxScaler
 
+
+"""
+This code for creating a football field plot with Plotly was inspired by the following link :.
+Source: https://fcpython.com/visualisation/drawing-pitchmap-adding-lines-circles-matplotlib
+We've adapted the code to use Plotly instead of Matplotlib.
+"""
+
+
 def create_football_field_plotly(ratio=1):
     length = 120
     width = 80
