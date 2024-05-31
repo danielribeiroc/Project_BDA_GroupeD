@@ -1,6 +1,6 @@
 # BDA 2024 - Projet Big Data
 
-## Students Responsible
+## Etudiants - Groupe D
 - Killian Ruffieux
 - Ruben Terceiro
 - Daniel Ribeiro
