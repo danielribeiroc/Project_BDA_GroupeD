@@ -10,7 +10,7 @@ We've adapted the code to use Plotly instead of Matplotlib.
 """
 
 
-def create_football_field_plotly(ratio=1):
+def create_football_field_plotly(ratio=1, legends=False):
     length = 120
     width = 80
 
@@ -46,7 +46,7 @@ def create_football_field_plotly(ratio=1):
     fig.update_layout(xaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
                       yaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
                       plot_bgcolor="green",
-                      showlegend=False)
+                      showlegend=legends)
 
     return fig
 
