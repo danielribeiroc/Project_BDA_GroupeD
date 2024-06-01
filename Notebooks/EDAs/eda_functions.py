@@ -1,6 +1,8 @@
 import numpy as np
 import plotly.graph_objects as go
 from sklearn.preprocessing import MinMaxScaler
+from pyspark.sql.types import StructType, ArrayType, StructField
+
 
 
 """
@@ -132,3 +134,30 @@ def place_players_on_field(fig, positions_ids):
         trace.showlegend = False
 
     return fig
+
+
+# Function to count features at each level of schema
+def count_features(schema, level=0, counts=None):
+    if counts is None:
+        counts = {}
+        sum_levels = {}
+
+    counts[level] = counts.get(level, 0) + len(schema)
+
+    for field in schema:
+        if isinstance(field.dataType, StructType):
+            count_features(field.dataType, level + 1, counts)
+        elif isinstance(field.dataType, ArrayType) and isinstance(field.dataType.elementType, StructType):
+            count_features(field.dataType.elementType, level + 1, counts)
+
+    if level == 0:  # Sum and print counts only at the outermost call
+        for level, count in counts.items():
+            if level in sum_levels:
+                sum_levels[level] += count
+            else:
+                sum_levels[level] = count
+
+        for level, total_count in sum_levels.items():
+            print(f'{total_count} features at level {level}')
+
+    #return counts
