@@ -1,6 +1,18 @@
 ﻿{
  "paragraphs": [
   {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%md\n\n# Modèle 2 : Prédiction de l'événement suivant dans un match de football\n\nCe Zeppelin notebook a pour objectif de prédire l'événement suivant dans un match de football en utilisant les données d'événements de matchs de football. \n\nContrairement au modèle 1, celui-ci va tenir compte des bonnes pratiques lors de l'utilisation des time series data. En effet, les données d'événements de matchs de football sont des données de séries temporelles, car chaque événement est enregistré dans l'ordre chronologique et se suit dans le temps. \n\nLa façon d'effectuer la fenêtre glissante est différente de celle du modèle 1, car on doit tenir compte de la séparation des matchs. En effet, on ne peut pas mélanger les événements de deux matchs différents.\n\n### Prétraitement des Données\n\nLe dossier `./data/events` contient plusieurs fichiers JSON, chacun étant nommé avec un identifiant unique représentant un match dans le dataset. Le contenu de chaque fichier est à la fois vaste et bien structuré, comme documenté dans le [répertoire GitHub de StatsBomb](https://github.com/statsbomb/open-data/tree/master/doc). Chaque fichier inclut toutes les actions du match, telles que chaque passe, tir, carton jaune, réception, arrêt de balle, etc. Nous avons donc supposé qu'il était possible de regrouper les statistiques d'un match pour créer un modèle capable de prédire laquelle des deux équipes remportera le match.",
+   "id": "",
+   "dateCreated": "2024-06-04 16:32:29.570",
+   "config": {}
+  },
+  {
    "text": "import org.apache.spark.sql.SparkSession\nimport org.apache.spark.sql.DataFrame\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.expressions.Window\nimport org.apache.spark.ml.{Pipeline, PipelineModel}\nimport org.apache.spark.ml.feature.{VectorAssembler, StringIndexer, OneHotEncoder}\nimport org.apache.spark.ml.classification.RandomForestClassifier\nimport org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator\nimport org.apache.spark.ml.tuning.{ParamGridBuilder, CrossValidator}",
    "user": "anonymous",
    "dateUpdated": "2024-06-03T15:20:54+0000",
@@ -42,6 +54,18 @@
    "status": "FINISHED",
    "focus": true,
    "$$hashKey": "object:228"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%md\n\n### Lecture des Données\nPremière étape : lire les données JSON dans un DataFrame Spark. Nous avons utilisé la méthode `spark.read.json` pour lire les fichiers JSON dans le dossier `./data/events`. Nous avons également spécifié les options `header` et `multiline` pour traiter les fichiers JSON multilignes.\n\nOn a ajouté une colonne `file_name` pour identifier le fichier d'origine de chaque événement. Cela nous permettra de séparer les matchs lors de la création de la fenêtre glissante.",
+   "id": "",
+   "dateCreated": "2024-06-04 16:34:13.713",
+   "config": {}
   },
   {
    "text": "val spark = SparkSession.builder()\n  .appName(\"Football Data Analysis\")\n  .getOrCreate()\n  \n// Specify the path to the directory containing the JSON files\nval bucketPath = \"gs://2024-bda-projet-group-d/open-data/data/events/*.json\"\n\n// Read all JSON files in the directory\nval eventsDF = spark.read\n  .option(\"header\", \"true\")\n  .option(\"multiline\", \"true\")\n  .json(bucketPath)\n\nval dfWithFileNames = eventsDF.withColumn(\"file_name\", input_file_name())\n// Show the first 5 rows of the DataFrame\ndfWithFileNames.show(5)",
@@ -109,6 +133,18 @@
    "$$hashKey": "object:229"
   },
   {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%md\n\nRécupère l'id du type d'action pour chaque événement et crée un nouveau DataFrame avec une colonne `type` contenant l'id du type d'action. On a également conservé la colonne `file_name` pour identifier le fichier d'origine de chaque événement.",
+   "id": "",
+   "dateCreated": "2024-06-04 16:34:34.863",
+   "config": {}
+  },
+  {
    "text": "val typeDF = dfWithFileNames.select(col(\"type.id\").alias(\"type\"), col(\"file_name\"))\n\n// Show the first 5 rows of the new DataFrame\ntypeDF.show(5)",
    "user": "anonymous",
    "dateUpdated": "2024-06-03T15:06:04+0000",
@@ -164,6 +200,18 @@
    "dateFinished": "2024-06-03T15:06:05+0000",
    "status": "FINISHED",
    "$$hashKey": "object:230"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%md\n\n### Séparation des Données\n\nIl est important de séparer d'entrée les données en un ensemble d'entraînement et un ensemble de test lors de traitement de time series. En effet, les données de test ne doivent pas être utilisées indirectement pour l'entraînement du modèle.\n\nNous avons décidé de diviser les données en un ensemble d'entraînement et un ensemble de test en utilisant une approche basée sur les fichiers. Nous avons compté le nombre de fichiers uniques et déterminé que 80 % des fichiers seraient utilisés pour l'ensemble d'entraînement. Nous avons ensuite extrait les noms de fichiers uniques pour l'ensemble d'entraînement et séparé les données en conséquence.",
+   "id": "",
+   "dateCreated": "2024-06-04 16:34:49.198",
+   "config": {}
   },
   {
    "text": "// Count the unique file names\nval uniqueFileNamesCount = typeDF.select(countDistinct(\"file_name\")).first().getLong(0)\n\n// Determine 80% of the file names for the training set\nval trainingFileNamesCount = (uniqueFileNamesCount * 0.8).toLong\n\n// Get the unique file names for the training set\nval trainingFileNames = typeDF\n  .select(\"file_name\")\n  .distinct()\n  .limit(trainingFileNamesCount.toInt)\n  .collect()\n  .map(_.getString(0))\n\n// Split the DataFrame into training and testing sets\nval trainingDF = typeDF.filter(col(\"file_name\").isin(trainingFileNames: _*))\nval testingDF = typeDF.except(trainingDF)\n",
@@ -238,6 +286,18 @@
    "$$hashKey": "object:231"
   },
   {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%md\n\n### Traitement des Données\n\nNous allons maintenant créer une fenêtre glissante de taille 6 pour chaque match. Cela signifie que nous allons prédire le 6ème événement en fonction des 5 événements précédents. Nous allons également filtrer les fenêtres qui ne contiennent pas exactement 6 événements.\n\nToutes les opérations de traitement des données seront effectuées dans la fonction `processDataFrame`, qui prend un DataFrame en entrée et renvoie un DataFrame traité.",
+   "id": "",
+   "dateCreated": "2024-06-04 16:36:05.629",
+   "config": {}
+  },
+  {
    "text": "def processDataFrame(df: DataFrame): DataFrame = {\n  // Define the window specification partitioned by 'file_name'\n  val windowSpec = Window.partitionBy(\"file_name\").rowsBetween(-5, 0)\n  \n  // Apply the window function to create the sliding window\n  val slidingWindowDF = df\n    .withColumn(\"events_window\", collect_list(\"type\").over(windowSpec))\n  \n  // Filter rows where the window size is 6\n  val filteredDF = slidingWindowDF\n    .filter(size(col(\"events_window\")) === 6)\n  \n  // Expand the events_window array into separate columns\n  val expandedDF = filteredDF\n    .withColumn(\"event1\", col(\"events_window\").getItem(0))\n    .withColumn(\"event2\", col(\"events_window\").getItem(1))\n    .withColumn(\"event3\", col(\"events_window\").getItem(2))\n    .withColumn(\"event4\", col(\"events_window\").getItem(3))\n    .withColumn(\"event5\", col(\"events_window\").getItem(4))\n    .withColumn(\"event6\", col(\"events_window\").getItem(5))\n    .drop(\"type\", \"events_window\", \"file_name\")\n\n  // Return the expanded DataFrame\n  expandedDF\n}",
    "user": "anonymous",
    "dateUpdated": "2024-06-03T15:21:43+0000",
@@ -278,6 +338,18 @@
    "dateFinished": "2024-06-03T15:21:44+0000",
    "status": "FINISHED",
    "$$hashKey": "object:232"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%md\n\nNous allons maintenant appliquer la fonction `processDataFrame` aux DataFrames d'entraînement et de test pour créer des DataFrames traités. Nous afficherons les 5 premières lignes de chaque DataFrame pour vérifier que le traitement a été effectué correctement.",
+   "id": "",
+   "dateCreated": "2024-06-04 16:36:38.786",
+   "config": {}
   },
   {
    "text": "val trainingProcessedDF = processDataFrame(trainingDF)\nval testingProcessedDF = processDataFrame(testingDF)",
@@ -496,6 +568,18 @@
    "$$hashKey": "object:236"
   },
   {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%md\n\n### Définition du Schéma\n\nNous allons maintenant définir le schéma pour le DataFrame traité. Cela nous permettra de spécifier quelles fonctionnalités nous voulons utiliser lors de l'entraînement du modèle.",
+   "id": "",
+   "dateCreated": "2024-06-04 16:36:58.087",
+   "config": {}
+  },
+  {
    "text": "// Définition du schéma pour le DataFrame --> utile pour définir quel features ont veut utiliser lors de l'entrainement\nval schema = new StructType()\n  // Ajout des colonnes avec leur nom, type et utilisation ou non\n  .add(\"event1\", LongType, true)\n  .add(\"event2\", LongType, true)\n  .add(\"event3\", LongType, true)\n  .add(\"event4\", LongType, true)\n  .add(\"event5\", LongType, true)\n  .add(\"event6\", LongType, false)",
    "user": "anonymous",
    "dateUpdated": "2024-06-03T15:28:27+0000",
@@ -539,6 +623,18 @@
    "$$hashKey": "object:237"
   },
   {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%md\n\n### Assemblage des Features\n\nNous allons assembler les colonnes de features en un vecteur en utilisant la classe `VectorAssembler`. Cela nous permettra de combiner les colonnes de features en une seule colonne contenant un vecteur de features.\n\nNous allons également répartir les DataFrames d'entraînement et de test sur plusieurs partitions pour distribuer les données sur le cluster. Enfin, nous allons mettre en cache les DataFrames pour éviter de recalculer les transformations.",
+   "id": "",
+   "dateCreated": "2024-06-04 16:37:12.018",
+   "config": {}
+  },
+  {
    "text": "// 1. Définir les colonnes de features et assembler les features en un vecteur\n\nval featureCols = Array(\"event1\", \"event2\", \"event3\", \"event4\", \"event5\") \n\nval assembler = new VectorAssembler()\n  .setInputCols(featureCols)\n  .setOutputCol(\"features\")\n\n// Repartition the DataFrame to distribute data across the cluster\nval numPartitions = 200 \nval repartitionedTrainingDF = trainingProcessedDF.repartition(numPartitions)\nval repartitionedTestingDF = testingProcessedDF.repartition(numPartitions)\n\n// Cache the DataFrame to avoid recomputation\nrepartitionedTrainingDF.cache()\nrepartitionedTestingDF.cache()",
    "user": "anonymous",
    "dateUpdated": "2024-06-03T15:28:30+0000",
@@ -579,6 +675,18 @@
    "dateFinished": "2024-06-03T15:28:31+0000",
    "status": "FINISHED",
    "$$hashKey": "object:238"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%md\n\n### Modèle de Classification\n\nNous allons utiliser un modèle de classification RandomForest pour prédire l'événement suivant. Nous allons définir les paramètres du modèle RandomForest et les grilles de recherche pour la validation croisée.",
+   "id": "",
+   "dateCreated": "2024-06-04 16:37:29.462",
+   "config": {}
   },
   {
    "text": "// 4. Définir les modèles de classification\nval rf = new RandomForestClassifier()\n  .setLabelCol(\"event6\")\n  .setFeaturesCol(\"features\")\n\nval rfParamGrid = new ParamGridBuilder() // --> random forest\n  .addGrid(rf.numTrees, Array(20, 50))\n  .addGrid(rf.maxDepth, Array(5, 10))\n  .build()\n\n// 6. Définir l'évaluateur pour mesurer la précision ou autres\nval evaluator = new MulticlassClassificationEvaluator()\n  .setLabelCol(\"event6\")\n  .setPredictionCol(\"prediction\")\n  .setMetricName(\"accuracy\")\n\n// 7. Configurer la cross validation\nval rfCv = new CrossValidator() // --> random forest\n  .setEstimator(rf)\n  .setEvaluator(evaluator)\n  .setEstimatorParamMaps(rfParamGrid)\n  .setNumFolds(3)\n\n// 8. Création des pipelines pour chaque modèle (comme dans la documentation)\nval rfPipeline = new Pipeline().setStages(Array(assembler, rfCv)) // --> random forest\n\n// Train\nval rfModel = rfPipeline.fit(repartitionedTrainingDF) // --> random forest",
@@ -1403,6 +1511,18 @@
    "dateFinished": "2024-06-03T17:25:12+0000",
    "status": "FINISHED",
    "$$hashKey": "object:239"
+  },
+  {
+   "settings": {
+    "params": {},
+    "forms": {}
+   },
+   "apps": [],
+   "status": "READY",
+   "text": "%md\n\n### Faire les Prédictions\n\nNous allons maintenant faire des prédictions sur l'ensemble de test en utilisant le modèle RandomForest que nous avons entraîné. Nous allons évaluer les prédictions en utilisant l'évaluateur que nous avons défini précédemment.",
+   "id": "",
+   "dateCreated": "2024-06-04 16:37:45.416",
+   "config": {}
   },
   {
    "text": "// Faire les prédictions\nval rfPredictions = rfModel.transform(repartitionedTestingDF) // --> random forest\n\n// Evaluer les modèles\nval rfAccuracy = evaluator.evaluate(rfPredictions) // --> random forest\n\nprintln(s\"Random Forest Test set accuracy = $rfAccuracy\")",
