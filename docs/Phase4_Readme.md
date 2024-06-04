@@ -57,37 +57,43 @@ Malgré qu'il y ait plus de victoires à domicile que de victoires à l'extérie
 
 Pour le deuxième modèle, nous avons décidé de prédire les types d'actions d'un match. Dans le dossier events, nous avons chaque fichier qui représente un match. Chaque match contient plusieurs actions à la suite. Voici toutes les classes possibles lors de la prédiction des actions :
 
-- **Ball Receipt**
-- **Ball Recovery**
-- **Dispossessed**
-- **Duel**
-- **Camera On**
-- **Block**
-- **Offside**
-- **Clearance**
-- **Interception**
-- **Dribble**
-- **Pressure**
-- **Half Start**
-- **Substitution**
-- **Own Goal Against**
-- **Foul Won**
-- **Foul Committed**
-- **Goal Keeper**
-- **Bad Behaviour**
-- **Own Goal For**
-- **Player On**
-- **Player Off**
-- **Shield**
-- **Pass**
-- **50/50**
-- **Half End**
-- **Starting XI**
-- **Tactical Shift**
+- **Ball Receipt** (id: 42)
+- **Ball Recovery** (2)
+- **Dispossessed** (3)
+- **Duel** (4)
+- **Camera On** (5)
+- **Block** (6)
+- **Offside** (8)
+- **Clearance** (9)
+- **Interception** (10)
+- **Dribble** (14)
+- **Pressure** (17)
+- **Half Start** (18)
+- **Substitution** (19)
+- **Own Goal Against** (20)
+- **Foul Won** (21)
+- **Foul Committed** (22)
+- **Goal Keeper** (23)
+- **Bad Behaviour** (24)
+- **Own Goal For** (25)
+- **Player On** (26)
+- **Player Off** (27)
+- **Shield** (28)
+- **Pass** (30)
+- **50/50** (33)
+- **Half End** (34)
+- **Starting XI** (35)
+- **Tactical Shift** (36)
+- **Error** (37)
+- **Miscontrol** (38)
+- **Dribbled Past** (39)
+- **Injury Stoppage** (40)
+- **Referee Ball-Drop** (41)
+- **Carry** (43)
 
-Pour une première version, nous avons décidé de prédire les actions suivantes :
+Les IDs seront utilisés pour la prédiction des actions. Toutes les fichiers events présent dans le dossier "events" seront utilisés pour la prédiction des actions.
 
-Nous allons récupérer toutes les actions présentes dans l'ensemble du dossier "events". Ensuite, nous créons une sorte de sliding window pour former des séquences d'actions. L'objectif est de prédire la prochaine action en se basant sur les actions précédentes.
+Toutes les prédictions seront basées sur une fenêtre glissante représentant une suite d'actions. En prenant les X actions précédentes, nous allons essayer de prédire la prochaine action.
 
 Voici un exemple de fonctionnement avec 5 actions consécutives :
 
@@ -99,10 +105,37 @@ Voici un exemple de fonctionnement avec 5 actions consécutives :
 
 Étant donné que notre dossier "events" contient environ 10 Go de données, cette méthode augmentera considérablement la taille totale de notre dataset. Cela s'inscrit pleinement dans le cadre du cours de Big Data.
 
+**Version 1**
+
+Dans un premier temps, le but est de réaliser la fênetre glissante la plus simple possible. Nous allons prendre les 5 actions précédentes pour prédire la prochaine action. Nous allons alors avoir un total de 6 features pour chaque ligne de notre dataset. La constiution de notre dataset ne tiendra pas compte de la séparation des matchs, la fenêtre glissante sera réalisée sur l'ensemble des actions.
+
+Pareil pour la prédiction, 20% des données seront utilisées pour le test et 80% pour l'entraînement, en choisissant aléatoirement les données.
+
+**Version 2**
+
+Cette version 2 corrige tous les bugs de la v1 en prenant en compte la séparation des matchs. Nous allons alors prendre les 5 actions précédentes pour prédire la prochaine action, match par match. Ensuite, le dataset va être séparé de façon à laisser les 20% des matchs pour le test et les 80% restants pour l'entraînement. Les données de test seront forcément nouvelles pour le modèle, vu que nous avons pris en compte la séparation des matchs.
+
 ## Résultats obtenus et comparaison des modèles
 
 ### Modèle 1 : Prédiction du vainqueur d'un match (away, home)
 
 
 ### Modèle 2 : Prédiction des types d'actions d'un match (pass, shot, foul, etc.)
+**Version 1**
 
+Dans la version 1, le modèle obtient 73% de précision. Cela signifie que le modèle est capable de prédire correctement 73% des actions. Le résultat est bon mais il est difficile d'estimer les capacités du modèle vu la séparation entre les sets d'entraînement et de test.
+Ce modèle sert surtout à tester la mise en place du code dans son ensemble et de son bon fonctionnement.
+
+**Version 2**
+Dans la version 2, le modèle obtient 3% de précision. Cela signifie que le modèle est capable de prédire correctement 3% des actions, ce qui est très faible.
+
+Cependant, en observant de plus prêt les résultats, les prédictions du modèle ne sont pas si incohérentes, malgré qu'elles soient fausses, prenons l'extrait du notebook :
+
+- 30 (**Pass**) au lieu de 6 (**Block**): Block signifie que l'équipe adverse a bloqué le ballon, le modèle lui a prédit une passe, pour lui la passe précédente était réussie et l'équipe aurait fait une nouvelle passe.
+- 30 (**Pass**) au lieu de 2 (**Ball Recovery**): Ball Recovery signifie que l'équipe a récupéré le ballon parce que la passe précédente était ratée. Le modèle voyait la passe précédente comme réussie et a prédit une nouvelle passe.
+- 4 (**Duel**) au lieu de 14 (**Dribble**): Dribble signifie qu'un joueur a tenté de dribbler un adversaire, le modèle a prédit un duel, soit une contestation 50/50 du ballon, ce qui est assez proche.
+- 30 (**Pass**) au lieu de 3 (**Dispossessed**): Dispossessed signifie qu'un joueur a perdu le ballon, le modèle a prédit une passe, soit une action qui aurait pu être faite si le joueur avait réussi sa passe.
+- 23 (**Goal Keeper**) au lieu de 9 (**Clearance**): Clearance signifie qu'un joueur a dégagé le ballon, le modèle a prédit une action du gardien de but, soit une action qui aurait pu être faite si le défenseur n'avait pas dégagé le ballon.
+- ...
+
+On peut voir que par ces exemples, le modèle n'est pas si mauvais que ça, il a juste besoin d'être amélioré car il arrive à prédire des actions proches de la réalité. Il est peut-être également possible que prédire les actions d'un match soit une tâche non triviale.
